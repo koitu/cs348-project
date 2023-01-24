@@ -1,0 +1,122 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% margins
+\usepackage[margin=2cm]{geometry}
+
+% graphics path
+\usepackage{graphicx}
+
+% use tabu instead of tabular
+\usepackage{tabu}
+\tabulinesep=1.5mm
+
+% useful math stuff
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+
+% set graphics path
+\graphicspath{ {./} }
+
+% define colors
+\usepackage{xcolor}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% use noto monspace as the monospace font
+\usepackage{noto-mono}
+
+% lstlisting and lstinline for code (also sets style for lstlisting env)
+\usepackage{listings}
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+\lstset{
+    style = mystyle,
+    inputencoding = utf8, % input encoding
+    extendedchars = true, % extended ASCII
+    literate = % support addition characters (https://tex.stackexchange.com/a/574950)
+        {λ}{{$\lambda$}}1
+        {∀}{{$\forall$}}1
+        {Ö}{{\"O}}1
+        {∧}{{$\land$}}1
+        {∨}{{$\lor$}}1
+        {_}{{\_}}1
+        {β}{{$\beta$}}1
+        {γ}{{$\gamma$}}1
+        {∈}{{$\in$}}1
+        {→}{{$\to$}}1
+        {⇒}{{$\implies$}}1
+        {ε}{{$\varepsilon$}}1
+        {≡}{{$\equiv$}}1
+        {ℕ}{{$\mathbb{N}$}}1
+        {×}{{$\times$}}1
+}
+
+% make toc references clickable (also adds \href and \url) (near last import)
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,     % internal link colors
+    filecolor=magenta,  % links to local files
+    urlcolor=blue,      % links to web addresses
+}
+
+
+% tikz for drawing trees
+% Note: may find simplified packages like tikz-qtree and forest useful
+\usepackage{tikz}
+
+% add \argmax and \argmin
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+% allow matrices to contain up to 30 columns
+\setcounter{MaxMatrixCols}{30}
+
+% disable automatic indent and add horizontal space between two paragraphs
+\newlength{\newindent}
+\setlength{\newindent}{\parindent}
+\setlength{\parindent}{0pt}
+\renewcommand{\indent}{\hspace\newindent}
+\usepackage{parskip}
+
+% disable toc section numbers
+\setcounter{secnumdepth}{0}
+
+% set toc title
+\renewcommand*\contentsname{Table of Contents}
+
+\begin{document}
+Link to project: \url{https://github.com/koitu/cs348-project}
+
+\section{Description}
+1-2 paragraphs about application: what dataset, who the users are, who the admins are, etc
+
+1-2 paragraphs about platform (school servers, local machines) and user interface (command line or web or GUI)
+
+\section{Members}
+\begin{itemize}
+    \item Andrew Wang
+\end{itemize}
+
+
+
+\end{document}
