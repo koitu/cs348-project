@@ -1,7 +1,16 @@
 import re
 
+
+# the model for accessing the database. access and write queries in this class
 class dataModel:
     publisheValues = ["Mamad", "Arvin", "Kiarash", "Shayan", "Omid", "Alex", "Andrew", "Fransic"]
+
+    def metaData():
+        return {
+            'name' : 'MySportsData',
+            'version': '0.1',
+            'team': "Groupe14"
+        }
 
     def getWithKeywords(self, keyword: str):
         return list(filter(lambda x: re.search(keyword, x, re.IGNORECASE), self.publisheValues))
