@@ -1,0 +1,66 @@
+.App {
+    text-align: center;
+}
+
+.App-header {
+    background-color: darkslateblue;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.vbox {
+    width: 1000px;
+    display: 'flex';
+    flex-direction: 'column';
+}
+
+.paddedText {
+    border: 3px solid black;
+}
+
+.paddedButton {
+    margin: 10px;
+    padding: 10px;
+    
+}
+
+.scrollable {
+    background-color: gray;
+    padding: 4px;
+    width: 100%;
+    height: 70%;
+    min-height: 100;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align:justify;
+}
+
+.topCorner{
+    position:absolute;
+    top:0;
+    right:0;
+    border-radius: 50%; 
+}
+
+.normalImage {
+    width: 50px;
+    height: 50px;
+    object-fit: cover; 
+    border-radius: 50%;  
+}
+
+#textSearchInput {
+    padding: 0;
+    
+    margin: 1mm;
+    width: 90%;
+}
+#textSearchButton {
+    padding: 0;
+    margin: 0;
+}
