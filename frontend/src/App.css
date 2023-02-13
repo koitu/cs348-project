@@ -23,6 +23,11 @@
     border: 3px solid black;
 }
 
+.paddedButton:active {
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+  }
+
 .paddedButton {
     margin: 10px;
     padding: 10px;

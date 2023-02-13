@@ -16,8 +16,9 @@ function App() {
                     {/* Profile page for showing bookmarked players, teams and details about user */}
                     {/* later this should be changed such that it checks for user Auth */}
                     <Route path="/profile" element={<ProfilePage/>} />
+                    {/* <Route path="/profile/:id" element={<ProfilePage/>}/>*/}
 
-                    {/* */}
+                    {/* to be implemented later, for showing detailed */}
                     {/* <Route path="/profile" element={</>} />*/}
                 </Routes>
             </Router>
