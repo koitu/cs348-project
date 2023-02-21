@@ -11,5 +11,5 @@ running the project on your local machine:
 
     you can either run the run command written in powershell(windows) or the bashscript file (MacOS and linux)
     found in the project main directory, or
-        1- open a terminal and go to the ".../backend/" and type "python api.py" (python3 in MacOS)
+        1- open a terminal and go to the ".../backend/" and type "python app.py" (python3 in MacOS)
         2- open a second terminal and go to ".../frontend/" and type "npm start".
