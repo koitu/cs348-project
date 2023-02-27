@@ -1,33 +1,74 @@
-# Player class should mimic a player tuple in the database relational model
+from errors import BadRequest, PlayerAlreadyExistsError, PlayerNotFoundError
+
+
 class Player:
     def __init__(
         self,
-        name: str,
-        picture: str,
-        bday: str,
-        height: int,
-        weight: int,
-        position: str,
-        schools: list[str] | None,
+        player_id: int = None,
+        player_name: str = None,
+        birthday: str = None,
+        picture: str = None,
+        nationality: str = None,
+        position: str = None,
     ):
-        self.name = name
-        self.bday = bday
+        self.player_id = player_id
+        self.player_name = player_name
+        self.birthday = birthday
         self.picture = picture
-        self.height = height
-        self.weight = weight
+        self.nationality = nationality
         self.position = position
-        self.schools = schools
-
-        if schools is None:
-            self.schools = []
 
     def to_dict(self) -> dict:
         return {
-            'name': self.name,
-            'bday': self.bday,
+            'player_id': self.player_id,
+            'player_name': self.player_name,
+            'birthday': self.birthday,
             'picture': self.picture,
-            'height': self.height,
-            'weight': self.weight,
+            'nationality': self.nationality,
             'position': self.position,
-            'schools': self.schools
         }
+
+    def check_player_id(self) -> None:
+        if self.player_id is None:
+            raise BadRequest("Please specify the player to retrieve")
+        if self.player_id is not int:
+            raise BadRequest("player_id is required to be an integer")
+
+    def get(self) -> None:
+        self.check_player_id()
+
+        # perform SQL query to fill in the rest of the details
+        # if the player does not exist then raise PlayerNotFoundError
+        pass
+
+    def create(self) -> None:
+        if self.player_name is None:
+            raise BadRequest("Player name is a required field")
+
+        # perform SQL query that may raise PlayerAlreadyExistsError
+        # after SQL player creation get the player_id and set self.player_id
+        pass
+
+    def update(self) -> None:
+        self.check_player_id()
+
+        # perform SQL query to update player
+        # if the player does not exist then raise PlayerNotFoundError
+        # permission checking will be handled by caller
+        pass
+
+    def delete(self) -> None:
+        self.check_player_id()
+
+        # perform SQL query to delete player
+        # if the player does not exist then raise PlayerNotFoundError
+        # permission checking will be handled by caller
+        pass
+
+
+def search_players(
+        player_name: str,
+        nationality: str,
+        fuzzy=True
+        ) -> list[Player]:
+    pass
