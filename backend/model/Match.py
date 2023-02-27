@@ -31,6 +31,11 @@ class Match:
             'location': self.location
         }
 
+    def valid(self) -> bool:
+        # check that the Match is a valid Match
+        # TODO
+        pass
+
     def check_match_id(self) -> None:
         if self.match_id is None:
             raise BadRequest("Please specify the match to retrieve")
@@ -40,6 +45,7 @@ class Match:
     def get(self) -> None:
         self.check_match_id()
 
+        # TODO
         # perform SQL query to fill in the rest of the details
         # if the match does not exist then raise MatchNotFoundError
         pass
@@ -52,6 +58,7 @@ class Match:
         if self.date is None:
             raise BadRequest("Date is a required field")
 
+        # TODO
         # perform SQL query that may raise MatchAlreadyExistsError
         # after SQL match creation get the match_id and set self.match_id
         pass
@@ -59,6 +66,7 @@ class Match:
     def update(self) -> None:
         self.check_match_id()
 
+        # TODO
         # perform SQL query to update match
         # if the match does not exist then raise MatchNotFoundError
         # permission checking will be handled by caller
@@ -67,6 +75,7 @@ class Match:
     def delete(self) -> None:
         self.check_match_id()
 
+        # TODO
         # perform SQL query to delete match
         # if the match does not exist then raise MatchNotFoundError
         # permission checking will be handled by caller
@@ -79,4 +88,5 @@ def search_matches(
         # desc date order
         fuzzy=True
         ) -> list[Match]:
+    # TODO
     pass

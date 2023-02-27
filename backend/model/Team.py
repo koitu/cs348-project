@@ -36,6 +36,11 @@ class Team:
             'location': self.location,
         }
 
+    def valid(self) -> bool:
+        # check that the User is a valid User
+        # TODO
+        pass
+
     def check_team_id(self) -> None:
         if self.team_id is None:
             raise BadRequest("Please specify the team to retrieve")
@@ -45,6 +50,7 @@ class Team:
     def get(self) -> None:
         self.check_team_id()
 
+        # TODO
         # perform SQL query to fill in the rest of the details
         # if the team does not exist then raise TeamNotFoundError
         pass
@@ -55,6 +61,7 @@ class Team:
         if self.start_date is None:
             raise BadRequest("Start date is a required field")
 
+        # TODO
         # perform SQL query that may raise TeamAlreadyExistsError
         # after SQL team creation get the team_id and set self.team_id
         pass
@@ -62,6 +69,7 @@ class Team:
     def update(self) -> None:
         self.check_team_id()
 
+        # TODO
         # perform SQL query to update team
         # if the team does not exist then raise TeamNotFoundError
         # permission checking will be handled by caller
@@ -70,6 +78,7 @@ class Team:
     def delete(self) -> None:
         self.check_team_id()
 
+        # TODO
         # perform SQL query to delete team
         # if the team does not exist then raise TeamNotFoundError
         # permission checking will be handled by caller
@@ -77,4 +86,5 @@ class Team:
 
 
 def search_teams(team_name: str, fuzzy=True) -> list[Team]:
+    # TODO
     pass

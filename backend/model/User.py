@@ -1,4 +1,5 @@
 from errors import BadRequest, UserAlreadyExistsError, UserNotFoundError
+from utils import mysql_connection, response_is_empty
 
 
 class User:
@@ -30,6 +31,11 @@ class User:
             'profile_pic': self.profile_pic,
         }
 
+    def valid(self) -> bool:
+        # check that the User is a valid User
+        # TODO
+        pass
+
     def check_account_id(self) -> None:
         if self.account_id is None:
             raise BadRequest("Please specify the account to retrieve")
@@ -39,6 +45,16 @@ class User:
     def get(self) -> None:
         self.check_account_id()
 
+        # TODO: fix this SQL query outline
+        with mysql_connection() as con, con.cursor() as cursor:
+            find_user = "select * from account where account_id=%s"
+            cursor.execute(find_user, (self.account_id,), multi=False)
+            result = cursor.fetchall()[0]
+
+            self.username = result[2]
+            self.email = result[3]
+            self.password = result[4]
+        # TODO
         # perform SQL query to fill in the rest of the user details
         # if the user does not exist then raise UserNotFoundError
         pass
@@ -53,6 +69,7 @@ class User:
         if self.fullname is None:
             raise BadRequest("Full name is a required field")
 
+        # TODO
         # perform SQL query that may raise a UserAlreadyExistsError
         # after SQL user creation get the account_id and set self.account_id
         pass
@@ -60,6 +77,7 @@ class User:
     def update(self) -> None:
         self.check_account_id()
 
+        # TODO
         # perform SQL query to update user
         # if the user does not exist then raise UserNotFoundError
         # permission checking will be handled by caller
@@ -68,6 +86,7 @@ class User:
     def delete(self) -> None:
         self.check_account_id()
 
+        # TODO
         # perform SQL query to delete user
         # if the user does not exist then raise UserNotFoundError
         # permission checking will be handled by caller
@@ -76,4 +95,5 @@ class User:
 
 def search_users(username: str, fuzzy=True) -> list[User]:
     # perform a SQL fuzzy search for a certain username
+    # TODO
     pass

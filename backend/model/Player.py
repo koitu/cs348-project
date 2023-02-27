@@ -28,6 +28,11 @@ class Player:
             'position': self.position,
         }
 
+    def valid(self) -> bool:
+        # check that the Player is a valid Player
+        # TODO
+        pass
+
     def check_player_id(self) -> None:
         if self.player_id is None:
             raise BadRequest("Please specify the player to retrieve")
@@ -37,6 +42,7 @@ class Player:
     def get(self) -> None:
         self.check_player_id()
 
+        # TODO
         # perform SQL query to fill in the rest of the details
         # if the player does not exist then raise PlayerNotFoundError
         pass
@@ -45,6 +51,7 @@ class Player:
         if self.player_name is None:
             raise BadRequest("Player name is a required field")
 
+        # TODO
         # perform SQL query that may raise PlayerAlreadyExistsError
         # after SQL player creation get the player_id and set self.player_id
         pass
@@ -52,6 +59,7 @@ class Player:
     def update(self) -> None:
         self.check_player_id()
 
+        # TODO
         # perform SQL query to update player
         # if the player does not exist then raise PlayerNotFoundError
         # permission checking will be handled by caller
@@ -60,6 +68,7 @@ class Player:
     def delete(self) -> None:
         self.check_player_id()
 
+        # TODO
         # perform SQL query to delete player
         # if the player does not exist then raise PlayerNotFoundError
         # permission checking will be handled by caller
@@ -71,4 +80,5 @@ def search_players(
         nationality: str,
         fuzzy=True
         ) -> list[Player]:
+    # TODO
     pass
