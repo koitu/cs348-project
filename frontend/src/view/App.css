@@ -1,0 +1,189 @@
+.App {
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    overflow:auto;
+    min-height: 100vh;
+    text-align: center;
+}
+
+.App-header {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+.fullWidth {
+    width: 100vw;
+}
+
+.vbox {
+    display: 'flex';
+    flex-direction: 'column';
+    justify-content: center;
+    align-items: center;
+}
+
+.paddedText {
+    border: 3px solid black;
+}
+
+.paddedButton:active {
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+  }
+
+.paddedButton {
+    margin: 10px;
+    padding: 10px;
+    
+}
+
+.scrollable {
+    padding: 4px;
+    width: 100%;
+    height: 70%;
+    min-height: 100;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align:justify;
+    border-radius: 10px;
+}
+
+.topCorner{
+    position:fixed;
+    top:0;
+    right:0;
+    border-radius: 50%; 
+}
+
+#sideBar {
+    position: fixed;
+    top: 25%;
+    left: 0;
+    width: 12vw;
+    margin: 3mm;
+    z-index: 9;
+}
+
+.normalImage {
+    width: 50px;
+    height: 50px;
+    object-fit: cover; 
+    border-radius: 50%;  
+}
+
+#textSearchInput {
+    padding: 5px;
+    margin: 1mm;
+    width: 90%;
+    border-radius: 10px;
+    outline: none;
+}
+#textSearchButton {
+    padding: 5px;
+    margin: 1px;
+    border-radius: 7px;
+}
+#searchResultScroll {
+    width: 70vw;
+}
+.listButton {
+    width: 95%;
+    text-align: right;
+    padding: 3mm;
+    font-size: 16px;
+    margin: 2mm;
+    border-radius: 8px;
+}
+.listContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+}
+.hbox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+}
+.listImage {
+    width: 20%;
+    max-height: 120px;
+    max-width: 120px;
+    margin-right: 10px;
+    object-fit: cover;
+    object-position: center center;
+}
+.primaryColor {
+    background-color: #66B2FF;
+}
+.secondaryColor {
+    background-color: #004C99;
+}
+.primaryColor:active {
+    background-color: #3399FF;
+}
+.sideBarText {
+    font-size: 10px;
+}
+#detailedImage {
+    width: 40%;
+    object-fit: cover;
+    object-position: center center; 
+    grid-row: 2/4;
+    grid-column: 0/1;
+    margin: 2%;
+}
+#detailedPage {
+    display: grid;
+    grid-template-columns: auto auto;
+    padding: 4px;
+    width: 90%;
+    margin: 3%;
+    border-radius: 10px;
+}
+#playerFullName {
+    font-size: x-large;
+    font-weight: bold;
+    text-align: right;
+    grid-row: 0/1;
+    grid-column: 1 / 6;
+}
+#PlayerHeight {
+    grid-row: 2/3;
+    grid-column: 2/3;
+}
+#PlayerAge {
+    grid-row: 2/3;
+    grid-column: 3/4;
+}
+#PlayedTeams {
+    grid-row: 3/4;
+    grid-column: 2/6;
+}
+#Nationality {
+    grid-row: 2/3;
+    grid-column: 4/5;
+}
+#Position {
+    grid-row: 2/3;
+    grid-column: 5/6;
+}
+.gridText {
+    font-size: large;
+    text-align: left;
+    margin: 2%;
+    padding: 1mm;
+    border-radius: 10px;
+}
+#last5Match {
+    margin: 2%;
+    width: 95%;
+    
+}

@@ -1,6 +1,6 @@
 import React from "react"
 
-export const ProfilePage = () => {
+export function ProfilePage() {
     return (
         <p> this is the ProfilePage </p>
     )
