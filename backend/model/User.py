@@ -1,5 +1,5 @@
 from errors import BadRequest, UserAlreadyExistsError, UserNotFoundError
-from utils import mysql_connection, response_is_empty
+from model.utils import mysql_connection#, response_is_empty
 
 
 class User:

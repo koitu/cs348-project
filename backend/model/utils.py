@@ -1,6 +1,6 @@
 from contextlib import contextmanager
 
-from mysql.connector import connect, MySQLConnection, MySQLCursor
+from mysql.connector import connect, MySQLConnection  #, MySQLCursor
 from mysql.connector.errors import OperationalError, ProgrammingError
 
 from errors import DatabaseConnectionError, DatabasePermissionError
