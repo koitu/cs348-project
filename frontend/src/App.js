@@ -1,8 +1,9 @@
-import './App.css';
+import './view/App.css';
 import React from "react"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import { MainPage } from './view/main';
 import { ProfilePage } from './view/prof';
+import { TeamDetailedPage, PlayerDetailedPage } from "./view/detailed"
 // var proxyPrefix = "http://127.0.0.1:5000/"
 
 // App view which embodies the whole UI
@@ -19,7 +20,8 @@ function App() {
                     {/* <Route path="/profile/:id" element={<ProfilePage/>}/>*/}
 
                     {/* to be implemented later, for showing detailed */}
-                    {/* <Route path="/profile" element={</>} />*/}
+                    <Route path="/playerDetailedPage/:id" element={<PlayerDetailedPage/>} />
+                    <Route path="/teamDetailedPage/:id" element={<TeamDetailedPage/>} />
                 </Routes>
             </Router>
         </div>
