@@ -62,6 +62,7 @@ def create_player():
 @bp.route('/<player_id>', methods=['GET'])
 @basic_exception_handler
 def get_player(player_id: int):
+    # TODO: at the moment I have no idea if we are going to convert strings to integer or not
     player = Player(player_id=player_id)
     player.get()
     return player.to_dict()

@@ -23,3 +23,28 @@ TODO: how to set up the database
 
 ## Samples
 TODO: sample api calls to do with curl
+
+Get a user from their account id:
+```
+$ curl -s 127.0.0.1:5000/api/users/3 | json_pp
+{
+   "account_id" : "3",
+   "email" : null,
+   "fullname" : "Kenley Mcguire",
+   "profile_pic" : "/static/default_profile_pic.png",
+   "username" : null
+}
+```
+
+Get a player from their player id:
+```
+$ curl -s 127.0.0.1:5000/api/players/3 | json_pp
+{
+   "birthday" : null,
+   "nationality" : null,
+   "picture" : null,
+   "player_id" : "3",
+   "player_name" : "Roger Federer",
+   "position" : null
+}
+```

@@ -2,6 +2,22 @@ from errors import BadRequest, UserAlreadyExistsError, UserNotFoundError
 from model.utils import mysql_connection#, response_is_empty
 
 
+test = [
+    ("1", "William Wilkinson"),
+    ("2", "Valentina Austin"),
+    ("3", "Kenley Mcguire"),
+    ("4", "Andreas Callahan"),
+    ("5", "Elise Fritz"),
+    ("6", "Melody Park"),
+    ("7", "Enrique Potter"),
+    ("8", "Rory Castillo"),
+    ("9", "Madeline Bruce"),
+    ("10", "Zechariah Zuniga"),
+    ("11", "Amani Graves"),
+    ("12", "Aliza Mckee"),
+]
+
+
 class User:
     def __init__(
         self,
@@ -39,21 +55,33 @@ class User:
     def check_account_id(self) -> None:
         if self.account_id is None:
             raise BadRequest("Please specify the account to retrieve")
-        if self.account_id is not int:
+        # if type(self.account_id) is not int:
+        if not self.account_id.isdigit():
             raise BadRequest("account_id is required to be an integer")
 
     def get(self) -> None:
         self.check_account_id()
 
-        # TODO: fix this SQL query outline
-        with mysql_connection() as con, con.cursor() as cursor:
-            find_user = "select * from account where account_id=%s"
-            cursor.execute(find_user, (self.account_id,), multi=False)
-            result = cursor.fetchall()[0]
+        user = None
+        for t in test:
+            if t[0] == self.account_id:
+                user = t
 
-            self.username = result[2]
-            self.email = result[3]
-            self.password = result[4]
+        if user is None:
+            raise UserNotFoundError(self.player_id)
+
+        self.fullname = user[1]
+
+
+        # TODO: fix this SQL query outline
+        # with mysql_connection() as con, con.cursor() as cursor:
+        #     find_user = "select * from account where account_id=%s"
+        #     cursor.execute(find_user, (self.account_id,), multi=False)
+        #     result = cursor.fetchall()[0]
+
+        #     self.username = result[2]
+        #     self.email = result[3]
+        #     self.password = result[4]
         # TODO
         # perform SQL query to fill in the rest of the user details
         # if the user does not exist then raise UserNotFoundError

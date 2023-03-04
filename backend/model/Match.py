@@ -39,7 +39,7 @@ class Match:
     def check_match_id(self) -> None:
         if self.match_id is None:
             raise BadRequest("Please specify the match to retrieve")
-        if self.match_id is not int:
+        if type(self.match_id) is not int:
             raise BadRequest("match_id is required to be an integer")
 
     def get(self) -> None:

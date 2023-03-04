@@ -1,6 +1,15 @@
 from errors import BadRequest, PlayerAlreadyExistsError, PlayerNotFoundError
 
 
+test = [
+    ("1", "LeBron James"),
+    ("2", "Lionel Messi"),
+    ("3", "Roger Federer"),
+    ("4", "Wayne Gretzky"),
+    ("5", "Michael Jordan")
+]
+
+
 class Player:
     def __init__(
         self,
@@ -10,6 +19,7 @@ class Player:
         picture: str = None,
         nationality: str = None,
         position: str = None,
+        # player picture
     ):
         self.player_id = player_id
         self.player_name = player_name
@@ -36,16 +46,27 @@ class Player:
     def check_player_id(self) -> None:
         if self.player_id is None:
             raise BadRequest("Please specify the player to retrieve")
-        if self.player_id is not int:
+        # if type(self.player_id) is not int:
+        if not self.player_id.isdigit():
             raise BadRequest("player_id is required to be an integer")
 
     def get(self) -> None:
         self.check_player_id()
 
+        player = None
+        for t in test:
+            if t[0] == self.player_id:
+                player = t
+
+        if player is None:
+            raise PlayerNotFoundError(self.player_id)
+
+        self.player_name = player[1]
+
         # TODO
         # perform SQL query to fill in the rest of the details
         # if the player does not exist then raise PlayerNotFoundError
-        pass
+        # pass
 
     def create(self) -> None:
         if self.player_name is None:

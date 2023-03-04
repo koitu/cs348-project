@@ -44,7 +44,7 @@ class Team:
     def check_team_id(self) -> None:
         if self.team_id is None:
             raise BadRequest("Please specify the team to retrieve")
-        if self.team_id is not int:
+        if type(self.team_id) is not int:
             raise BadRequest("team_id is required to be an integer")
 
     def get(self) -> None:
