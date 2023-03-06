@@ -1,6 +1,7 @@
 import React from "react"
 import { useParams } from "react-router-dom"
 import './App.css';
+var proxyPrefix = "http://127.0.0.1:5000/"
 
 function MatchPerformanceView(props) {
 
@@ -32,15 +33,26 @@ export function PlayerDetailedPage() {
         "matches" : [
             { "first_team": "TeamA",
               "second_team": "TeamB",
+              "match_id" : "m123",
               "Goals" : "34",
               "img" : "https://cdn-icons-png.flaticon.com/512/5900/5900536.png"},
             { "first_team": "TeamB",
               "second_team": "TeamC",
+              "match_id" : "m124",
               "Goals" : "34",
               "img" : "https://cdn-icons-png.flaticon.com/512/5900/5900536.png"},
               
         ]
     }
+
+    const response =  fetch(proxyPrefix + "/api/players/" + id)
+    .then(response => response.json())
+    .then(data => {
+        console.log(data)
+    })
+    .catch(error => {
+        // Handle any errors
+    });
 
     return (
         <div className="fullWidth vbox">
@@ -66,7 +78,7 @@ export function PlayerDetailedPage() {
                 </p>
             </div>
             <div id="last5Match" className='scrollable secondaryColor'> 
-                { mathces.matches.map((obj, _) => (<p>{obj.first_team}</p>)) } 
+                { mathces.matches.map((obj, _) => (<p key={obj.match_id}>{obj.first_team}</p>)) } 
             </div>
         </div>
     )
