@@ -116,7 +116,7 @@ The functionalities that will be supported include searching for individual play
 
 
 \section{System Support}
-Currently, the application is a web-based app that runs on Windows, MacOS, and Linux currently using local hosts for the frontend and backend sides. This allows for simple launching, testing, and demonstrating of the web app. It would be possible to use a remote server and have the app operate as a more typical website, however, this is an additional step and could realistically only be implemented in later steps, if at all. The programming frameworks chosen are Flask (Python-based web framework) for the backend and Node.js (Javascript-based runtime environment) for the frontend. \\
+Currently, the application is a web-based app that runs on Windows, MacOS, and Linux currently using local hosts for the frontend and backend sides. This allows for simple launching, testing, and demonstrating of the web app. It would be possible to use a remote server and have the app operate as a more typical website, however, this is an additional step and could realistically only be implemented in later steps, if at all. The programming frameworks chosen are Flask (Python-based web framework) for the backend and React (Javascript-based runtime environment) for the frontend. \\
 
 The database used in this project will be locally hosted. Again this is for ease of use, testing, and demonstration. It would be possible to host the database on a remote server, and this could be implemented in later milestones. The database will use MySQL as the DBMS to query the database, allow different users to log in, and other database features. Python has MySQL packages which makes the implementation of queries simple on the backend. \\ 
 
@@ -133,27 +133,34 @@ The source used also updates its data regularly, so there must be methods in pla
 
 Assumptions made about the data being modeled:
 \begin{enumerate}
-    \item 
+    \item Players ids are all unique
+    \item Team ids are all unique
+    \item Game ids are all unique
+    \item Accounts will either be users or admins, not both.
 \end{enumerate}
+
+\begin{center}
+    \includegraphics[width=1\textwidth]{E_R Diagram.png}
+\end{center}
 
 \section{Query examples}
 
 
 Searching for players is one feature of the application. In the search bar you can type in a string and any players whose names have a matching substring will appear in the results. The results will be links to the player's page which will then have detailed stats about them. This allows the application to work almost as a search engine. In the future, an algorithm on the backend can detect typos and attempt to return the closest matches. A simple example is case-insensitive searching. Extra clauses can be added to the where section of the query for filtering. \\
 
-The template query goes as follows. Note that currently, the sample query returns all the attributes associated with the player. This can be modified to only return the necessary attributes, or fancy features can make use of these attributes. Also, note that seasons will be an optional join that will only join on the specified seasons.
+The template query goes as follows. Note that currently, the sample query returns all the attributes associated with the player. This can be modified to only return the necessary attributes, or fancy features can make use of these attributes. Also, note that seasons will be an optional join that will only join on the specified seasons in the future.
 
 \begin{verbatim}
     select *
-    from Player <optional join with seasons>
-    where name like '%<searched string>%' <optional filters here>
+    from Player
+    where player_name like '%<searched string>%' <optional filters here>
 \end{verbatim}
 
 As a sample query:
 \begin{verbatim}
     select *
     from Player
-    where name like '%Alex%' and age >= 30
+    where player_name like '%Alex%' and age >= 30
 \end{verbatim}
 
 A useful feature of this is that with an empty substring, all players will be returned. This allows for finding players based on these optional filters. \\
@@ -164,23 +171,35 @@ Searching for teams is another feature of the application similar to searching f
 The template query goes as follows, again the same nuances apply to the returned attributes.
 \begin{verbatim}
     select *
-    from Team <optional join with seasons>
-    where name like '%<searched string>%' <optional filters here>
+    from Team
+    where team_name like '%<searched string>%' <optional filters here>
 \end{verbatim}
 
 As a sample query:
 \begin{verbatim}
     select *
     from Team
-    where name like '%New%'
+    where team_name like '%New%' and since <= 2000
 \end{verbatim}
 
 A player's team will be retrieved and shown on the player's personal page.\\ 
 
 A template query goes as follows:
 \begin{verbatim}
+    with T as (select *
+               from Player
+               where player_id = <current_player>)
     select team_name
-    from 
+    from T natural join player_team natural join Team
+\end{verbatim}
+
+As a sample query:
+\begin{verbatim}
+    with T as (select *
+               from Player
+               where player_id = 123)
+    select team_name
+    from T natural join player_team natural join Team
 \end{verbatim}
 
 On a player page, there will be a section for recent games played. These games will be retrieved from the database. Initially only the 5 most recent games will be shown, subject to the constraints given by the filter from the search. This can be changed later on the add an option to show more games. \\
@@ -188,12 +207,26 @@ On a player page, there will be a section for recent games played. These games w
 The template query goes as follows:
 
 \begin{verbatim}
+    with T as (select *
+               from Player
+               where player_id = <current_player>)
     select *
-    from Game
+    from T natural join play_in natural join Game
+    order by game_date desc
     limit 5
 \end{verbatim}
 
 As a sample query:
+
+\begin{verbatim}
+    with T as (select *
+               from Player
+               where player_id = 123)
+    select *
+    from T natural join play_in natural join Game
+    order by game_date desc
+    limit 5
+\end{verbatim}
 
 \section{Members}
 \begin{itemize}
@@ -201,7 +234,7 @@ As a sample query:
     \item Shayan Mohammadi Kubijari (20967990). Responsible for schema design, query implementations, and converting the database to SQL, along with modifying the database to fit the schema.
     \item Arvin Asgharian Rezaee (20972431). Responsible for the front-end and back-end implementations, setting up the scripts to launch the project and query implementation.
     \item Victor Astinov (20851407). Responsible for the template queries, documentation, and sourcing of the database.
-    \item Francis JIN (21051963). Responsible for the schema design, ER diagrams
+    \item Francis JIN (21051963). Responsible for the schema design, ER diagrams, and relational data model.
 \end{itemize}
 
 All team members did their part as expected. The progress made for all team members is the expected progress for milestone 1.
