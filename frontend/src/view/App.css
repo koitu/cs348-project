@@ -8,25 +8,7 @@
     text-align: center;
 }
 
-.App-header {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
-}
-.fullWidth {
-    width: 100vw;
-}
 
-.vbox {
-    display: 'flex';
-    flex-direction: 'column';
-    justify-content: center;
-    align-items: center;
-}
 
 .paddedText {
     border: 3px solid black;
@@ -43,52 +25,12 @@
     
 }
 
-.scrollable {
-    padding: 4px;
-    width: 100%;
-    height: 70%;
-    min-height: 100;
-    overflow-x: hidden;
-    overflow-y: auto;
-    text-align:justify;
-    border-radius: 10px;
-}
 
-.topCorner{
-    position:fixed;
-    top:0;
-    right:0;
-    border-radius: 50%; 
-}
 
-#sideBar {
-    position: fixed;
-    top: 25%;
-    left: 0;
-    width: 12vw;
-    margin: 3mm;
-    z-index: 9;
-}
 
-.normalImage {
-    width: 50px;
-    height: 50px;
-    object-fit: cover; 
-    border-radius: 50%;  
-}
 
-#textSearchInput {
-    padding: 5px;
-    margin: 1mm;
-    width: 90%;
-    border-radius: 10px;
-    outline: none;
-}
-#textSearchButton {
-    padding: 5px;
-    margin: 1px;
-    border-radius: 7px;
-}
+
+
 #searchResultScroll {
     width: 70vw;
 }
@@ -106,12 +48,7 @@
     justify-content: space-between;
     flex-direction: row;
 }
-.hbox {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: row;
-}
+
 .listImage {
     width: 20%;
     max-height: 120px;
@@ -182,12 +119,25 @@
     padding: 1mm;
     border-radius: 10px;
 }
-#last5Match {
-    margin: 2%;
+.last5Match {
+    margin: 1%;
     width: 95%;
-    
 }
 #sideBarSlider {
     width: 90%; 
     max-width: 600px;
+}
+
+.teamLogo {
+    width: 25%;
+    object-fit: cover;
+}
+.matchLabels {
+    text-align: center;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 5px;
+}
+.matchResultLeft {
+    width: 30%;
 }

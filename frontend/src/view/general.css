@@ -1,0 +1,62 @@
+.fullWidth {
+    width: 100vw;
+}
+.vbox {
+    display: 'flex';
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.topCorner{
+    position:fixed;
+    top:0;
+    right:0;
+    border-radius: 50%; 
+}
+.hbox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+}
+.normalImage {
+    width: 50px;
+    height: 50px;
+    object-fit: cover; 
+    border-radius: 50%;  
+}
+.scrollable {
+    padding: 4px;
+    width: 100%;
+    height: 70%;
+    min-height: 100;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align:justify;
+    border-radius: 10px;
+}
+#textSearchInput {
+    padding: 5px;
+    margin: 1mm;
+    width: 90%;
+    border-radius: 10px;
+    outline: none;
+}
+#textSearchButton {
+    padding: 5px;
+    margin: 1px;
+    border-radius: 7px;
+}
+
+.primaryColor {
+    background-color: #66B2FF;
+}
+.secondaryColor {
+    background-color: #004C99;
+}
+.primaryColorClickable {
+    background-color: #66B2FF;
+}
+.primaryColorClickable:active {
+    background-color: #3399FF;
+}

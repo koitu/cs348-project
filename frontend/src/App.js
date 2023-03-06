@@ -20,8 +20,8 @@ function App() {
                     {/* <Route path="/profile/:id" element={<ProfilePage/>}/>*/}
 
                     {/* to be implemented later, for showing detailed */}
-                    <Route path="/playerDetailedPage/:id" element={<PlayerDetailedPage/>} />
-                    <Route path="/teamDetailedPage/:id" element={<TeamDetailedPage/>} />
+                    <Route path="/playerPage/:id" element={<PlayerDetailedPage/>} />
+                    <Route path="/teamPage/:id" element={<TeamDetailedPage/>} />
                 </Routes>
             </Router>
         </div>

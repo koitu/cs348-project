@@ -12,13 +12,13 @@ export function ListButton (props) {
     } else {
         imageUrl = defaultImageAddress
     }
-    let redirectUrl = "/playerDetailedPage/"
+    let redirectUrl = "/playerPage/"
     if (props.isTeam == "true") {
-        redirectUrl = "/teamDetailedPage/"
+        redirectUrl = "/teamPage/"
     }
     return ( 
         <Link to={redirectUrl + props.id}>
-            <button className="listButton primaryColor">
+            <button className="listButton primaryColorClickable">
                 <div className="listContainer">
                     <img src={imageUrl} className="listImage" alt={defaultImageAddress}></img>
                     <div>
