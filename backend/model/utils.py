@@ -5,19 +5,19 @@ from mysql.connector.errors import OperationalError, ProgrammingError
 
 from errors import DatabaseConnectionError, DatabasePermissionError
 
-host = None
-user = None
-password = None
 
-
+@contextmanager
 def mysql_connection() -> MySQLConnection:
     try:
         with connect(
-            host=host,
-            user=user,
-            password=password,
+            host="localhost",
+            port="3306",
+            user="root",
+            password="AStrongPassword123!",
+            database="cs348",
+            autocommit=True,
         ) as con:
-            return con
+            yield con
 
     # unable to connect
     except OperationalError:

@@ -1,4 +1,5 @@
 from errors import BadRequest, PlayerAlreadyExistsError, PlayerNotFoundError
+from model.utils import mysql_connection
 
 
 test = [
@@ -51,17 +52,30 @@ class Player:
             raise BadRequest("player_id is required to be an integer")
 
     def get(self) -> None:
-        self.check_player_id()
+        with mysql_connection() as con, con.cursor() as cursor:
+            find_player = "select * from Player where player_id=%s"
+            cursor.execute(find_player, (self.player_id,))
+            result = cursor.fetchall()[0]
 
-        player = None
-        for t in test:
-            if t[0] == self.player_id:
-                player = t
+            self.player_id,       \
+                self.player_name, \
+                self.birthday,    \
+                self.weight,      \
+                self.height,      \
+                self.nationality, \
+                self.pic_url,     \
+                self.primary_num, \
+                self.primary_pos = result
 
-        if player is None:
-            raise PlayerNotFoundError(self.player_id)
+        # player = None
+        # for t in test:
+        #     if t[0] == self.player_id:
+        #         player = t
 
-        self.player_name = player[1]
+        # if player is None:
+        #     raise PlayerNotFoundError(self.player_id)
+
+        # self.player_name = player[1]
 
         # TODO
         # perform SQL query to fill in the rest of the details

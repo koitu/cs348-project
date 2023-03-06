@@ -1,43 +1,50 @@
 from flask import Flask
 from flask_cors import CORS
-# from flaskext.mysql import MySQL
-# from flask_mysqldb import MySQL
+from mysql.connector import connect
 
 import click
 
 
-app = Flask(__name__)
-CORS(app)
+@click.command()
+@click.option("--init-db",
+              is_flag=True,
+              help="Connects to database and creates tables")
+def app(init_db):
+    if init_db:
+        with connect(
+            host="localhost",
+            port="3306",
+            user="root",
+            password="AStrongPassword123!",
+            database="cs348",
+            autocommit=True,
+        ) as con, con.cursor() as cursor:
+            app = Flask(__name__)
 
-# app.config['MYSQL_DATABASE_HOST'] = "127.0.0.1"
-# app.config['MYSQL_DATABASE_USER'] = "root"
-# app.config['MYSQL_DATABASE_PORT'] = "5555"
-# app.config['MYSQL_DATABASE_PASSWORD'] = "password"
-# app.config['MYSQL_DATABASE_DB'] = 'cs348'
-# mysql = MySQL()
+            with app.open_resource('db/Entities.sql') as f:
+                cursor.execute(f.read().decode('utf8'))
 
-# mysql = MySQL(app,
-#               prefix="database",
-#               host="localhost:5555",
-#               user="root",
-#               password="password",
-#               autocommit=True
-# )
+            with app.open_resource('db/Relationships.sql') as f:
+                cursor.execute(f.read().decode('utf8'))
 
-# mysql.init_app(app)
+            with app.open_resource('db/SampleData.sql') as f:
+                cursor.execute(f.read().decode('utf8'))
 
-# @click.command('init-db')
-# def init_db():
-#     conn = mysql.connect()
-#     cursor = conn.cursor()
+    else:
+        app = Flask(__name__)
+        CORS(app)
+
+        from api import match, player, team, user
+
+        app.register_blueprint(match.bp, url_prefix='/api/matches')
+        app.register_blueprint(player.bp, url_prefix='/api/players')
+        app.register_blueprint(team.bp, url_prefix='/api/teams')
+        app.register_blueprint(user.bp, url_prefix='/api/users')
+
+        app.run()
 
 
 if __name__ == "__main__":
-    from api import match, player, team, user
-
-    app.register_blueprint(match.bp, url_prefix='/api/matches')
-    app.register_blueprint(player.bp, url_prefix='/api/players')
-    app.register_blueprint(team.bp, url_prefix='/api/teams')
-    app.register_blueprint(user.bp, url_prefix='/api/users')
-
-    app.run()
+    app()
+    # to init the databases run:
+    # python app.py --init-db
