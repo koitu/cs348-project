@@ -11,7 +11,20 @@ Then to install the Python libraries run:
 python3 -m pip install -r requirements.txt
 ```
 
+
+
 ## Usage
+
+### intilizing the DB
+you will need to do the following commands only once per running the project.
+install MySql on your computer
+after that go to the following file and update the password and username with the password and username with your own.
+after that run the following commands
+
+
+
+
+### running the project
 you can either run the run command written in powershell (windows) or the bashscript file (MacOS and linux)
 found in the project main directory, or
 
