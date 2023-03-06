@@ -1,5 +1,5 @@
 from errors import BadRequest, UserAlreadyExistsError, UserNotFoundError
-from model.utils import mysql_connection#, response_is_empty
+from backend.utils import mysql_connection#, response_is_empty
 
 
 test = [

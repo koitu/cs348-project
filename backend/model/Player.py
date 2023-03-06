@@ -1,5 +1,5 @@
 from errors import BadRequest, PlayerAlreadyExistsError, PlayerNotFoundError
-from model.utils import mysql_connection
+from backend.utils import mysql_connection
 
 
 test = [
