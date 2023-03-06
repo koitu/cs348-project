@@ -31,7 +31,7 @@ CREATE TABLE GT (
         ON DELETE CASCADE
 );
 
-CREATE TABLE PT (
+CREATE TABLE PG (
 	game_id		INT,
     player_id	INT,
     -- TODO: add attributes
