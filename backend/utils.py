@@ -1,6 +1,6 @@
 from contextlib import contextmanager
 
-from mysql.connector import connect, MySQLConnection  #, MySQLCursor
+from mysql.connector import connect, MySQLConnection
 from mysql.connector.errors import OperationalError, ProgrammingError
 
 from errors import DatabaseConnectionError, DatabasePermissionError
@@ -22,7 +22,7 @@ def create_database():
             password=db['password'],
             autocommit=True,
         ) as con, con.cursor() as cursor:
-            cursor.execute("CREATE DATABASE " + db['database'] + ";", multi= True)
+            cursor.execute(f"CREATE DATABASE {db['database']};", multi=True)
 
     # unable to connect
     except OperationalError as e:

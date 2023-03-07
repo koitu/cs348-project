@@ -11,32 +11,23 @@ Then to install the Python libraries run:
 python3 -m pip install -r requirements.txt
 ```
 
-
-
 ## Usage
 
-### intilizing the DB
-you will need to do the following commands only once per running the project.
-install MySql on your computer
-after that go to the following file and update the password and username with the password and username with your own.
-after that run the following commands
-   .\init.ps1
-and close the terminal that is opened.
+### Database Initialization
+Install MySQL on your computer.
 
+Configure the `backend/config.ini` with your MySQL password and username then run one of the two commands:
+1. `.\init.ps1` and close the terminal that is opened, or
+2. `cd backend/` and `python app.py --init-db`
 
-### running the project
-you can either run the run command written in powershell (windows) or the bashscript file (MacOS and linux)
+### Running the Project
+You can either run the run command written in powershell (windows) or the bashscript file (MacOS and linux)
 found in the project main directory, or
 
 1. open a terminal and go to the `backend/` and run `python app.py` (python3 in MacOS)
 2. open a second terminal and go to `frontend/` and run `npm start`.
 
-TODO: how to set up the database
-
-
 ## Samples
-TODO: sample api calls to do with curl
-
 Get a user from their account id:
 ```
 $ curl -s 127.0.0.1:5000/api/users/3 | json_pp
