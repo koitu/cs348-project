@@ -48,6 +48,8 @@ found in the project main directory, or
 Get a player from their player id:
 ```
 $ curl -s 127.0.0.1:5000/api/players/8478421 | json_pp
+```
+```
 {
    "birthday" : "Sat, 14 Dec 1996 00:00:00 GMT",
    "nationality" : "CAN",
@@ -58,11 +60,13 @@ $ curl -s 127.0.0.1:5000/api/players/8478421 | json_pp
 }
 ```
 
-Search for players
+Searching for players by their name:
 ```
 $ curl -s 127.0.0.1:5000/api/players/ -X GET \
    -H 'Content-Type: application/json' \
    -d '{ "player_name": "en" }' | json_pp
+```
+```
 {
    "players" : [
       {
