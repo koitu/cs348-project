@@ -12,17 +12,14 @@ def get_players():
     body = request.get_json()
 
     player_name = None
-    nationality = None
 
     if body:
         if 'player_name' in body:
             player_name = body['player_name']
-        if 'nationality' in body:
-            nationality = body['nationality']
+        
 
     players = search_players(
         player_name=player_name,
-        nationality=nationality,
         fuzzy=True
     )
     # TODO: stream the response so we can have pagementation

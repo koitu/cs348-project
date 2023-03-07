@@ -6,7 +6,7 @@ export function SideBar() {
     return (
         <div className="primaryColor" id="sideBar">
             <input type="checkbox" id="pastGameCheck"/>
-            <label for="pastGameCheck" className="sideBarText"> Have played a game in the past 365 days</label> <br></br>
+            <label className="sideBarText"> Have played a game in the past 365 days</label> <br></br>
             <p> Rating range </p>
             <input type="range"/>
             <p> Position </p>

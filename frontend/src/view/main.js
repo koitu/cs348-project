@@ -32,63 +32,60 @@ export const MainPage = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        try {
-            const response = await fetch(proxyPrefix + "/api/players/", {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                },
-                body: JSON.stringify({"player_name": textState})
-            })
-            .then(response => response.json())
-   .        then(response => console.log(JSON.stringify(response)))
-            .catch (error => {
-                // Handle any errors
-            })
-            // const data = await response.json();
-            setPValue([ 
-                {
-                    "player_id" : "p123",
-                    "player_name" : "Christiano Ronaldo",
-                    "picture" : "https://b.fssta.com/uploads/application/soccer/headshots/885.vresize.350.350.medium.14.png"
-                },
-                {
-                    "player_id" : "p230",
-                    "player_name" : "Arvin Asgharin",
-                    "picture" : null
-                },
-                {
-                    "player_id" : "P450",
-                    "player_name" : "Neymar da Silva Santos",
-                    "picture" : "https://upload.wikimedia.org/wikipedia/commons/6/65/20180610_FIFA_Friendly_Match_Austria_vs._Brazil_Neymar_850_1705.jpg"
-                },
-                {
-                    "player_id" : "p650",
-                    "player_name" : "Lionel Messi",
-                    "picture" : "https://cdn.britannica.com/35/238335-050-2CB2EB8A/Lionel-Messi-Argentina-Netherlands-World-Cup-Qatar-2022.jpg"
-                },
-                {
-                    "player_id" : "p546",
-                    "player_name" : "Shayan Mohamadi Kubji",
-                    "picture" : null
-                }
-            ])
-            setTValue([
-                {
-                    "team_id" : "t123",
-                    "team_name" : "FC Barcelona",
-                    "logo" : "https://upload.wikimedia.org/wikipedia/en/thumb/4/47/FC_Barcelona_%28crest%29.svg/1200px-FC_Barcelona_%28crest%29.svg.png"
-                },
-                {
-                    "team_id" : "t340",
-                    "team_name" : "Real Madrid",
-                    "logo" : "https://cdn-icons-png.flaticon.com/512/5042/5042057.png"
-                }
-            ])
+        const response = await fetch(proxyPrefix + "api/players/", {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({"player_name": textState})
+        })
+        .then(response => response.json())
+.        then(response => console.log(JSON.stringify(response)))
+        .catch (error => {
+            // Handle any errors
+        })
+        // const data = await response.json();
+        setPValue([ 
+            {
+                "player_id" : "p123",
+                "player_name" : "Christiano Ronaldo",
+                "picture" : "https://b.fssta.com/uploads/application/soccer/headshots/885.vresize.350.350.medium.14.png"
+            },
+            {
+                "player_id" : "p230",
+                "player_name" : "Arvin Asgharin",
+                "picture" : null
+            },
+            {
+                "player_id" : "P450",
+                "player_name" : "Neymar da Silva Santos",
+                "picture" : "https://upload.wikimedia.org/wikipedia/commons/6/65/20180610_FIFA_Friendly_Match_Austria_vs._Brazil_Neymar_850_1705.jpg"
+            },
+            {
+                "player_id" : "p650",
+                "player_name" : "Lionel Messi",
+                "picture" : "https://cdn.britannica.com/35/238335-050-2CB2EB8A/Lionel-Messi-Argentina-Netherlands-World-Cup-Qatar-2022.jpg"
+            },
+            {
+                "player_id" : "p546",
+                "player_name" : "Shayan Mohamadi Kubji",
+                "picture" : null
+            }
+        ])
+        setTValue([
+            {
+                "team_id" : "t123",
+                "team_name" : "FC Barcelona",
+                "logo" : "https://upload.wikimedia.org/wikipedia/en/thumb/4/47/FC_Barcelona_%28crest%29.svg/1200px-FC_Barcelona_%28crest%29.svg.png"
+            },
+            {
+                "team_id" : "t340",
+                "team_name" : "Real Madrid",
+                "logo" : "https://cdn-icons-png.flaticon.com/512/5042/5042057.png"
+            }
+        ])
             
-        } catch (error) {
-            
-        }
+        
     };
 
     return (
@@ -110,10 +107,10 @@ export const MainPage = () => {
                         </TabList>
                         
                         <TabPanel>
-                            { playervalues.map((obj, _) => (<ListButton name={obj.player_name} img={obj.picture} id={obj.player_id} isTeam="false"/>)) } 
+                            { playervalues.map((obj, _) => (<ListButton key={obj.player_id} name={obj.player_name} img={obj.picture} id={obj.player_id} isTeam="false"/>)) } 
                         </TabPanel>
                         <TabPanel>
-                            { teamValues.map((obj, _) => (<ListButton name={obj.team_name} img={obj.logo} id={obj.team_id} isTeam="true"/>)) }
+                            { teamValues.map((obj, _) => (<ListButton key={obj.team_id} name={obj.team_name} img={obj.logo} id={obj.team_id} isTeam="true"/>)) }
                         </TabPanel>
                     </Tabs>
                 </div>

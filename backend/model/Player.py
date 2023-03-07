@@ -112,27 +112,20 @@ class Player:
 
 def search_players(
         player_name: str,
-        nationality: str,
         fuzzy=True
         ) -> list[Player]:
-    # TODO
+    
     
     with mysql_connection() as con, con.cursor() as cursor:
-        find_player = "select * from Player"
+        find_player = f"""select *  
+                          from Player 
+                          where player_name like '%{player_name}%'
+                          order by player_name asc
+                          limit 10"""
         cursor.execute(find_player)
         result = cursor.fetchall()
         retVal = []
         for i in result:
             print(i)
             retVal.append(Player(i[0], i[1], i[2], i[3],i[5], i[8]))
-        return retVal
-        
-        # self.player_id,       \
-        #     self.player_name, \
-        #     self.birthday,    \
-        #     self.weight,      \
-        #     self.height,      \
-        #     self.nationality, \
-        #     self.pic_url,     \
-        #     self.primary_num, \
-        #     self.primary_pos = result        
+        return retVal      

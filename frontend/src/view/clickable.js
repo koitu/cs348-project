@@ -18,7 +18,7 @@ export function ListButton (props) {
     }
     return ( 
         <Link to={redirectUrl + props.id}>
-            <button className="listButton primaryColor">
+            <button key={props.key} className="listButton primaryColor">
                 <div className="listContainer">
                     <img src={imageUrl} className="listImage" alt={defaultImageAddress}></img>
                     <div>

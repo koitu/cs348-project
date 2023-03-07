@@ -1,4 +1,5 @@
 from errors import BadRequest, MatchAlreadyExistsError, MatchNotFoundError
+from utils import mysql_connection
 
 
 class Match:
@@ -81,12 +82,37 @@ class Match:
         # permission checking will be handled by caller
         pass
 
+    
 
-def search_matches(
+def search_matches_for_player(
+        player_id: str
+        ) -> list[Match]:
+    with mysql_connection() as con, con.cursor() as cursor:
+        find_games = f"""select game_id, team1_id, team2_id, home_away, seasone, game_date
+                         from Game join PG using(game_id)
+                         where player_id = {player_id} ;"""
+        cursor.execute(find_games)
+        result = cursor.fetchall()
+        retVal = []
+        for i in result:
+            print(i)
+            retVal.append(Match(match_id=i[0], team1_id=i[1], team2_id=i[2], date=i[5]))
+        return retVal  
+
+
+def search_matches_for_team(
         team_id: int,
-        other_team_id: int,
-        # desc date order
         fuzzy=True
         ) -> list[Match]:
-    # TODO
-    pass
+    with mysql_connection() as con, con.cursor() as cursor:
+        find_games = f"""select game_id, team1_id, team2_id, home_away, seasone, game_date
+                         from Game join GT using(game_id)
+                         where game_id = {team_id} 
+                         order by game_date desc; """
+        cursor.execute(find_games)
+        result = cursor.fetchall()
+        retVal = []
+        for i in result:
+            print(i)
+            retVal.append(Match(match_id=i[0], team1_id=i[1], team2_id=i[2], date=i[5]))
+        return retVal  
