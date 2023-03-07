@@ -48,27 +48,34 @@
     showtabs=false,
     tabsize=2
 }
-\lstset{
-    style = mystyle,
-    inputencoding = utf8, % input encoding
-    extendedchars = true, % extended ASCII
-    literate = % support addition characters (https://tex.stackexchange.com/a/574950)
-        {λ}{{$\lambda$}}1
-        {∀}{{$\forall$}}1
-        {Ö}{{\"O}}1
-        {∧}{{$\land$}}1
-        {∨}{{$\lor$}}1
-        {_}{{\_}}1
-        {β}{{$\beta$}}1
-        {γ}{{$\gamma$}}1
-        {∈}{{$\in$}}1
-        {→}{{$\to$}}1
-        {⇒}{{$\implies$}}1
-        {ε}{{$\varepsilon$}}1
-        {≡}{{$\equiv$}}1
-        {ℕ}{{$\mathbb{N}$}}1
-        {×}{{$\times$}}1
-}
+%\lstset{
+%    style = mystyle,
+%    inputencoding = utf8, % input encoding
+%    extendedchars = true, % extended ASCII
+%    literate = % support addition characters (https://tex.stackexchange.com/a/574950)
+%        {λ}{{$\lambda$}}1
+%        {∀}{{$\forall$}}1
+%        {Ö}{{\"O}}1
+%        {∧}{{$\land$}}1
+%        {∨}{{$\lor$}}1
+%        {_}{{\_}}1
+%        {β}{{$\beta$}}1
+%        {γ}{{$\gamma$}}1
+%        {∈}{{$\in$}}1
+%        {→}{{$\to$}}1
+%        {⇒}{{$\implies$}}1
+%        {ε}{{$\varepsilon$}}1
+%        {≡}{{$\equiv$}}1
+%        {ℕ}{{$\mathbb{N}$}}1
+%        {×}{{$\times$}}1
+%}
+
+
+\usepackage{tabto}
+
+\newenvironment{tabs}[1]
+ {\flushleft\TabPositions{#1}}
+ {\endflushleft}
 
 % make toc references clickable (also adds \href and \url) (near last import)
 \usepackage{hyperref}
@@ -143,6 +150,40 @@ Assumptions made about the data being modeled:
 \begin{center}
     \includegraphics[width=1\textwidth]{E_R Diagram.png}
 \end{center}
+
+
+\vspace{40mm}
+\begin{tabs}{1cm,2cm}
+Admin(\underline{account\_id}, username, email, password, privilege\_level) \\
+\vspace{4mm}
+User(\underline{account\_id}, username, email, password, fullname, profile\_pic\_url)\\
+\vspace{4mm}
+Fav\_Teams(\underline{uid, tid})\\
+. \tab \textbf{Foreign Key:} uid references account\_id in User\\
+. \tab \textbf{Foreign Key:} tid references team\_id in Team\\
+\vspace{4mm}
+Fav\_players(\underline{uid, pid})\\
+. \tab \textbf{Foreign Key:} uid references account\_id in User\\
+. \tab \textbf{Foreign Key:} pid references player\_id in Player\\
+\vspace{4mm}
+Player(\underline{player\_id}, player\_name, games\_played, birth\_date, weight, nationality, pic\_url, primary\_num, primary\_pos) \\
+\vspace{4mm}
+Team(\underline{team\_id}, abbrv, team\_name, logo\_url, since) \\
+\vspace{4mm}
+Player\_team(\underline{pid, tid}, season, pos) \\
+. \tab \textbf{Foreign Key:} pid references player\_id in Player \\
+. \tab \textbf{Foreign Key:} tid references team\_id in Team \\
+\vspace{4mm}
+Play\_in(\underline{pid, gid}) \\
+. \tab \textbf{Foreign Key:} pid references player\_id in Player \\
+. \tab \textbf{Foreign Key:} gid references game\_id in Game \\
+\vspace{4mm}
+Game(\underline{game\_id}, season, game\_date, homeid, awayid) \\
+. \tab \textbf{Foreign Key:} homeid references team\_id in Team \\
+. \tab \textbf{Foreign Key:} awayid references team\_id in Team \\
+\vspace{4mm}
+\end{tabs}
+
 
 \section{Feature Descriptions}
 

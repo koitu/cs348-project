@@ -12,8 +12,8 @@ INSERT into Team VALUES
     (124, "BBR", "BOSTON BRUINS", "https://upload.wikimedia.org/wikipedia/en/thumb/1/12/Boston_Bruins.svg/800px-Boston_Bruins.svg.png", "1999"),
     (125, "EDO", "Edmonton Oilers", "https://upload.wikimedia.org/wikipedia/en/thumb/4/4d/Logo_Edmonton_Oilers.svg/1200px-Logo_Edmonton_Oilers.svg.png", "1999"),
     (126, "MCA", "Montreal Canadiens", "https://upload.wikimedia.org/wikipedia/en/thumb/1/12/Boston_Bruins.svg/800px-Boston_Bruins.svg.png", "1999");
-    
-INSERT into game VALUES
+
+INSERT into Game VALUES
     (1234, 123, 124, "HOME", "2022" ,null),
     (1235, 123, 125, "AWAY", "2022" ,null),
     (1236, 124, 125, "AWAY", "2022" ,null),
@@ -21,7 +21,7 @@ INSERT into game VALUES
     (1238, 125, 123, "HOME", "2022" ,null),
     (1239, 124, 126, "AWAY", "2022" ,null);
 
-INSERT into pg VALUES 
+INSERT into PG VALUES
     (1234, 8478421, 3),
     (1234, 8478425, 4),
     (1234, 8478427, 4),

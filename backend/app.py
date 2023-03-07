@@ -1,7 +1,5 @@
 from flask import Flask
 from flask_cors import CORS
-from mysql.connector import connect
-from model.Player import search_players
 import click
 
 from utils import create_database, mysql_connection
@@ -19,17 +17,16 @@ def app(init_db):
 
         with mysql_connection() as con, con.cursor() as cursor:
             with app.open_resource('db/Entities.sql') as f:
-                cursor.execute(f.read().decode('utf8'), multi= True)
+                cursor.execute(f.read().decode('utf8'), multi=True)
 
         with mysql_connection() as con, con.cursor() as cursor:
             with app.open_resource('db/Relationships.sql') as f:
-                cursor.execute(f.read().decode('utf8'),  multi= True)
+                cursor.execute(f.read().decode('utf8'),  multi=True)
 
         with mysql_connection() as con, con.cursor() as cursor:
             with app.open_resource('db/SampleData.sql') as f:
-                cursor.execute(f.read().decode('utf8'),  multi= True)
+                cursor.execute(f.read().decode('utf8'),  multi=True)
 
-        print("done")
     else:
         CORS(app)
 
