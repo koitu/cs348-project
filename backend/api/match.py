@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from model.Match import Match, search_matches
+from model.Match import Match #, search_matches
 from errors import basic_exception_handler
 
 

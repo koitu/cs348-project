@@ -22,7 +22,8 @@ def create_database():
             password=db['password'],
             autocommit=True,
         ) as con, con.cursor() as cursor:
-            cursor.execute(f"CREATE DATABASE {db['database']};", multi=True)
+            # cursor.execute(f"DROP DATABASE {db['database']};")
+            cursor.execute(f"CREATE DATABASE {db['database']};")
 
     # unable to connect
     except OperationalError as e:
@@ -42,6 +43,7 @@ def mysql_connection() -> MySQLConnection:
             port=db['port'],
             password=db['password'],
             database=db['database'],
+            autocommit=True,
         ) as con:
             yield con
 

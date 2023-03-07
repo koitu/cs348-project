@@ -16,7 +16,6 @@ def get_players():
     if body:
         if 'player_name' in body:
             player_name = body['player_name']
-        
 
     players = search_players(
         player_name=player_name,
