@@ -1,5 +1,8 @@
 # cs348-project
 
+## Milestone Reports
+Reports are under their respective milestone folders
+
 ## Dependencies
 You will need to have node.js and Python installed:
 
