@@ -1,0 +1,13 @@
+#sideBar {
+    position: fixed;
+    top: 25%;
+    left: 0;
+    width: 12vw;
+    margin: 3mm;
+    z-index: 9;
+}
+#searchBar {
+    position: fixed;
+    top: 5%;
+    left: 20%;
+}

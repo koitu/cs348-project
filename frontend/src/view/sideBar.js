@@ -1,5 +1,6 @@
 import React from "react";
-import "./App.css"
+import "./App.css";
+import "./sideBar.css";
 
 export function SideBar() {
 
@@ -8,7 +9,7 @@ export function SideBar() {
             <input type="checkbox" id="pastGameCheck"/>
             <label className="sideBarText"> Have played a game in the past 365 days</label> <br></br>
             <p> Rating range </p>
-            <input type="range"/>
+            <input type="range" id="sideBarSlider"/>
             <p> Position </p>
             <select name="cars" id="cars">
                 <option value="l1">L1</option>
