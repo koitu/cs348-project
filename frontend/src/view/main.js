@@ -80,7 +80,7 @@ export const MainPage = () => {
             ])
             // console.log(data)
         } catch (error) {
-            
+        
         }
     };
 
@@ -106,7 +106,7 @@ export const MainPage = () => {
                             { playervalues.map((obj, _) => (<ListButton key={obj.player_id} name={obj.player_name} img={obj.picture} id={obj.player_id} isTeam="false"/>)) } 
                         </TabPanel>
                         <TabPanel>
-                            { teamValues.map((obj, _) => (<ListButton key={obj.player_id} name={obj.team_name} img={obj.logo} id={obj.team_id} isTeam="true"/>)) }
+                            { teamValues.map((obj, _) => (<ListButton key={obj.team_id} name={obj.team_name} img={obj.logo} id={obj.team_id} isTeam="true"/>)) }
                         </TabPanel>
                     </Tabs>
                 </div>

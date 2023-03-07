@@ -12,6 +12,7 @@ export function ListButton (props) {
     } else {
         imageUrl = defaultImageAddress
     }
+
     let redirectUrl = "/playerPage/"
     if (props.isTeam == "true") {
         redirectUrl = "/teamPage/"

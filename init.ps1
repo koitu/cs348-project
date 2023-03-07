@@ -1,0 +1,1 @@
+Start-Process powershell -ArgumentList '-NoExit','-Command "Write-Host `"Terminal 1`";; cd .\backend; python app.py --init-db"'

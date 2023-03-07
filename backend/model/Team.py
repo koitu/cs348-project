@@ -1,5 +1,5 @@
 from errors import BadRequest, TeamAlreadyExistsError, TeamNotFoundError
-
+from utils import mysql_connection
 
 class Team:
     def __init__(
@@ -7,6 +7,7 @@ class Team:
         team_id: int = None,
         team_name: str = None,
         start_date: str = None,
+        abbrv: str = None,
         logo: str = None,
         players: list[str] = None,
         league: str = None,
@@ -19,6 +20,7 @@ class Team:
         self.players = players
         self.league = league
         self.location = location
+        self.abbrv = abbrv
 
         if logo is None:
             self.logo = "/static/default_team_logo.png"
@@ -34,6 +36,7 @@ class Team:
             'players': self.players,
             'league': self.league,
             'location': self.location,
+            'abbrv' : self.abbrv
         }
 
     def valid(self) -> bool:
@@ -84,7 +87,38 @@ class Team:
         # permission checking will be handled by caller
         pass
 
+def search_teams_played(player_id: str, fuzzy=True) -> list[Team]:
+    with mysql_connection() as con, con.cursor() as cursor:
+        find_teams = f"""select team_id, abbrv, team_name, logo_url 
+                         from Team join PT using(team_id)
+                         where player_id like '%{player_id}%'
+                         order by sesone desc """
+        cursor.execute(find_teams)
+        result = cursor.fetchall()
+        retVal = []
+        for i in result:
+            print(i)
+            retVal.append(Team( team_id= i[0],
+                                team_name= i[2],
+                                abbrv= i[1],
+                                logo= i[3]))
+        return retVal 
 
 def search_teams(team_name: str, fuzzy=True) -> list[Team]:
-    # TODO
-    pass
+    
+    with mysql_connection() as con, con.cursor() as cursor:
+        find_teams = f"""select team_id, abbrv, team_name, logo_url 
+                         from Team 
+                         where team_name like '%{team_name}%'
+                         order by team_name asc
+                         limit 10"""
+        cursor.execute(find_teams)
+        result = cursor.fetchall()
+        retVal = []
+        for i in result:
+            print(i)
+            retVal.append(Team( team_id= i[0],
+                                team_name= i[2],
+                                abbrv= i[1],
+                                logo= i[3]))
+        return retVal 
