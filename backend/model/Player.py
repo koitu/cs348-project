@@ -1,5 +1,5 @@
 from errors import BadRequest, PlayerAlreadyExistsError, PlayerNotFoundError
-from backend.utils import mysql_connection
+from utils import mysql_connection
 
 
 test = [
@@ -116,4 +116,22 @@ def search_players(
         fuzzy=True
         ) -> list[Player]:
     # TODO
-    pass
+    
+    with mysql_connection() as con, con.cursor() as cursor:
+        find_player = "select * from Player"
+        cursor.execute(find_player)
+        result = cursor.fetchall()
+        retVal = []
+        print(result)
+        # for i in result:
+        #     retVal.append(Player(i.))
+        return retVal
+        # self.player_id,       \
+        #     self.player_name, \
+        #     self.birthday,    \
+        #     self.weight,      \
+        #     self.height,      \
+        #     self.nationality, \
+        #     self.pic_url,     \
+        #     self.primary_num, \
+        #     self.primary_pos = result        

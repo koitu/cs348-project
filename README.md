@@ -20,8 +20,8 @@ you will need to do the following commands only once per running the project.
 install MySql on your computer
 after that go to the following file and update the password and username with the password and username with your own.
 after that run the following commands
-
-
+   .\init.ps1
+and close the terminal that is opened.
 
 
 ### running the project
