@@ -122,10 +122,11 @@ def search_players(
         cursor.execute(find_player)
         result = cursor.fetchall()
         retVal = []
-        print(result)
-        # for i in result:
-        #     retVal.append(Player(i.))
+        for i in result:
+            print(i)
+            retVal.append(Player(i[0], i[1], i[2], i[3],i[5], i[8]))
         return retVal
+        
         # self.player_id,       \
         #     self.player_name, \
         #     self.birthday,    \

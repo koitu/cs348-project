@@ -33,8 +33,14 @@ export const MainPage = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await fetch(proxyPrefix + "keyword/"+ textState);
-            const data = await response.json();
+            const response = await fetch(proxyPrefix + "/api/players/")
+            .then ({ 
+
+            })
+            .catch (error => {
+                // Handle any errors
+            })
+            // const data = await response.json();
             setPValue([ 
                 {
                     "player_id" : "p123",
