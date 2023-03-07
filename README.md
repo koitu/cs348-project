@@ -19,19 +19,19 @@ python3 -m pip install -r requirements.txt
 ### Database Initialization
 Install MySQL on your computer.
 
-Configure the `backend/config.ini` with your MySQL password and username then connect to MySQL and run:
+Configure `backend/config.ini` with your MySQL password and username then run:
 ```
-$ mysql -u <username> --password=<password> cs348_sportdb
+$ mysql -u <username> --password=<password>
 mysql> create database cs348_sportdb;
 mysql> exit
 ```
-Then exit MySQL and run the following commands to load our relational tables and sample data:
+After exiting MySQL, run the following commands to load our relational tables and sample data:
 ```
 $ mysql -u <username> --password=<password> cs348_sportdb < backend/db/Entities.sql
 $ mysql -u <username> --password=<password> cs348_sportdb < backend/db/Relationships.sql
 $ mysql -u <username> --password=<password> cs348_sportdb < backend/db/SampleData.sql
 ```
-Remark: performing database initialization from the `app.py` is in the works
+Remark: database initialization using `app.py` is currently a work in progress
 
 <!-- Configure the `backend/config.ini` with your MySQL password and username then run one of the two commands: -->
 <!-- 1. `.\init.ps1` and close the terminal that is opened, or -->
