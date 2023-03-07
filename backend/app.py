@@ -31,7 +31,6 @@ def app(init_db):
 
         print("done")
     else:
-        search_players("fd", "dhgoag")
         CORS(app)
 
         from api import match, player, team, user

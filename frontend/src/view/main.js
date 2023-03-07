@@ -33,10 +33,15 @@ export const MainPage = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await fetch(proxyPrefix + "/api/players/")
-            .then ({ 
-
+            const response = await fetch(proxyPrefix + "/api/players/", {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({"player_name": textState})
             })
+            .then(response => response.json())
+   .        then(response => console.log(JSON.stringify(response)))
             .catch (error => {
                 // Handle any errors
             })
@@ -80,7 +85,7 @@ export const MainPage = () => {
                     "logo" : "https://cdn-icons-png.flaticon.com/512/5042/5042057.png"
                 }
             ])
-            console.log(data)
+            
         } catch (error) {
             
         }
