@@ -6,22 +6,22 @@ class Team:
     def __init__(
         self,
         team_id: int = None,
-        team_name: str = None,
-        start_date: str = None,
         abbrv: str = None,
+        team_name: str = None,
         logo: str = None,
+        since: int = None,
+
         players: list[str] = None,
-        league: str = None,
         location: str = None,
     ):
         self.team_id = team_id
-        self.team_name = team_name
-        self.start_date = start_date
-        self.logo = logo
-        self.players = players
-        self.league = league
-        self.location = location
         self.abbrv = abbrv
+        self.team_name = team_name
+        self.logo = logo
+        self.since = since
+
+        self.players = players
+        self.location = location
 
         if logo is None:
             self.logo = "/static/default_team_logo.png"
@@ -31,19 +31,22 @@ class Team:
     def to_dict(self) -> dict:
         return {
             'team_id': self.team_id,
+            'abbrv': self.abbrv,
             'team_name': self.team_name,
-            'start_date': self.start_date,
             'logo': self.logo,
+            'since': self.since,
+
             'players': self.players,
-            'league': self.league,
             'location': self.location,
-            'abbrv' : self.abbrv
         }
 
     def valid(self) -> bool:
-        # check that the User is a valid User
-        # TODO
-        pass
+        return all(
+            x is not None for x in [
+                self.team_id,
+                self.abbrv,
+                self.team_name,
+            ])
 
     def check_team_id(self) -> None:
         if self.team_id is None:
@@ -54,10 +57,22 @@ class Team:
     def get(self) -> None:
         self.check_team_id()
 
-        # TODO
-        # perform SQL query to fill in the rest of the details
-        # if the team does not exist then raise TeamNotFoundError
-        pass
+        with mysql_connection() as con, con.cursor() as cursor:
+            query = (
+                "SELECT * "
+                "FROM Team "
+                "where team_id = %s"
+            )
+            cursor.execute(query, (self.team_id,))
+            result = cursor.fetchall()
+            if len(result) == 0:
+                raise TeamNotFoundError(self.team_id)
+
+            self.team_id,       \
+                self.abbrv,     \
+                self.team_name, \
+                self.logo,      \
+                self.since = result[0]
 
     def create(self) -> None:
         if self.team_name is None:

@@ -29,7 +29,7 @@ def create_database(force=False):
             result = cursor.fetchall()
             if len(result) == 1:
                 print(f"Database {db_name} already exists. " +
-                        "Do you want to remove it? [y/N] ", end="")
+                      "Do you want to remove it? [y/N] ", end="")
                 x = input()
 
                 if (x == "y" or x == "Y"):
