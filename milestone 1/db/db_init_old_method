@@ -1,0 +1,16 @@
+### Database Initialization
+Install MySQL on your computer.
+
+Configure `backend/config.ini` with your MySQL password and username then run:
+```
+$ mysql -u <username> --password=<password>
+mysql> create database cs348_sportdb;
+mysql> exit
+```
+After exiting MySQL, run the following commands to load our relational tables and sample data:
+```
+$ mysql -u <username> --password=<password> cs348_sportdb < backend/db/Entities.sql
+$ mysql -u <username> --password=<password> cs348_sportdb < backend/db/Relationships.sql
+$ mysql -u <username> --password=<password> cs348_sportdb < backend/db/SampleData.sql
+```
+Remark: database initialization using `app.py` is currently a work in progress

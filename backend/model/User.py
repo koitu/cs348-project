@@ -1,21 +1,5 @@
 from errors import BadRequest, UserAlreadyExistsError, UserNotFoundError
-from utils import mysql_connection#, response_is_empty
-
-
-test = [
-    ("1", "William Wilkinson"),
-    ("2", "Valentina Austin"),
-    ("3", "Kenley Mcguire"),
-    ("4", "Andreas Callahan"),
-    ("5", "Elise Fritz"),
-    ("6", "Melody Park"),
-    ("7", "Enrique Potter"),
-    ("8", "Rory Castillo"),
-    ("9", "Madeline Bruce"),
-    ("10", "Zechariah Zuniga"),
-    ("11", "Amani Graves"),
-    ("12", "Aliza Mckee"),
-]
+from utils import mysql_connection
 
 
 class User:
@@ -27,6 +11,7 @@ class User:
         password: str = None,
         fullname: str = None,
         profile_pic: str = None,
+        is_admin: bool = None,
     ):
         self.account_id = account_id
         self.username = username
@@ -34,6 +19,7 @@ class User:
         self.password = password
         self.fullname = fullname
         self.profile_pic = profile_pic
+        self._is_admin = is_admin
 
         if profile_pic is None:
             self.profile_pic = "/static/default_profile_pic.png"
@@ -45,47 +31,61 @@ class User:
             'email': self.email,
             'fullname': self.fullname,
             'profile_pic': self.profile_pic,
+            'is_admin': self._is_admin,
         }
 
     def valid(self) -> bool:
-        # check that the User is a valid User
-        # TODO
-        pass
+        return all(
+            x is not None for x in [
+                self.account_id,
+                self.username,
+                self.email,
+                self.password,
+                self.fullname,
+            ])
 
     def check_account_id(self) -> None:
         if self.account_id is None:
             raise BadRequest("Please specify the account to retrieve")
-        # if type(self.account_id) is not int:
         if not self.account_id.isdigit():
             raise BadRequest("account_id is required to be an integer")
 
-    def get(self) -> None:
+    def is_admin(self, force_check=False) -> bool:
         self.check_account_id()
 
-        user = None
-        for t in test:
-            if t[0] == self.account_id:
-                user = t
+        # TODO: this caches the is_admin parameter which is probably a bad idea
+        if force_check or self._is_admin is None:
+            with mysql_connection() as con, con.cursor() as cursor:
+                query = (
+                    "SELECT * "
+                    "FROM Admin "
+                    "WHERE account_id = %s"
+                )
+                cursor.execute(query, (self.account_id,))
+                result = cursor.fetchall()
 
-        if user is None:
-            raise UserNotFoundError(self.player_id)
+                self._is_admin = len(result) != 0
+        return self._is_admin
 
-        self.fullname = user[1]
+    def get(self) -> None:
+        self.is_admin()  # set the is_admin_parameter and test account_id
 
+        with mysql_connection() as con, con.cursor() as cursor:
+            query = (
+                "SELECT account_id, username, email, fullname, pic_url "
+                "FROM Account NATURAL JOIN User "
+                "where account_id = %s"
+            )
+            cursor.execute(query, (self.account_id,))
+            result = cursor.fetchall()
+            if len(result) == 0:
+                raise UserNotFoundError(self.account_id)
 
-        # TODO: fix this SQL query outline
-        # with mysql_connection() as con, con.cursor() as cursor:
-        #     find_user = "select * from account where account_id=%s"
-        #     cursor.execute(find_user, (self.account_id,), multi=False)
-        #     result = cursor.fetchall()[0]
-
-        #     self.username = result[2]
-        #     self.email = result[3]
-        #     self.password = result[4]
-        # TODO
-        # perform SQL query to fill in the rest of the user details
-        # if the user does not exist then raise UserNotFoundError
-        pass
+            self.account_id,      \
+                self.username,    \
+                self.email,       \
+                self.fullname,    \
+                self.profile_pic = result[0]
 
     def create(self) -> None:
         if self.username is None:

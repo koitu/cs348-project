@@ -33,9 +33,12 @@ class Match:
         }
 
     def valid(self) -> bool:
-        # check that the Match is a valid Match
-        # TODO
-        pass
+        return all(
+            x is not None for x in [
+                self.match_id,
+                self.team1_id,
+                self.team2_id,
+            ])
 
     def check_match_id(self) -> None:
         if self.match_id is None:
@@ -46,10 +49,23 @@ class Match:
     def get(self) -> None:
         self.check_match_id()
 
-        # TODO
-        # perform SQL query to fill in the rest of the details
-        # if the match does not exist then raise MatchNotFoundError
-        pass
+        with mysql_connection() as con, con.cursor() as cursor:
+            query = (
+                "SELECT * "
+                "FROM Game "
+                "WHERE game_id = %s"
+            )
+            cursor.execute(query, (self.match_id,))
+            result = cursor.fetchall()
+            if len(result) == 0:
+                raise MatchNotFoundError(self.match_id)
+
+            # TODO
+            # self.match_id,
+            # self.team1_id,
+            # self.team2_id,
+
+            # result[0]
 
     def create(self) -> None:
         if self.team1_id is None:
@@ -82,7 +98,51 @@ class Match:
         # permission checking will be handled by caller
         pass
 
-    
+
+def search_matches(
+        teams: list[str] = [],
+        players: list[str] = [],
+):
+    tn = len(teams)
+    pn = len(players)
+    query = (
+        "SELECT game_id, team1_id, team2_id, season, game_date "
+        "FROM Game"
+    )
+
+    filter = []
+    if tn > 0:
+        filter.append(
+            "(" + ",".join(["%s" for _ in range(tn)]) + ") "
+            "IN (SELECT team_id from GT where GT.game_id = Game.game_id)"
+        )
+    if pn > 0:
+        filter.append(
+            "(" + ",".join(["%s" for _ in range(pn)]) + ") "
+            "IN (SELECT team_id from PG where PG.game_id = Game.game_id)"
+        )
+
+    # TODO: may be faster if using INTERSECT instead of many conditions
+    if len(filter) > 0:
+        query += " WHERE "
+        query += " AND ".join(filter)
+        query += ";"
+
+    result = None
+    with mysql_connection() as con, con.cursor() as cursor:
+        print(query)
+        cursor.execute(query, teams + players)
+        result = cursor.fetchall()
+
+    return [Match(
+                match_id=i[0],
+                team1_id=i[1],
+                team2_id=i[2],
+                season=i[3],
+                date=i[4],
+            ) for i in result]
+
+
 
 def search_matches_for_player(
         player_id: str

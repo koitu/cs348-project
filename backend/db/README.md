@@ -1,4 +1,6 @@
 ### MySQL usage notes
+for the original `Entities.sql` and `Relationships.sql` files see milestone 1
+
 To select the database to work on
 ```
 use cs348;

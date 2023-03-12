@@ -1,10 +1,27 @@
-from flask import Flask
-from flask_cors import CORS
 import click
 
-from mysql.connector import connect
+from flask import Flask
+from flask_cors import CORS
 
 from utils import create_database, mysql_connection
+
+
+entities = [
+    "Account",
+    "User",
+    "Admin",
+    "Player",
+    "Team",
+    "Game",
+]
+
+relationships = [
+    "PT",
+    "GT",
+    "PG",
+    "Fav_Players",
+    "Fav_Teams",
+]
 
 
 @click.command()
@@ -17,38 +34,32 @@ def app(init_db):
     if init_db:
         create_database()
 
-        print("current troubleshooting with inserting many tables\n\n")
-        raise Exception()
-
-        # note that autocommit=True
         with mysql_connection() as con:
             with con.cursor() as cursor:
-                with open('db/Test.sql') as f:
-                    print(f.read())
 
-                with open('db/Test.sql') as f:
-                    cursor.execute(f.read(), multi=True)
+                print("\nEntity tables:")
+                for e in entities:
+                    print(f"Creating table {e}: ", end="")
+                    with open("db/entities/" + e + ".sql") as f:
+                        cursor.execute(f.read())
+                    print("OK")
 
-        # when fetching tables, it only finds the first table
-        with mysql_connection() as con:
-            with con.cursor() as cursor:
-                cursor.execute("show tables;")
-                result = cursor.fetchall()
+                print("\nRelationship tables:")
+                for r in relationships:
+                    print(f"Creating table {r}: ", end="")
+                    with open("db/relationships/" + r + ".sql") as f:
+                        cursor.execute(f.read())
+                    print("OK")
 
-                for x in result:
-                    print(x)
+        # # to double check that all tables were inserted
+        # with mysql_connection() as con:
+        #     with con.cursor() as cursor:
+        #         cursor.execute("show tables;")
+        #         result = cursor.fetchall()
 
-        # with mysql_connection() as con, con.cursor() as cursor:
-        #     with app.open_resource('db/Entities.sql') as f:
-        #         cursor.execute(f.read().decode('utf8'),  multi=True)
-
-        # with mysql_connection() as con, con.cursor() as cursor:
-        #     with app.open_resource('db/Relationships.sql') as f:
-        #         cursor.execute(f.read().decode('utf8'),  multi=True)
-
-        # with mysql_connection() as con, con.cursor() as cursor:
-        #     with app.open_resource('db/SampleData.sql') as f:
-        #         cursor.execute(f.read().decode('utf8'),  multi=True)
+        #         print("\nTables inserted:")
+        #         for x in result:
+        #             print(x[0])
 
     else:
         CORS(app)
@@ -64,6 +75,6 @@ def app(init_db):
 
 
 if __name__ == "__main__":
-    app()
     # to init the databases run:
     # python app.py --init-db
+    app()
