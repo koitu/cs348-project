@@ -1,6 +1,7 @@
 from errors import BadRequest, TeamAlreadyExistsError, TeamNotFoundError
 from utils import mysql_connection
 
+
 class Team:
     def __init__(
         self,
