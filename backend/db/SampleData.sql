@@ -1,10 +1,16 @@
+INSERT INTO Account VALUES
+	(100001, 'Admin001', 'cs348@uwaterloo.ca', 'cs348'),
+    (100002, 'Admin002', 'NHL@uwaterloo.ca', 'NHL'),
+    (200001, 'User001', 'user001@uwaterloo.ca', 'user001'),
+    (200002, 'User002', 'user002@uwaterloo.ca', 'user002');
+
 INSERT INTO Admin VALUES
-    (100001, 'Admin001', 'cs348@uwaterloo.ca','cs348',3),
-    (100002, 'Admin002', 'NHL@uwaterloo.ca','NHL',1);
+    (100001, 3),
+    (100002, 1);
 
 INSERT INTO User VALUES
-    (200001, 'User001', 'user001@uwaterloo.ca','user001','Alice','https://upload.wikimedia.org/wikipedia/commons/4/4d/Cat_November_2010-1a.jpg'),
-    (200002, 'User002', 'user002@uwaterloo.ca','user002','Bob','https://upload.wikimedia.org/wikipedia/commons/6/6b/Dog_%28Canis_lupus_familiaris%29_%283%29.jpg');
+    (200001, 'Alice', 'https://upload.wikimedia.org/wikipedia/commons/4/4d/Cat_November_2010-1a.jpg'),
+    (200002, 'Bob', 'https://upload.wikimedia.org/wikipedia/commons/6/6b/Dog_%28Canis_lupus_familiaris%29_%283%29.jpg');
 
 INSERT INTO Player VALUES
 	(8469534, 'Aaron Johnson', '1983-04-30', 204, 188, 'BOS', 'https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8469534.jpg', 40, 'D'),
@@ -29,21 +35,21 @@ INSERT into Team VALUES
 	(124, "SEA", "Seattle Kraken", "https://upload.wikimedia.org/wikipedia/en/thumb/4/48/Seattle_Kraken_official_logo.svg/330px-Seattle_Kraken_official_logo.svg.png", "2021"),
 	(128, "TOR", "Toronto Maple Leafs", "https://upload.wikimedia.org/wikipedia/en/thumb/b/b6/Toronto_Maple_Leafs_2016_logo.svg/330px-Toronto_Maple_Leafs_2016_logo.svg.png", "1917");
 
-INSERT into Fav_Teams VALUES
+INSERT INTO Fav_Teams VALUES
     (200001, 123),
     (200001, 126);
 
-INSERT into Fav_players VALUES
+INSERT INTO Fav_players VALUES
     (200001, 8473712),
     (200002, 8473712),
     (200002, 8479447);
 
-INSERT into Player_team VALUES
---the season attribute is not based on real data!
+INSERT INTO PT VALUES
+-- the season attribute is not based on real data!
     (8469534, 103, '2015', 'D'),
-	(8479447, 120, '2019', 'R'),
+	(8479447, 120, '2015', 'R'),
 	(8475757, 115, '2004', 'R'),
-	(8473712, 128, '2014', 'L'),
+	(8473712, 128, '2015', 'L'),
 	(8468510, 115, '1999', 'L'),
 	(8469598, 101, '2015', 'D'),
 	(8470121, 114, '2010', 'D'),
@@ -51,15 +57,19 @@ INSERT into Player_team VALUES
 	(8468011, 101, '2007', 'G'),
 	(8478407, 124, '2022', 'D');
 
-INSERT into Game VALUES
-    (2015020731, 2015, 124, "2016-01-26", 197, 199),
-    (2015021066, 2015, 125, "2016-03-18", 199, 197);
+INSERT INTO Game VALUES
+    (2015020731, 2015, 114, 115, "2016-01-26"),
+    (2015021066, 2015, 120, 128, "2016-03-18");
 
-INSERT into Play_in VALUES
---the relationship is not based on real data!
+INSERT INTO GT VALUES
+-- the relationship is not based on real data!
     (8469534, 2015020731),
     (8469598, 2015020731),
     (8469534, 2015021066),
     (8469598, 2015021066);
-
+	
+    
+INSERT INTO PG VALUES
+	(2015021066, 8479447, 4),
+    (2015021066, 8473712, 3);
 
