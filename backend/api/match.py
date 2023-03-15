@@ -11,20 +11,19 @@ bp = Blueprint('match', __name__)
 def get_matches():
     body = request.get_json()
 
-    team_id = None
-    other_team_id = None
+    teams = []
+    players = []
 
     if body:
-        if 'team_id' in body:
-            team_id = body['team_id']
-        if 'other_team_id' in body:
-            other_team_id = body['other_team_id']
+        if 'teams' in body:
+            teams = body['teams']
+        if 'players' in body:
+            players = body['players']
 
-    matches = search_matches_for_team(
-        team_id=team_id,
-        fuzzy=True
+    matches = search_matches(
+        teams=teams,
+        players=players,
     )
-    # TODO: stream the response so that we can have pagementation
     return {'matches': [match.to_dict() for match in matches]}
 
 

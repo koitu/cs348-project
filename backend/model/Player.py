@@ -8,45 +8,65 @@ class Player:
         player_id: int = None,
         player_name: str = None,
         birthday: str = None,
-        picture: str = None,
+        weight: int = None,
+        height: int = None,
         nationality: str = None,
+        picture: str = None,
+        number: int = None,
         position: str = None,
-        # player picture
     ):
         self.player_id = player_id
         self.player_name = player_name
         self.birthday = birthday
-        self.picture = picture
+        self.weight = weight
+        self.height = height
         self.nationality = nationality
+        self.picture = picture
+        self.number = number
         self.position = position
+
+        if picture is None:
+            self.profile_pic = "/static/default_player_pic.png"
 
     def to_dict(self) -> dict:
         return {
             'player_id': self.player_id,
             'player_name': self.player_name,
             'birthday': self.birthday,
-            'picture': self.picture,
+            'weight': self.weight,
+            'height': self.height,
             'nationality': self.nationality,
+            'picture': self.picture,
+            'number': self.number,
             'position': self.position,
         }
 
     def valid(self) -> bool:
-        # check that the Player is a valid Player
-        # TODO
-        pass
+        return all(
+            x is not None for x in [
+                self.player_id,
+                self.player_name,
+            ])
 
     def check_player_id(self) -> None:
         if self.player_id is None:
             raise BadRequest("Please specify the player to retrieve")
-        # if type(self.player_id) is not int:
         if not self.player_id.isdigit():
             raise BadRequest("player_id is required to be an integer")
 
     def get(self) -> None:
+        self.check_player_id()
+
         with mysql_connection() as con, con.cursor() as cursor:
-            find_player = "select * from Player where player_id=%s"
-            cursor.execute(find_player, (self.player_id,))
-            result = cursor.fetchall()[0]
+            query = (
+                "SELECT * "
+                "FROM Player "
+                "WHERE player_id = %s"
+            )
+            cursor.execute(query, (self.player_id,))
+            result = cursor.fetchall()
+            if len(result) == 0:
+                raise PlayerNotFoundError(self.player_id)
 
             self.player_id,       \
                 self.player_name, \
@@ -54,9 +74,9 @@ class Player:
                 self.weight,      \
                 self.height,      \
                 self.nationality, \
-                self.pic_url,     \
-                self.primary_num, \
-                self.primary_pos = result
+                self.picture,     \
+                self.number,      \
+                self.position = result[0]
 
     def create(self) -> None:
         if self.player_name is None:
@@ -90,28 +110,18 @@ def search_players(
         player_name: str,
         fuzzy=True
         ) -> list[Player]:
-    
-    
+
     with mysql_connection() as con, con.cursor() as cursor:
-        find_player = f"""select *  
-                          from Player 
-                          where player_name like '%{player_name}%'
-                          order by player_name asc
-                          limit 10"""
+        # TODO: proper escaping for player_name
+        find_player = f"""select *
+                         from Player
+                         where player_name like '%{player_name}%'
+                         order by player_name asc
+                         limit 10"""
         cursor.execute(find_player)
         result = cursor.fetchall()
         retVal = []
         for i in result:
             print(i)
-            retVal.append(Player(i[0], i[1], i[2], i[3],i[5], i[8]))
+            retVal.append(Player(i[0], i[1], i[2], i[3], i[5], i[8]))
         return retVal
-        
-        # self.player_id,       \
-        #     self.player_name, \
-        #     self.birthday,    \
-        #     self.weight,      \
-        #     self.height,      \
-        #     self.nationality, \
-        #     self.pic_url,     \
-        #     self.primary_num, \
-        #     self.primary_pos = result        
