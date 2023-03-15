@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from model.Match import Match, search_matches
+from model.Match import Match, search_matches_for_team
 from errors import basic_exception_handler
 
 
@@ -20,9 +20,8 @@ def get_matches():
         if 'other_team_id' in body:
             other_team_id = body['other_team_id']
 
-    matches = search_matches(
+    matches = search_matches_for_team(
         team_id=team_id,
-        other_team_id=other_team_id,
         fuzzy=True
     )
     # TODO: stream the response so that we can have pagementation

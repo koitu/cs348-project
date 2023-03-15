@@ -7,9 +7,6 @@
     min-height: 100vh;
     text-align: center;
 }
-
-
-
 .paddedText {
     border: 3px solid black;
 }
@@ -24,12 +21,6 @@
     padding: 10px;
     
 }
-
-
-
-
-
-
 
 #searchResultScroll {
     width: 70vw;

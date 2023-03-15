@@ -34,7 +34,10 @@ export const MainPage = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await fetch(proxyPrefix + "/api/players/")
+            const response = await fetch(proxyPrefix + "/api/players/", {
+                method: 'GET',
+                body: JSON.stringify({"player_name": textState})
+            })
             .catch (error => {
                 // Handle any errors
             })
