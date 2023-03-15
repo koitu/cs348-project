@@ -1,3 +1,5 @@
+use cs348_sportdb;
+
 INSERT INTO Account VALUES
 	(100001, 'Admin001', 'cs348@uwaterloo.ca', 'cs348'),
     (100002, 'Admin002', 'NHL@uwaterloo.ca', 'NHL'),
@@ -36,8 +38,8 @@ INSERT into Team VALUES
 	(128, "TOR", "Toronto Maple Leafs", "https://upload.wikimedia.org/wikipedia/en/thumb/b/b6/Toronto_Maple_Leafs_2016_logo.svg/330px-Toronto_Maple_Leafs_2016_logo.svg.png", "1917");
 
 INSERT INTO Fav_Teams VALUES
-    (200001, 123),
-    (200001, 126);
+    (200001, 124),
+    (200001, 128);
 
 INSERT INTO Fav_players VALUES
     (200001, 8473712),
@@ -63,13 +65,12 @@ INSERT INTO Game VALUES
 
 INSERT INTO GT VALUES
 -- the relationship is not based on real data!
-    (8469534, 2015020731),
-    (8469598, 2015020731),
-    (8469534, 2015021066),
-    (8469598, 2015021066);
+    (2015020731, 114),
+    (2015020731, 115),
+    (2015021066, 120),
+    (2015021066, 128);
 	
     
 INSERT INTO PG VALUES
 	(2015021066, 8479447, 4),
     (2015021066, 8473712, 3);
-
