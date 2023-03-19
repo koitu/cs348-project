@@ -17,7 +17,6 @@ entities = [
 
 relationships = [
     "PT",
-    "GT",
     "PG",
     "Fav_Players",
     "Fav_Teams",
@@ -50,6 +49,13 @@ def app(init_db):
                     with open("db/relationships/" + r + ".sql") as f:
                         cursor.execute(f.read())
                     print("OK")
+
+                print("\nInserting sample data: ", end="")
+                with open("db/SampleData.sql") as f:
+                    for d in f.read().split("-- SPLIT --"):
+                        # print(d)
+                        cursor.execute(d)
+                print("OK")
 
         # # to double check that all tables were inserted
         # with mysql_connection() as con:

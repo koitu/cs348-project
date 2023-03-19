@@ -5,6 +5,10 @@ from errors import basic_exception_handler
 
 bp = Blueprint('user', __name__)
 
+# TODO update with modified SQL relations
+
+# TODO: create endpoints for admin checkings and updates?
+# requires privlages to be able to set
 
 @bp.route('/', methods=['GET'], strict_slashes=False)
 @basic_exception_handler

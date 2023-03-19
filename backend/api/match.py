@@ -5,6 +5,7 @@ from errors import basic_exception_handler
 
 bp = Blueprint('match', __name__)
 
+# TODO update with modified SQL relations
 
 @bp.route('/', methods=['GET'], strict_slashes=False)
 @basic_exception_handler
@@ -32,32 +33,32 @@ def get_matches():
 def create_match():
     body = request.get_json()
 
-    team1_id = None
-    team2_id = None
-    team1_score = None
-    team2_score = None
+    team_home_id = None
+    team_away_id = None
+    team_home_score = None
+    team_away_score = None
     date = None
     location = None
 
     if body:
-        if 'team1_id' in body:
-            team1_id = body['team1_id']
-        if 'team2_id' in body:
-            team2_id = body['team2_id']
-        if 'team1_score' in body:
-            team1_score = body['team1_score']
-        if 'team2_score' in body:
-            team2_score = body['team2_score']
+        if 'team_home_id' in body:
+            team_home_id = body['team_home_id']
+        if 'team_away_id' in body:
+            team_away_id = body['team_away_id']
+        if 'team_home_score' in body:
+            team_home_score = body['team_home_score']
+        if 'team_away_score' in body:
+            team_away_score = body['team_away_score']
         if 'date' in body:
             date = body['date']
         if 'location' in body:
             location = body['location']
 
     match = Match(
-        team1_id=team1_id,
-        team2_id=team2_id,
-        team1_score=team1_score,
-        team2_score=team2_score,
+        team_home_id=team_home_id,
+        team_away_id=team_away_id,
+        team_home_score=team_home_score,
+        team_away_score=team_away_score,
         date=date,
         location=location,
     )
@@ -81,14 +82,14 @@ def modify_match(match_id: int):
 
     body = request.get_json()
     if body:
-        if 'team1_id' in body:
-            match.team1_id = body['team1_id']
-        if 'team2_id' in body:
-            match.team2_id = body['team2_id']
-        if 'team1_score' in body:
-            match.team1_score = body['team1_score']
-        if 'team2_score' in body:
-            match.team2_score = body['team2_score']
+        if 'team_home_id' in body:
+            match.team_home_id = body['team_home_id']
+        if 'team_away_id' in body:
+            match.team_away_id = body['team_away_id']
+        if 'team_home_score' in body:
+            match.team_home_score = body['team_home_score']
+        if 'team_away_score' in body:
+            match.team_away_score = body['team_away_score']
         if 'date' in body:
             match.date = body['date']
         if 'location' in body:
