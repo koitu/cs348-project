@@ -29,8 +29,6 @@ class Team:
         logo: str = None,
         since: int = None,
         location: str = None,
-
-        players: list[str] = None,
     ):
 
         self.set((
@@ -42,12 +40,8 @@ class Team:
             location,
             ))
 
-        self.players = players
-
         if logo is None:
             self.logo = "/static/default_team_logo.png"
-        if players is None:
-            self.players = []
 
     def to_tuple(self) -> tuple:
         return (
@@ -67,8 +61,6 @@ class Team:
             'logo': self.logo,
             'since': self.since,
             'location': self.location,
-
-            'players': self.players,
         }
 
     def valid(self) -> bool:
@@ -102,7 +94,6 @@ class Team:
             self.set(result[0])
 
     def create(self) -> None:
-        # TODO: how do we add players to teams?
         team_id = self.team_id
 
         with mysql_connection() as con, con.cursor() as cursor:
@@ -131,22 +122,43 @@ class Team:
                 self.team_id = team_id
 
     def update(self) -> None:
-        self.check_team_id()
+        # save updated values to tuple
+        new = self.to_tuple()
 
-        # TODO
-        # perform SQL query to update team
-        # if the team does not exist then raise TeamNotFoundError
-        # permission checking will be handled by caller
-        pass
+        # get old values into tuple (get() also checks that team exists)
+        self.get()
+        merge = self.to_tuple()
+
+        # overwrite old values with new values
+        for i, x in enumerate(new):
+            if x is not None:
+                merge[i] = x
+        self.set(merge)
+
+        with mysql_connection() as con, con.cursor() as cursor:
+            query = (
+                "UPDATE Team SET "
+                "team_id = %s "
+                "abbrv = %s "
+                "team_name = %s "
+                "logo_url = %s "
+                "since  = %s "
+                "location = %s "
+                "WHERE team_id = %s"
+            )
+            cursor.execute(query, self.to_tuple()[1:] + (self.team_id,))
 
     def delete(self) -> None:
-        self.check_team_id()
+        # check that team exists before deleting
+        self.get()
 
-        # TODO
-        # perform SQL query to delete team
-        # if the team does not exist then raise TeamNotFoundError
-        # permission checking will be handled by caller
-        pass
+        with mysql_connection() as con, con.cursor() as cursor:
+            query = (
+                "DELETE FROM Team "
+                "WHERE team_id = %s"
+            )
+            cursor.execute(query, (self.team_id,))
+
 
 def search_teams_played(player_id: str, fuzzy=True) -> list[Team]:
     with mysql_connection() as con, con.cursor() as cursor:

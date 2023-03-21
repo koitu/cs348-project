@@ -87,14 +87,11 @@ class Player:
                 self.player_name,
             ])
 
-    def check_player_id(self) -> None:
+    def get(self) -> None:
         if self.player_id is None:
             raise BadRequest("Please specify the player to retrieve")
         if not self.player_id.isdigit():
             raise BadRequest("player_id is required to be an integer")
-
-    def get(self) -> None:
-        self.check_player_id()
 
         with mysql_connection() as con, con.cursor() as cursor:
             query = (
@@ -140,30 +137,62 @@ class Player:
                 self.player_id = player_id
 
     def update(self) -> None:
-        self.check_player_id()
+        # save updated values to tuple
+        new = self.to_tuple()
 
-        # TODO
-        # perform SQL query to update player
-        # if the player does not exist then raise PlayerNotFoundError
-        # permission checking will be handled by caller
-        pass
+        # get old values into tuple (get() also checks that player exists)
+        self.get()
+        merge = self.to_tuple()
+
+        # overwrite old values with new values
+        for i, x in enumerate(new):
+            if x is not None:
+                merge[i] = x
+        self.set(merge)
+
+        with mysql_connection() as con, con.cursor() as cursor:
+            query = (
+                "UPDATE Player SET "
+                "player_name = %s "
+                "birth_date = %s "
+                "weight = %s "
+                "height = %s "
+                "nationality = %s "
+                "pic_url = %s "
+                "primary_num = %s "
+                "primary_pos = %s "
+                "WHERE player_id = %s"
+            )
+            cursor.execute(query, self.to_tuple()[1:] + (self.player_id,))
 
     def delete(self) -> None:
-        self.check_player_id()
+        # check that player exists before deleting
+        self.get()
 
-        # TODO
-        # perform SQL query to delete player
-        # if the player does not exist then raise PlayerNotFoundError
-        # permission checking will be handled by caller
-        pass
+        with mysql_connection() as con, con.cursor() as cursor:
+            query = (
+                "DELETE FROM Player "
+                "WHERE player_id = %s"
+            )
+            cursor.execute(query, (self.player_id,))
 
 
+# TODO finding list of players that belong to team x will be handled by search_players
 def search_players(
         player_name: str,
         fuzzy=True
         ) -> list[Player]:
 
     with mysql_connection() as con, con.cursor() as cursor:
+        # query = (
+        #     "SELECT player_id "
+        #     "FROM PT "
+        #     "WHERE team_id = %s"
+        # )
+        # cursor.execute(query, (self.team_id,))
+        # result = cursor.fetchall()
+        # self.players = [x[0] for x in result]
+
         # TODO: proper escaping for player_name
         find_player = f"""select *
                          from Player

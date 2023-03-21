@@ -79,14 +79,11 @@ class Match:
                 self.team_away_id,
             ])
 
-    def check_match_id(self) -> None:
+    def get(self) -> None:
         if self.match_id is None:
             raise BadRequest("Please specify the match to retrieve")
         if type(self.match_id) is not int:
             raise BadRequest("match_id is required to be an integer")
-
-    def get(self) -> None:
-        self.check_match_id()
 
         with mysql_connection() as con, con.cursor() as cursor:
             query = (
@@ -134,27 +131,51 @@ class Match:
                 self.match_id = match_id
 
     def update(self) -> None:
-        self.check_match_id()
+        # save updated values to tuple
+        new = self.to_tuple()
 
-        # TODO
-        # perform SQL query to update match
-        # if the match does not exist then raise MatchNotFoundError
-        # permission checking will be handled by caller
-        pass
+        # get old values into tuple (get() also checks that match exists)
+        self.get()
+        merge = self.to_tuple()
+
+        # overwrite old values with new values
+        for i, x in enumerate(new):
+            if x is not None:
+                merge[i] = x
+        self.set(merge)
+
+        with mysql_connection() as con, con.cursor() as cursor:
+            query = (
+                "UPDATE Game SET "
+                "team_home_id = %s "
+                "team_away_id = %s "
+                "team_home_score = %s "
+                "team_away_score = %s "
+                "season = %s "
+                "game_date = %s "
+                "location = %s "
+                "WHERE game_id = %s"
+            )
+            cursor.execute(query, self.to_tuple()[1:] + (self.match_id,))
 
     def delete(self) -> None:
-        self.check_match_id()
+        # check that match exists before deleting
+        self.get()
 
-        # TODO
-        # perform SQL query to delete match
-        # if the match does not exist then raise MatchNotFoundError
-        # permission checking will be handled by caller
-        pass
+        with mysql_connection() as con, con.cursor() as cursor:
+            query = (
+                "DELETE FROM Game "
+                "WHERE game_id = %s"
+            )
+            cursor.execute(query, (self.match_id,))
 
 
 def search_matches(
         teams: list[str] = [],
         players: list[str] = [],
+        # TODO: pagementation
+        # page_num: int,
+        # res_per_page: int,
 ):
     tn = len(teams)
     pn = len(players)

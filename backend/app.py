@@ -84,3 +84,4 @@ if __name__ == "__main__":
     # to init the databases run:
     # python app.py --init-db
     app()
+    # Add versbose (backend command result) and double verbose (the exact command the backend is running)

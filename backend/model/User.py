@@ -194,7 +194,35 @@ class User:
                 self.account_id = account_id
 
     def update(self) -> None:
+        # save updated values to tuple
+        new = self.to_tuple()
+
+        # get old values into tuple
         self.check_account_id()
+        self.get()
+        merge = self.to_tuple()
+
+        # TODO self.get() does not return password
+
+        # overwrite old values with new values
+        for i, x in enumerate(new):
+            if x is not None:
+                merge[i] = x
+        self.set(merge)
+
+        query = (
+            "UPDATE Account SET "
+            "username = %s, "
+            "email = %s, "
+            "acc_pass = %s "
+            "WHERE account_id = %s"
+        )
+        cursor.execute(query, (
+            self.username,
+            self.email,
+            self.password, # TODO only update pass at certain times (now is not the time)
+            self.account_id,
+        ))
 
         # TODO
         # perform SQL query to update user
