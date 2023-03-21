@@ -1,5 +1,5 @@
 CREATE TABLE PG (
-	game_id		INT,
+	game_id     INT,
     player_id	INT,
     -- TODO: add attributes
     points      INT,

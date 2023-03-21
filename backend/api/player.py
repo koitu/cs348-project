@@ -5,6 +5,7 @@ from errors import basic_exception_handler
 
 bp = Blueprint('player', __name__)
 
+# TODO update with modified SQL relations
 
 @bp.route('/', methods=['GET'], strict_slashes=False)
 @basic_exception_handler

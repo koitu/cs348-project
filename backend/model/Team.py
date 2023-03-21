@@ -1,8 +1,26 @@
-from errors import BadRequest, TeamAlreadyExistsError, TeamNotFoundError
+from errors import BadRequest, TeamExistsError, TeamNotFoundError
 from utils import mysql_connection
+
+from mysql.connector import errorcode, IntegrityError
 
 
 class Team:
+    team_id = None
+    abbrv = None
+    team_name = None
+    logo = None
+    since = None
+    location = None
+
+    def set(self, values: tuple = ()):
+        assert(len(values) == 6)
+        self.team_id, \
+            self.abbrv, \
+            self.team_name, \
+            self.logo, \
+            self.since, \
+            self.location = values
+
     def __init__(
         self,
         team_id: int = None,
@@ -10,23 +28,30 @@ class Team:
         team_name: str = None,
         logo: str = None,
         since: int = None,
-
-        players: list[str] = None,
         location: str = None,
     ):
-        self.team_id = team_id
-        self.abbrv = abbrv
-        self.team_name = team_name
-        self.logo = logo
-        self.since = since
 
-        self.players = players
-        self.location = location
+        self.set((
+            team_id,
+            abbrv,
+            team_name,
+            logo,
+            since,
+            location,
+            ))
 
         if logo is None:
             self.logo = "/static/default_team_logo.png"
-        if players is None:
-            self.players = []
+
+    def to_tuple(self) -> tuple:
+        return (
+            self.team_id,
+            self.abbrv,
+            self.team_name,
+            self.logo,
+            self.since,
+            self.location,
+            )
 
     def to_dict(self) -> dict:
         return {
@@ -35,8 +60,6 @@ class Team:
             'team_name': self.team_name,
             'logo': self.logo,
             'since': self.since,
-
-            'players': self.players,
             'location': self.location,
         }
 
@@ -68,40 +91,74 @@ class Team:
             if len(result) == 0:
                 raise TeamNotFoundError(self.team_id)
 
-            self.team_id,       \
-                self.abbrv,     \
-                self.team_name, \
-                self.logo,      \
-                self.since = result[0]
+            self.set(result[0])
 
     def create(self) -> None:
-        if self.team_name is None:
-            raise BadRequest("Team name is a required field")
-        if self.start_date is None:
-            raise BadRequest("Start date is a required field")
+        team_id = self.team_id
 
-        # TODO
-        # perform SQL query that may raise TeamAlreadyExistsError
-        # after SQL team creation get the team_id and set self.team_id
-        pass
+        with mysql_connection() as con, con.cursor() as cursor:
+            con.start_transaction()
+
+            try:
+                query = (
+                    "INSERT INTO Team "
+                    "VALUES(%s, %s, %s, %s, %s, %s)"
+                )
+                cursor.execute(query, self.to_tuple())
+                if team_id is None:
+                    team_id = cursor.lastrowid
+
+            except IntegrityError as err:
+                con.rollback()
+
+                if err.errno == errorcode.ER_DUP_ENTRY:
+                    # if the error is a primary key violation
+                    raise TeamExistsError(self.team_id)
+                else:
+                    # else rethrow error
+                    raise err
+            else:
+                con.commit()
+                self.team_id = team_id
 
     def update(self) -> None:
-        self.check_team_id()
+        # save updated values to tuple
+        new = self.to_tuple()
 
-        # TODO
-        # perform SQL query to update team
-        # if the team does not exist then raise TeamNotFoundError
-        # permission checking will be handled by caller
-        pass
+        # get old values into tuple (get() also checks that team exists)
+        self.get()
+        merge = self.to_tuple()
+
+        # overwrite old values with new values
+        for i, x in enumerate(new):
+            if x is not None:
+                merge[i] = x
+        self.set(merge)
+
+        with mysql_connection() as con, con.cursor() as cursor:
+            query = (
+                "UPDATE Team SET "
+                "team_id = %s "
+                "abbrv = %s "
+                "team_name = %s "
+                "logo_url = %s "
+                "since  = %s "
+                "location = %s "
+                "WHERE team_id = %s"
+            )
+            cursor.execute(query, self.to_tuple()[1:] + (self.team_id,))
 
     def delete(self) -> None:
-        self.check_team_id()
+        # check that team exists before deleting
+        self.get()
 
-        # TODO
-        # perform SQL query to delete team
-        # if the team does not exist then raise TeamNotFoundError
-        # permission checking will be handled by caller
-        pass
+        with mysql_connection() as con, con.cursor() as cursor:
+            query = (
+                "DELETE FROM Team "
+                "WHERE team_id = %s"
+            )
+            cursor.execute(query, (self.team_id,))
+
 
 def search_teams_played(player_id: str, fuzzy=True) -> list[Team]:
     with mysql_connection() as con, con.cursor() as cursor:
