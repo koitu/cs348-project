@@ -1,5 +1,6 @@
 import './App.css';
-import './general.css'
+import './general.css';
+import './main.css';
 import React, { useState } from "react"
 import {Link} from "react-router-dom"
 import { ListButton } from "./clickable"
@@ -13,7 +14,7 @@ const proxyPrefix = "http://127.0.0.1:5000/"
 const TopCorner = () => {
     return (
         <Link to="/profile">
-            <button className='topCorner paddedButton primaryColor'>
+            <button className='topCorner paddedButton primaryColor' id='profileButton'>
                 <img src='defaultProfile.jpg' className='normalImage' alt="defaultProfile.jpg"/>
             </button>
         </Link>
@@ -33,75 +34,32 @@ export const MainPage = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const response = fetch(proxyPrefix + "api/players", {
-            method: 'GET',
-            headers: {
-                "Content-Type": "application/json",
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
-
-            // body: JSON.stringify({"player_name": textState}),
-            player_name: textState
+        const Playerresponse = fetch(proxyPrefix + "api/players?name=" + textState)
+        .then(response => response.json())
+        .then(data => setPValue(data["players"]))
+        .catch (error => {
+            console.error(error)
         })
-        // .catch (error => {
-        //     // Handle any errors
-        // })
-        console.log(response)
-        setPValue([ 
-            {
-                "player_id" : "p123",
-                "player_name" : "Christiano Ronaldo",
-                "picture" : "https://b.fssta.com/uploads/application/soccer/headshots/885.vresize.350.350.medium.14.png"
-            },
-            {
-                "player_id" : "p230",
-                "player_name" : "Arvin Asgharin",
-                "picture" : null
-            },
-            {
-                "player_id" : "P450",
-                "player_name" : "Neymar da Silva Santos",
-                "picture" : "https://upload.wikimedia.org/wikipedia/commons/6/65/20180610_FIFA_Friendly_Match_Austria_vs._Brazil_Neymar_850_1705.jpg"
-            },
-            {
-                "player_id" : "p650",
-                "player_name" : "Lionel Messi",
-                "picture" : "https://cdn.britannica.com/35/238335-050-2CB2EB8A/Lionel-Messi-Argentina-Netherlands-World-Cup-Qatar-2022.jpg"
-            },
-            {
-                "player_id" : "p546",
-                "player_name" : "Shayan Mohamadi Kubji",
-                "picture" : null
-            }
-        ])
-        setTValue([
-            {
-                "team_id" : "t123",
-                "team_name" : "FC Barcelona",
-                "logo" : "https://upload.wikimedia.org/wikipedia/en/thumb/4/47/FC_Barcelona_%28crest%29.svg/1200px-FC_Barcelona_%28crest%29.svg.png"
-            },
-            {
-                "team_id" : "t340",
-                "team_name" : "Real Madrid",
-                "logo" : "https://cdn-icons-png.flaticon.com/512/5042/5042057.png"
-            }
-        ])
-        // console.log(data)
-    
+        const TeamResponse = fetch(proxyPrefix + "api/teams?name=" + textState)
+        .then(response => response.json())
+        .then(data => setTValue(data["teams"]))
+        .catch (error => {
+            console.error(error)
+        })
     };
 
     return (
         <header id="mainPage">
             <TopCorner/>    
             <SideBar></SideBar>
-            <div className="vbox" id="searchBar">
+            <div className="vbox scrollable" id="searchBar">
                 <div>
                     <form onSubmit={handleSubmit}>
                         <input className='primaryColor' id="textSearchInput" type="text" value={textState} onChange={handleChange} />
                         <button className='primaryColor' id="textSearchButton" type="submit"> Submit </button>
                     </form>
                 </div>
-                <div className='scrollable secondaryColor' id='searchResultScroll'> 
+                <div className='secondaryColor' id='searchResultScroll'> 
                     <Tabs>
                         <TabList>
                             <Tab>Players</Tab>
@@ -120,3 +78,4 @@ export const MainPage = () => {
         </header>
     );
 };
+

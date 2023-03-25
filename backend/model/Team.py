@@ -189,7 +189,6 @@ def search_teams(team_name: str, fuzzy=True) -> list[Team]:
         result = cursor.fetchall()
         retVal = []
         for i in result:
-            print(i)
             retVal.append(Team( team_id= i[0],
                                 team_name= i[2],
                                 abbrv= i[1],
