@@ -18,6 +18,8 @@ def get_players():
         if 'player_name' in body:
             player_name = body['player_name']
 
+  
+
     players = search_players(
         player_name=player_name,
         fuzzy=True
