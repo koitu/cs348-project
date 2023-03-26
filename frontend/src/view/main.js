@@ -34,13 +34,13 @@ export const MainPage = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const Playerresponse = fetch(proxyPrefix + "api/players?name=" + textState)
+        fetch(`${proxyPrefix}api/players?name=${textState}`)
         .then(response => response.json())
         .then(data => setPValue(data["players"]))
         .catch (error => {
             console.error(error)
         })
-        const TeamResponse = fetch(proxyPrefix + "api/teams?name=" + textState)
+        fetch(`${proxyPrefix}api/teams?name=${textState}`)
         .then(response => response.json())
         .then(data => setTValue(data["teams"]))
         .catch (error => {
@@ -65,7 +65,6 @@ export const MainPage = () => {
                             <Tab>Players</Tab>
                             <Tab>Teams</Tab>
                         </TabList>
-                        
                         <TabPanel>
                             { playervalues.map((obj, _) => (<ListButton key={obj.player_id} name={obj.player_name} img={obj.picture} id={obj.player_id} isTeam="false"/>)) } 
                         </TabPanel>

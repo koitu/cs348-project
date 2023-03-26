@@ -209,20 +209,20 @@ class User:
             if x is not None:
                 merge[i] = x
         self.set(merge)
-
-        query = (
-            "UPDATE Account SET "
-            "username = %s, "
-            "email = %s, "
-            "acc_pass = %s "
-            "WHERE account_id = %s"
-        )
-        cursor.execute(query, (
-            self.username,
-            self.email,
-            self.password, # TODO only update pass at certain times (now is not the time)
-            self.account_id,
-        ))
+        with mysql_connection() as con, con.cursor() as cursor:
+            query = (
+                "UPDATE Account SET "
+                "username = %s, "
+                "email = %s, "
+                "acc_pass = %s "
+                "WHERE account_id = %s"
+            )
+            cursor.execute(query, (
+                self.username,
+                self.email,
+                self.password, # TODO only update pass at certain times (now is not the time)
+                self.account_id,
+            ))
 
         # TODO
         # perform SQL query to update user
@@ -244,3 +244,4 @@ def search_users(username: str, fuzzy=True) -> list[User]:
     # perform a SQL fuzzy search for a certain username
     # TODO
     pass
+

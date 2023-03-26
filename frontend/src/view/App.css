@@ -3,9 +3,7 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
-    overflow:auto;
     min-height: 100vh;
-    text-align: center;
 }
 .paddedText {
     border: 3px solid black;
