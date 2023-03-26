@@ -6,13 +6,6 @@ export const defaultImageAddress = "https://img.pixers.pics/pho_wat(s3:700/FO/64
 
 
 export function ListButton (props) {
-    let imageUrl = ""
-    if (props.img != null) {
-        imageUrl = props.img
-    } else {
-        imageUrl = defaultImageAddress
-    }
-
     let redirectUrl = "/playerPage/"
     if (props.isTeam == "true") {
         redirectUrl = "/teamPage/"
@@ -21,7 +14,7 @@ export function ListButton (props) {
         <Link to={redirectUrl + props.id}>
             <button className="listButton primaryColorClickable">
                 <div className="listContainer">
-                    <img src={imageUrl} className="listImage" alt={defaultImageAddress}></img>
+                    <img src={props.img} className="listImage" alt={defaultImageAddress}></img>
                     <div>
                     <h1>
                         {props.name}

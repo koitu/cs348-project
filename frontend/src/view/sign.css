@@ -1,0 +1,15 @@
+
+
+
+.signInBox {
+    position: fixed;
+    top: 0;
+    left: 25%;
+    width: 50vw;
+    padding: 3%;
+    margin: 1%;
+}
+
+.signInItem {
+    margin: 5px;
+}

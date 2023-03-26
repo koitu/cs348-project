@@ -10,13 +10,14 @@ bp = Blueprint('player', __name__)
 @bp.route('/', methods=['GET'], strict_slashes=False)
 @basic_exception_handler
 def get_players():
-    body = request.get_json()
+    # body = request.get_json()
+    player_name = request.args.get("name", default=None, type=str)
 
-    player_name = None
+    # if body:
+    #     if 'player_name' in body:
+    #         player_name = body['player_name']
 
-    if body:
-        if 'player_name' in body:
-            player_name = body['player_name']
+  
 
     players = search_players(
         player_name=player_name,

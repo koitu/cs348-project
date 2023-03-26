@@ -7,9 +7,6 @@
     min-height: 100vh;
     text-align: center;
 }
-
-
-
 .paddedText {
     border: 3px solid black;
 }
@@ -23,16 +20,6 @@
     margin: 10px;
     padding: 10px;
     
-}
-
-
-
-
-
-
-
-#searchResultScroll {
-    width: 70vw;
 }
 .listButton {
     width: 95%;
@@ -127,7 +114,6 @@
     width: 90%; 
     max-width: 600px;
 }
-
 .teamLogo {
     width: 25%;
     object-fit: cover;
