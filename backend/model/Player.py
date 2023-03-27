@@ -184,14 +184,6 @@ def search_players(
         ) -> list[Player]:
 
     with mysql_connection() as con, con.cursor() as cursor:
-        # query = (
-        #     "SELECT player_id "
-        #     "FROM PT "
-        #     "WHERE team_id = %s"
-        # )
-        # cursor.execute(query, (self.team_id,))
-        # result = cursor.fetchall()
-        # self.players = [x[0] for x in result]
 
         # TODO: proper escaping for player_name
         find_player = f"""select *
@@ -203,6 +195,5 @@ def search_players(
         result = cursor.fetchall()
         retVal = []
         for i in result:
-            print(i)
             retVal.append(Player(*i))
         return retVal

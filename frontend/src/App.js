@@ -26,7 +26,8 @@ function App() {
 
 
                     {/* main page that you are confronted with when starting the project */}
-                    <Route exact path="/main" element={<MainPage/>} />
+                    <Route exact path="/main/:id" element={<MainPage/>} />
+                    
                 
                     {/* Profile page for showing bookmarked players, teams and details about user */}
                     {/* later this should be changed such that it checks for user Auth */}

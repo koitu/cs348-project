@@ -7,7 +7,7 @@ export const defaultImageAddress = "https://img.pixers.pics/pho_wat(s3:700/FO/64
 
 export function ListButton (props) {
     let redirectUrl = "/playerPage/"
-    if (props.isTeam == "true") {
+    if (props.isTeam === "true") {
         redirectUrl = "/teamPage/"
     }
     return ( 

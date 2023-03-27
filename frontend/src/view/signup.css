@@ -1,0 +1,27 @@
+
+#signUpBox {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+    padding: 20px;
+    align-items: center;
+    justify-items: center;
+}
+
+.signUpItem1,
+.signUpItem2,
+.signUpItem3 {
+    grid-column: 1;
+}
+
+
+.signUpItem4,
+.signUpItem5 {
+    grid-column: 2;
+}
+
+.signUpItem6 {
+    grid-column: 3;
+    align-self: center;
+}
