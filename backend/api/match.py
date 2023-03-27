@@ -37,7 +37,7 @@ def create_match():
     team_away_score = body.get('team_away_score')
     season = body.get('season')
     date = body.get('date')
-    # location = body.get('location')
+    location = body.get('location')
 
     match = Match(
         team_home_id=team_home_id,
@@ -46,7 +46,7 @@ def create_match():
         team_away_score=team_away_score,
         season=season,
         date=date,
-        # location=location,
+        location=location,
     )
     match.create()
     return {'status': 'OK', 'match_id': match.match_id}
@@ -73,7 +73,7 @@ def modify_match(match_id: int):
     match.team_away_score = body.get('team_away_score')
     match.season = body.get('season')
     match.date = body.get('date')
-    # match.location = body.get('location')
+    match.location = body.get('location')
 
     match.update()
     return {'status': 'OK'}

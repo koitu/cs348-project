@@ -33,14 +33,14 @@ def create_team():
     team_name = body.get('team_name')
     logo_url = body.get('logo_url')
     since = body.get('since')
-    # location = body.get('location')
+    location = body.get('location')
 
     team = Team(
         abbrv=abbrv,
         team_name=team_name,
         logo_url=logo_url,
         since=since,
-        # location=location,
+        location=location,
     )
     team.create()
     return {'status': 'OK', 'team_id': team.team_id}
@@ -65,7 +65,7 @@ def modify_team(team_id: int):
     team.team_name = body.get('team_name')
     team.logo_url = body.get('logo_url')
     team.since = body.get('since')
-    # team.location = body.get('location')
+    team.location = body.get('location')
 
     team.update()
     return {'status': 'OK'}

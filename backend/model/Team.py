@@ -10,17 +10,16 @@ class Team:
     team_name = None
     logo_url = None
     since = None
-    # location = None
+    location = None
 
     def set(self, values: tuple = ()):
-        assert(len(values) == 5)
-        # assert(len(values) == 6)
+        assert(len(values) == 6)
         self.team_id, \
             self.abbrv, \
             self.team_name, \
             self.logo_url, \
-            self.since = values
-        # self.location
+            self.since, \
+            self.location = values
 
     def __init__(
         self,
@@ -29,7 +28,7 @@ class Team:
         team_name: str = None,
         logo_url: str = None,
         since: int = None,
-        # location: str = None,
+        location: str = None,
     ):
 
         self.set((
@@ -38,7 +37,7 @@ class Team:
             team_name,
             logo_url,
             since,
-            # location,
+            location,
             ))
 
         if logo_url is None:
@@ -51,7 +50,7 @@ class Team:
             self.team_name,
             self.logo_url,
             self.since,
-            # self.location,
+            self.location,
             )
 
     def to_dict(self) -> dict:
@@ -61,7 +60,7 @@ class Team:
             'team_name': self.team_name,
             'logo_url': self.logo_url,
             'since': self.since,
-            # 'location': self.location,
+            'location': self.location,
         }
 
     def valid(self) -> bool:
@@ -75,7 +74,7 @@ class Team:
     def check_team_id(self) -> None:
         if self.team_id is None:
             raise BadRequest("Please specify the team to retrieve")
-        if type(self.team_id) is not int:
+        if not self.team_id.isdigit():
             raise BadRequest("team_id is required to be an integer")
 
     def get(self) -> None:
@@ -149,7 +148,7 @@ class Team:
                 "team_name = %s "
                 "logo_url = %s "
                 "since  = %s "
-                # "location = %s "
+                "location = %s "
                 "WHERE team_id = %s"
             )
             cursor.execute(query, self.to_tuple()[1:] + (self.team_id,))

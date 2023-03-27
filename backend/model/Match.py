@@ -12,19 +12,18 @@ class Match:
     team_away_score = None
     season = None
     date = None
-    # location = None
+    location = None
 
     def set(self, values: tuple = ()) -> None:
-        assert(len(values) == 7)
-        # assert(len(values) == 8)
+        assert(len(values) == 8)
         self.match_id, \
             self.team_home_id, \
             self.team_away_id, \
             self.team_home_score, \
             self.team_away_score, \
             self.season, \
-            self.date = values
-        # self.location = values
+            self.date, \
+            self.location = values
 
     def __init__(
         self,
@@ -35,7 +34,7 @@ class Match:
         team_away_score: int = None,
         season: int = None,
         date: str = None,
-        # location: str = None,
+        location: str = None,
     ):
         self.set((
             match_id,
@@ -45,7 +44,7 @@ class Match:
             team_away_score,
             season,
             date,
-            # location,
+            location,
             ))
 
     def to_tuple(self) -> tuple:
@@ -57,7 +56,7 @@ class Match:
             self.team_away_score,
             self.season,
             self.date,
-            # self.location,
+            self.location,
         )
 
     def to_dict(self) -> dict:
@@ -69,7 +68,7 @@ class Match:
             'team_away_score': self.team_away_score,
             'season': self.season,
             'date': self.date,
-            # 'location': self.location,
+            'location': self.location,
         }
 
     def valid(self) -> bool:
@@ -83,7 +82,7 @@ class Match:
     def get(self) -> None:
         if self.match_id is None:
             raise BadRequest("Please specify the match to retrieve")
-        if type(self.match_id) is not int:
+        if not self.match_id.isdigit():
             raise BadRequest("match_id is required to be an integer")
 
         with mysql_connection() as con, con.cursor() as cursor:
@@ -159,7 +158,7 @@ class Match:
                 "team_away_score = %s "
                 "season = %s "
                 "game_date = %s "
-                # "location = %s "
+                "location = %s "
                 "WHERE game_id = %s"
             )
             cursor.execute(query, self.to_tuple()[1:] + (self.match_id,))
