@@ -43,7 +43,7 @@ def get_signin_result():
 
 
 @bp.route('/', methods=['POST'], strict_slashes=False)
-# @basic_exception_handler
+@basic_exception_handler
 def create_user():
     body = request.get_json()
 
@@ -64,16 +64,8 @@ def create_user():
         fullname=fullname,
         )
     
-    try:
-        user.create()
-    except UserExistsError:
-        return {'status': 'BAD', 'error': "exists"}
-    except UsernameExistsError:
-        return {'status': 'BAD', 'error': "username"}
-    except EmailExistsError:
-        return {'status': 'BAD', 'error': "email"}
-    else:
-        return {'status': 'OK', 'account_id': user.account_id}
+    
+    user.create()
 
 
 @bp.route('/<account_id>', methods=['GET'])

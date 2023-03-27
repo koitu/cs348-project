@@ -41,6 +41,7 @@ export function SingUpPage() {
                             alert("a user with this email already exits")
                             break;
                         default:
+                            alert("there was a problem trying to create your account")
                             break;
                     }
                 }
