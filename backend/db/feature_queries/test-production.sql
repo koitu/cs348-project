@@ -64,7 +64,7 @@ SELECT *
 FROM (SELECT game_id
       FROM GT
       WHERE team_id = 101) as got
-         JOIN Game USING (game_id)
+JOIN Game USING (game_id)
 ORDER BY game_date DESC
 LIMIT 5;
 
@@ -81,4 +81,4 @@ SELECT player_id, player_name, pic_url
 FROM (SELECT player_id
       FROM Fav_Players
       WHERE account_id = 200001) as fp
-         JOIN Player USING (player_id);
+JOIN Player USING (player_id);
