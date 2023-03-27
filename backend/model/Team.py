@@ -8,7 +8,7 @@ class Team:
     team_id = None
     abbrv = None
     team_name = None
-    logo = None
+    logo_url = None
     since = None
     location = None
 
@@ -17,7 +17,7 @@ class Team:
         self.team_id, \
             self.abbrv, \
             self.team_name, \
-            self.logo, \
+            self.logo_url, \
             self.since, \
             self.location = values
 
@@ -26,7 +26,7 @@ class Team:
         team_id: int = None,
         abbrv: str = None,
         team_name: str = None,
-        logo: str = None,
+        logo_url: str = None,
         since: int = None,
         location: str = None,
     ):
@@ -35,20 +35,20 @@ class Team:
             team_id,
             abbrv,
             team_name,
-            logo,
+            logo_url,
             since,
             location,
             ))
 
-        if logo is None:
-            self.logo = "/static/default_team_logo.png"
+        if logo_url is None:
+            self.logo_url = "/static/default_team_logo.png"
 
     def to_tuple(self) -> tuple:
         return (
             self.team_id,
             self.abbrv,
             self.team_name,
-            self.logo,
+            self.logo_url,
             self.since,
             self.location,
             )
@@ -58,7 +58,7 @@ class Team:
             'team_id': self.team_id,
             'abbrv': self.abbrv,
             'team_name': self.team_name,
-            'logo': self.logo,
+            'logo_url': self.logo_url,
             'since': self.since,
             'location': self.location,
         }
@@ -74,7 +74,7 @@ class Team:
     def check_team_id(self) -> None:
         if self.team_id is None:
             raise BadRequest("Please specify the team to retrieve")
-        if type(self.team_id) is not int:
+        if not self.team_id.isdigit():
             raise BadRequest("team_id is required to be an integer")
 
     def get(self) -> None:
@@ -117,6 +117,11 @@ class Team:
                 else:
                     # else rethrow error
                     raise err
+
+            except Exception as err:
+                con.rollback()
+                raise err
+
             else:
                 con.commit()
                 self.team_id = team_id
@@ -160,37 +165,45 @@ class Team:
             cursor.execute(query, (self.team_id,))
 
 
-def search_teams_played(player_id: str, fuzzy=True) -> list[Team]:
-    with mysql_connection() as con, con.cursor() as cursor:
-        find_teams = f"""select team_id, abbrv, team_name, logo_url 
-                         from Team join PT using(team_id)
-                         where player_id like '%{player_id}%'
-                         order by sesone desc """
-        cursor.execute(find_teams)
-        result = cursor.fetchall()
-        retVal = []
-        for i in result:
-            print(i)
-            retVal.append(Team( team_id= i[0],
-                                team_name= i[2],
-                                abbrv= i[1],
-                                logo= i[3]))
-        return retVal 
+def search_teams(
+        team_name: str,
+        players: list[str] = [],
+        ) -> list[Team]:
+    pn = len(players)
 
-def search_teams(team_name: str, fuzzy=True) -> list[Team]:
-    
+    query = (
+        "SELECT team_id "
+        "FROM Team "
+        "WHERE team_name LIKE %s"
+    )
+    filter = []
+    args = []
+
+    if team_name is not None:
+        filter.append(
+            "team_name LIKE %s"
+        )
+        args.append("%" + team_name + "%")
+
+    if pn > 0:
+        filter.append(
+            "(" + ",".join(["%s" for _ in range(pn)]) + ") "
+            "IN (SELECT player_id FROM PT WHERE PT.team_id = Team.team_id)"
+        )
+        args.extend(players)
+
+    if len(filter) > 0:
+        query += " WHERE "
+        query += " AND ".join(filter)
+    query += " LIMIT 10 "
+
     with mysql_connection() as con, con.cursor() as cursor:
-        find_teams = f"""select team_id, abbrv, team_name, logo_url 
-                         from Team 
-                         where team_name like '%{team_name}%'
-                         order by team_name asc
-                         limit 10"""
-        cursor.execute(find_teams)
+        print("query:", query)
+        print("args:", args)
+        cursor.execute(query, args)
         result = cursor.fetchall()
-        retVal = []
-        for i in result:
-            retVal.append(Team( team_id= i[0],
-                                team_name= i[2],
-                                abbrv= i[1],
-                                logo= i[3]))
-        return retVal 
+
+        teams = [Team(team_id=r[0]) for r in result]
+        for t in teams:
+            t.get()
+        return teams
