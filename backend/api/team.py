@@ -5,17 +5,18 @@ from errors import basic_exception_handler
 
 bp = Blueprint('team', __name__)
 
+# TODO update with modified SQL relations
 
 @bp.route('/', methods=['GET'], strict_slashes=False)
 @basic_exception_handler
 def get_teams():
-    body = request.get_json()
+    # body = request.get_json()
 
-    team_name = None
+    team_name = request.args.get("name", default=None, type=str)
 
-    if body:
-        if 'team_name' in request:
-            team_name = body['team_name']
+    # if body:
+    #     if 'team_name' in request:
+    #         team_name = body['team_name']
 
     teams = search_teams(
         team_name=team_name,

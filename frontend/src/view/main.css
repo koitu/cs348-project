@@ -1,3 +1,6 @@
+
+
+
 #mainPage {
     min-height: 100vh;
     display: flex;
@@ -5,4 +8,20 @@
     align-items: center;
     justify-content: center;
     font-size: calc(10px + 2vmin);
+}
+
+#searchBar {
+    width: 70vw;
+    height: 90vh;
+    margin: 1%;
+}
+
+#profileButton {
+    margin: 10px;
+    padding: 10px;
+}
+
+#profileButton:active {
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
 }

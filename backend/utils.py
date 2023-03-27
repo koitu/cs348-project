@@ -2,9 +2,6 @@ import configparser
 
 from contextlib import contextmanager
 from mysql.connector import connect, MySQLConnection
-from mysql.connector.errors import OperationalError, ProgrammingError
-
-from errors import DatabaseConnectionError, DatabasePermissionError
 
 
 config = configparser.ConfigParser()
@@ -48,21 +45,12 @@ def create_database(force=False):
 
 @contextmanager
 def mysql_connection() -> MySQLConnection:
-    try:
-        with connect(
-            user=db['user'],
-            host=db['host'],
-            port=db['port'],
-            password=db['password'],
-            database=db['database'],
-            autocommit=True,
-        ) as con:
-            yield con
-
-    # unable to connect
-    except OperationalError as e:
-        raise DatabaseConnectionError(str(e))
-
-    # invalid credentials, user does not exist, or invalid permissions
-    except ProgrammingError as e:
-        raise DatabasePermissionError(str(e))
+    with connect(
+        user=db['user'],
+        host=db['host'],
+        port=db['port'],
+        password=db['password'],
+        database=db['database'],
+        autocommit=True,
+    ) as con:
+        yield con

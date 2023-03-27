@@ -34,16 +34,19 @@ found in the project main directory, or
 ## Backend Samples
 Get a player from their player id:
 ```
-$ curl -s 127.0.0.1:5000/api/players/8478421 | json_pp
+$ curl -s 127.0.0.1:5000/api/players/8468510 | json_pp
 ```
 ```
 {
-   "birthday" : "Sat, 14 Dec 1996 00:00:00 GMT",
-   "nationality" : "CAN",
-   "picture" : null,
-   "player_id" : 8478421,
-   "player_name" : "A.J. Greer",
-   "position" : null
+   "birthday" : "Thu, 19 Feb 1981 00:00:00 GMT",
+   "height" : 193,
+   "nationality" : "MIN",
+   "number" : 42,
+   "picture" : "https://cms.nhl.bamgrid.com/images/headshots/current/168x168/skater.jpg",
+   "player_id" : 8468510,
+   "player_name" : "Jeff Taffe",
+   "position" : "L",
+   "weight" : 207
 }
 ```
 
@@ -51,26 +54,32 @@ Searching for players by their name:
 ```
 $ curl -s 127.0.0.1:5000/api/players/ -X GET \
    -H 'Content-Type: application/json' \
-   -d '{ "player_name": "en" }' | json_pp
+   -d '{ "player_name": "son" }' | json_pp
 ```
 ```
 {
    "players" : [
       {
-         "birthday" : "Tue, 29 Jul 1997 00:00:00 GMT",
-         "nationality" : "CAN",
-         "picture" : 196,
-         "player_id" : 8478425,
-         "player_name" : "Brendan Guhle",
-         "position" : "D"
+         "birthday" : "Sat, 30 Apr 1983 00:00:00 GMT",
+         "height" : 188,
+         "nationality" : "BOS",
+         "number" : 40,
+         "picture" : "https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8469534.jpg",
+         "player_id" : 8469534,
+         "player_name" : "Aaron Johnson",
+         "position" : "D",
+         "weight" : 204
       },
       {
-         "birthday" : "Fri, 23 May 1997 00:00:00 GMT",
-         "nationality" : "USA",
-         "picture" : 182,
-         "player_id" : 8478424,
-         "player_name" : "Jansen Harkins",
-         "position" : "C"
+         "birthday" : "Wed, 30 Nov 1988 00:00:00 GMT",
+         "height" : 188,
+         "nationality" : "FLA",
+         "number" : 35,
+         "picture" : "https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8476200.jpg",
+         "player_id" : 8476200,
+         "player_name" : "Paul Thompson",
+         "position" : "R",
+         "weight" : 200
       }
    ]
 }

@@ -1,10 +1,15 @@
 from flask import Blueprint, request
 from model.User import User, search_users
-from errors import basic_exception_handler
+from errors import basic_exception_handler, UserExistsError, UsernameExistsError, EmailExistsError
+from model.Account import check_account
 
 
 bp = Blueprint('user', __name__)
 
+# TODO update with modified SQL relations
+
+# TODO: create endpoints for admin checkings and updates?
+# requires privlages to be able to set
 
 @bp.route('/', methods=['GET'], strict_slashes=False)
 @basic_exception_handler
@@ -24,16 +29,23 @@ def get_users():
     # TODO: stream the response so we can have pagementation
     return {'users': [user.to_dict() for user in users]}
 
+@bp.route('/signIn', methods=['GET'], strict_slashes=False)
+@basic_exception_handler
+def get_signin_result():
+    username = request.args.get("username", default=None, type=str)
+    password = request.args.get("password", default=None, type=str)
+
+    result = check_account(username, password, True)
+    if len(result) == 1:
+        return {'status': "OK", "id": result[0]}
+    else :
+        return {'status': "BAD"}
+
 
 @bp.route('/', methods=['POST'], strict_slashes=False)
 @basic_exception_handler
 def create_user():
     body = request.get_json()
-
-    username = None
-    email = None
-    password = None
-    fullname = None
 
     if body:
         if 'username' in body:
@@ -51,8 +63,9 @@ def create_user():
         password=password,
         fullname=fullname,
         )
+    
+    
     user.create()
-    return {'status': 'OK', 'account_id': user.account_id}
 
 
 @bp.route('/<account_id>', methods=['GET'])
