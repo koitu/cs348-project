@@ -22,6 +22,14 @@ relationships = [
     "Fav_Teams",
 ]
 
+data = [
+    "player",
+    "team",
+    "game",
+    "account",
+    "user",
+]
+
 
 @click.command()
 @click.option("--init-db",
@@ -39,23 +47,30 @@ def app(init_db):
                 print("\nEntity tables:")
                 for e in entities:
                     print(f"Creating table {e}: ", end="")
-                    with open("db/entities/" + e + ".sql") as f:
+                    with open(f"db/entities/{e}.sql") as f:
                         cursor.execute(f.read())
                     print("OK")
 
                 print("\nRelationship tables:")
                 for r in relationships:
                     print(f"Creating table {r}: ", end="")
-                    with open("db/relationships/" + r + ".sql") as f:
+                    with open(f"db/relationships/{r}.sql") as f:
                         cursor.execute(f.read())
                     print("OK")
 
-                print("\nInserting sample data: ", end="")
+                print("\nSample data: ", end="")
                 with open("db/SampleData.sql") as f:
                     for d in f.read().split("-- SPLIT --"):
-                        # print(d)
+                        print(d)
                         cursor.execute(d)
                 print("OK")
+
+                # print("\nProduction data:")
+                # for d in data:
+                #     print(f"Inserting {d} data: ", end="")
+                #     with open(f"db/data/{d}.sql") as f:
+                #         cursor.execute(f.read())
+                #     print("OK")
 
         # # to double check that all tables were inserted
         # with mysql_connection() as con:
@@ -84,4 +99,5 @@ if __name__ == "__main__":
     # to init the databases run:
     # python app.py --init-db
     app()
-    # Add versbose (backend command result) and double verbose (the exact command the backend is running)
+    # add versbose (backend command result)
+    # add double verbose (the exact command the backend is running)

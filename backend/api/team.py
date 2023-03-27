@@ -5,24 +5,23 @@ from errors import basic_exception_handler
 
 bp = Blueprint('team', __name__)
 
-# TODO update with modified SQL relations
 
+# GET http://127.0.0.1/api/players?name=<name>
+# GET http://127.0.0.1/api/players?player_ids=<player1>,<player2>
 @bp.route('/', methods=['GET'], strict_slashes=False)
 @basic_exception_handler
 def get_teams():
-    # body = request.get_json()
+    args = request.args
+    team_name = args.get("name")
+    players = []
 
-    team_name = request.args.get("name", default=None, type=str)
-
-    # if body:
-    #     if 'team_name' in request:
-    #         team_name = body['team_name']
+    if 'player_ids' in args:
+        players = args.get('team_ids').split(",")
 
     teams = search_teams(
         team_name=team_name,
-        fuzzy=True,
+        players=players,
     )
-    # TODO: stream the response so we can have pagementation
     return {'teams': [team.to_dict() for team in teams]}
 
 
@@ -30,27 +29,18 @@ def get_teams():
 @basic_exception_handler
 def create_team():
     body = request.get_json()
-
-    team_name = None
-    start_date = None
-    league = None
-    location = None
-
-    if body:
-        if 'team_name' in body:
-            team_name = body['team_name']
-        if 'start_date' in body:
-            start_date = body['start_date']
-        if 'league' in body:
-            league = body['league']
-        if 'location' in body:
-            location = body['location']
+    abbrv = body.get('abbrv')
+    team_name = body.get('team_name')
+    logo_url = body.get('logo_url')
+    since = body.get('since')
+    # location = body.get('location')
 
     team = Team(
+        abbrv=abbrv,
         team_name=team_name,
-        start_date=start_date,
-        league=league,
-        location=location,
+        logo_url=logo_url,
+        since=since,
+        # location=location,
     )
     team.create()
     return {'status': 'OK', 'team_id': team.team_id}
@@ -71,15 +61,11 @@ def modify_team(team_id: int):
     team.get()
 
     body = request.get_json()
-    if body:
-        if 'team_name' in body:
-            team.team_name = body['team_name']
-        if 'start_date' in body:
-            team.start_date = body['start_date']
-        if 'league' in body:
-            team.league = body['league']
-        if 'location' in body:
-            team.location = body['location']
+    team.abbrv = body.get('abbrv')
+    team.team_name = body.get('team_name')
+    team.logo_url = body.get('logo_url')
+    team.since = body.get('since')
+    # team.location = body.get('location')
 
     team.update()
     return {'status': 'OK'}

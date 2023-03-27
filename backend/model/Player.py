@@ -1,4 +1,8 @@
-from errors import BadRequest, PlayerExistsError, PlayerNotFoundError
+from errors import (
+    BadRequest,
+    PlayerExistsError,
+    PlayerNotFoundError,
+)
 from utils import mysql_connection
 
 from mysql.connector import errorcode, IntegrityError
@@ -132,6 +136,11 @@ class Player:
                 else:
                     # else rethrow error
                     raise err
+
+            except Exception as err:
+                con.rollback()
+                raise err
+
             else:
                 con.commit()
                 self.player_id = player_id
@@ -177,23 +186,42 @@ class Player:
             cursor.execute(query, (self.player_id,))
 
 
-# TODO finding list of players that belong to team x will be handled by search_players
 def search_players(
-        player_name: str,
-        fuzzy=True
-        ) -> list[Player]:
+        player_name: str = None,
+        team_id: str = None,
+) -> list[Player]:
+    query = (
+        "SELECT player_id "
+        "FROM Player LEFT JOIN PT"
+    )
+    filter = []
+    args = []
+
+    if team_id is not None:
+        filter.append(
+            "team_id = %s"
+        )
+        args.append(team_id)
+
+    if player_name is not None:
+        filter.append(
+            "player_name LIKE %s"
+        )
+        args.append(player_name + "%")
+
+    if len(filter) > 0:
+        query += " WHERE "
+        query += " AND ".join(filter)
+    query += " ORDER BY player_name asc "
+    query += " LIMIT 10 "
 
     with mysql_connection() as con, con.cursor() as cursor:
-
-        # TODO: proper escaping for player_name
-        find_player = f"""select *
-                         from Player
-                         where player_name like '%{player_name}%'
-                         order by player_name asc
-                         limit 10"""
-        cursor.execute(find_player)
+        print("query:", query)
+        print("args:", args)
+        cursor.execute(query, args)
         result = cursor.fetchall()
-        retVal = []
-        for i in result:
-            retVal.append(Player(*i))
-        return retVal
+
+        players = [Player(player_id=r[0]) for r in result]
+        for p in players:
+            p.get()
+        return players
