@@ -50,10 +50,9 @@ ORDER BY game_date DESC;
 
 -- 5b. Get recent games of a team (ordered by date)
 SELECT *
-FROM (SELECT game_id
-      FROM GT
-      WHERE team_id = 101) AS got
-JOIN Game USING (game_id)
+FROM Game
+WHERE team_home_id = 101
+   OR team_away_id = 101
 ORDER BY game_date DESC;
 
  -- 6a. Add favorite Player to a User

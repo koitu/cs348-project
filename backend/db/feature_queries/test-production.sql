@@ -26,8 +26,8 @@ SELECT DISTINCT player_id, player_name, pic_url
 FROM (SELECT *
       FROM Player
       WHERE player_name LIKE '%ab%') AS pab
-         JOIN PG USING (player_id)
-         JOIN Game USING (game_id)
+JOIN PG USING (player_id)
+JOIN Game USING (game_id)
 ORDER BY game_date DESC
 LIMIT 10;
 
@@ -61,10 +61,9 @@ LIMIT 5;
 
 -- 5b. Get 5 recent games of a team (ordered by date)
 SELECT *
-FROM (SELECT game_id
-      FROM GT
-      WHERE team_id = 101) AS got
-JOIN Game USING (game_id)
+FROM Game
+WHERE team_home_id = 101
+   OR team_away_id = 101
 ORDER BY game_date DESC
 LIMIT 5;
 
