@@ -25,7 +25,7 @@ WHERE username = 'shayanmk'
 SELECT DISTINCT player_id, player_name, pic_url
 FROM (SELECT *
       FROM Player
-      WHERE player_name LIKE '%ab%') pab
+      WHERE player_name LIKE '%ab%') AS pab
          JOIN PG USING (player_id)
          JOIN Game USING (game_id)
 ORDER BY game_date DESC
@@ -54,7 +54,7 @@ WHERE team_id = 101;
 SELECT *
 FROM (SELECT game_id, points
       FROM PG
-      WHERE player_id = 8469534) as gop
+      WHERE player_id = 8469534) AS gop
 JOIN Game USING (game_id)
 ORDER BY game_date DESC
 LIMIT 5;
@@ -63,7 +63,7 @@ LIMIT 5;
 SELECT *
 FROM (SELECT game_id
       FROM GT
-      WHERE team_id = 101) as got
+      WHERE team_id = 101) AS got
 JOIN Game USING (game_id)
 ORDER BY game_date DESC
 LIMIT 5;
@@ -80,5 +80,5 @@ VALUES (200001, 101);
 SELECT player_id, player_name, pic_url
 FROM (SELECT player_id
       FROM Fav_Players
-      WHERE account_id = 200001) as fp
+      WHERE account_id = 200001) AS fp
 JOIN Player USING (player_id);

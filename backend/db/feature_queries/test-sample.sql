@@ -44,7 +44,7 @@ WHERE team_id = 101;
 SELECT *
 FROM (SELECT game_id, points
       FROM PG
-      WHERE player_id = 8469534) as gop
+      WHERE player_id = 8469534) AS gop
 JOIN Game USING (game_id)
 ORDER BY game_date DESC;
 
@@ -52,7 +52,7 @@ ORDER BY game_date DESC;
 SELECT *
 FROM (SELECT game_id
       FROM GT
-      WHERE team_id = 101) as got
+      WHERE team_id = 101) AS got
 JOIN Game USING (game_id)
 ORDER BY game_date DESC;
 
@@ -66,7 +66,7 @@ INSERT INTO Fav_Teams VALUES (200001, 101);
 SELECT player_id, player_name, pic_url
 FROM (SELECT player_id
       FROM Fav_Players
-      WHERE account_id = 200001) as fp
+      WHERE account_id = 200001) AS fp
 JOIN Player USING (player_id);
 
 
