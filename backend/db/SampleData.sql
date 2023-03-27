@@ -33,14 +33,14 @@ INSERT INTO Player VALUES
 -- SPLIT --
 
 INSERT into Team VALUES
-	(101, "ANA", "Anaheim Ducks", "https://upload.wikimedia.org/wikipedia/en/thumb/7/72/Anaheim_Ducks.svg/330px-Anaheim_Ducks.svg.png", "1993"),
-	(103, "BOS", "Boston Bruins", "https://upload.wikimedia.org/wikipedia/en/thumb/1/12/Boston_Bruins.svg/800px-Boston_Bruins.svg.png", "1924"),
-    (113, "FLA", "Florida Panthers", "https://upload.wikimedia.org/wikipedia/en/thumb/4/43/Florida_Panthers_2016_logo.svg/330px-Florida_Panthers_2016_logo.svg.png", "1993"),
-    (114, "LAK", "Los Angeles Kings", "https://upload.wikimedia.org/wikipedia/en/thumb/6/63/Los_Angeles_Kings_logo.svg/330px-Los_Angeles_Kings_logo.svg.png", "1967"),
-	(115, "MIN", "Minnesota Wild", "https://upload.wikimedia.org/wikipedia/en/thumb/1/1b/Minnesota_Wild.svg/330px-Minnesota_Wild.svg.png", "2000"),
-	(120, "NYR", "New York Rangers", "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/New_York_Rangers.svg/330px-New_York_Rangers.svg.png", "1926"),
-	(124, "SEA", "Seattle Kraken", "https://upload.wikimedia.org/wikipedia/en/thumb/4/48/Seattle_Kraken_official_logo.svg/330px-Seattle_Kraken_official_logo.svg.png", "2021"),
-	(128, "TOR", "Toronto Maple Leafs", "https://upload.wikimedia.org/wikipedia/en/thumb/b/b6/Toronto_Maple_Leafs_2016_logo.svg/330px-Toronto_Maple_Leafs_2016_logo.svg.png", "1917");
+	(101, 'ANA', 'Anaheim Ducks', 'https://upload.wikimedia.org/wikipedia/en/thumb/7/72/Anaheim_Ducks.svg/330px-Anaheim_Ducks.svg.png', '1993'),
+	(103, 'BOS', 'Boston Bruins', 'https://upload.wikimedia.org/wikipedia/en/thumb/1/12/Boston_Bruins.svg/800px-Boston_Bruins.svg.png', '1924'),
+    (113, 'FLA', 'Florida Panthers', 'https://upload.wikimedia.org/wikipedia/en/thumb/4/43/Florida_Panthers_2016_logo.svg/330px-Florida_Panthers_2016_logo.svg.png', '1993'),
+    (114, 'LAK', 'Los Angeles Kings', 'https://upload.wikimedia.org/wikipedia/en/thumb/6/63/Los_Angeles_Kings_logo.svg/330px-Los_Angeles_Kings_logo.svg.png', '1967'),
+	(115, 'MIN', 'Minnesota Wild', 'https://upload.wikimedia.org/wikipedia/en/thumb/1/1b/Minnesota_Wild.svg/330px-Minnesota_Wild.svg.png', '2000'),
+	(120, 'NYR', 'New York Rangers', 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/New_York_Rangers.svg/330px-New_York_Rangers.svg.png', '1926'),
+	(124, 'SEA', 'Seattle Kraken', 'https://upload.wikimedia.org/wikipedia/en/thumb/4/48/Seattle_Kraken_official_logo.svg/330px-Seattle_Kraken_official_logo.svg.png', '2021'),
+	(128, 'TOR', 'Toronto Maple Leafs', 'https://upload.wikimedia.org/wikipedia/en/thumb/b/b6/Toronto_Maple_Leafs_2016_logo.svg/330px-Toronto_Maple_Leafs_2016_logo.svg.png', '1917');
 
 -- SPLIT --
 
@@ -73,12 +73,14 @@ INSERT INTO PT VALUES
 -- SPLIT --
 
 INSERT INTO Game VALUES
-    (2015020731, 114, 115, NULL, NULL, 2015, "2016-01-26", NULL),
-    (2015021066, 120, 128, NULL, NULL, 2015, "2016-03-18", NULL),
-    (2015020738, 101, 114, NULL, NULL, 2015, "2016-01-28", NULL),
-    (2015022888, 114, 120, NULL, NULL, 2015, "2016-03-13", NULL),
-    (2015022891, 101, 115, NULL, NULL, 2015, "2016-01-22", NULL),
-    (2015022883, 113, 115, NULL, NULL, 2015, "2016-03-12", NULL);
+    (2015020731, 114, 115, NULL, NULL, 2015, "2016-01-26"),
+    (2015021066, 120, 128, NULL, NULL, 2015, "2016-03-18"),
+    (2015020738, 101, 114, NULL, NULL, 2015, "2016-01-28"),
+    (2015022888, 114, 120, NULL, NULL, 2015, "2016-03-13"),
+    (2015022891, 101, 115, NULL, NULL, 2015, "2016-01-22"),
+    (2015022883, 113, 115, NULL, NULL, 2015, "2016-03-12");
+    (2015020731, 114, 115, 2015, '2016-01-26'),
+    (2015021066, 120, 128, 2015, '2016-03-18');
 
 -- SPLIT --
 

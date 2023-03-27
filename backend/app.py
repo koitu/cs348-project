@@ -34,11 +34,14 @@ data = [
 @click.command()
 @click.option("--init-db",
               is_flag=True,
-              help="Connects to database and creates tables")
-def app(init_db):
+              help="Creates the database tables and loads in the data")
+@click.option("--init-db-sample",
+              is_flag=True,
+              help="Creates the database tables and loads in the sample data")
+def app(init_db, init_db_sample):
     app = Flask(__name__)
 
-    if init_db:
+    if init_db or init_db_sample:
         create_database()
 
         with mysql_connection() as con:
@@ -58,19 +61,21 @@ def app(init_db):
                         cursor.execute(f.read())
                     print("OK")
 
-                print("\nSample data: ", end="")
-                with open("db/SampleData.sql") as f:
-                    for d in f.read().split("-- SPLIT --"):
-                        print(d)
-                        cursor.execute(d)
-                print("OK")
+                if init_db_sample:
+                    print("\nSample data: ", end="")
+                    with open("db/SampleData.sql") as f:
+                        for d in f.read().split("-- SPLIT --"):
+                            # print(d)
+                            cursor.execute(d)
+                    print("OK")
 
-                # print("\nProduction data:")
-                # for d in data:
-                #     print(f"Inserting {d} data: ", end="")
-                #     with open(f"db/data/{d}.sql") as f:
-                #         cursor.execute(f.read())
-                #     print("OK")
+                else:
+                    print("\nProduction data:")
+                    for d in data:
+                        print(f"Inserting {d} data: ", end="")
+                        with open(f"db/data/{d}.sql") as f:
+                            cursor.execute(f.read())
+                        print("OK")
 
         # # to double check that all tables were inserted
         # with mysql_connection() as con:
