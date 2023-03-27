@@ -184,7 +184,7 @@ def search_teams(
         filter.append(
             "team_name LIKE %s"
         )
-        args.append(team_name + "%")
+        args.append("%" + team_name + "%")
 
     if pn > 0:
         filter.append(

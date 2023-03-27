@@ -207,7 +207,7 @@ def search_players(
         filter.append(
             "player_name LIKE %s"
         )
-        args.append(player_name + "%")
+        args.append("%" + player_name + "%")
 
     if len(filter) > 0:
         query += " WHERE "

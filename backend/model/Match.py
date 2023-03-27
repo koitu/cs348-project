@@ -218,7 +218,8 @@ def search_matches(
     if len(filter) > 0:
         query += " WHERE "
         query += " AND ".join(filter)
-    query += " LIMIT 10 "
+    query += " ORDER BY game_date DESC"
+    query += " LIMIT 10"
 
     with mysql_connection() as con, con.cursor() as cursor:
         print("query:", query)
