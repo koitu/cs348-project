@@ -1,5 +1,4 @@
 import pandas as pd
-import sys
 from urllib.request import urlopen
 
 
