@@ -23,4 +23,14 @@ INSERT INTO User VALUES
 	(90795, 'Mary Edwards', 'https://randomuser.me/api/portraits/thumb/women/16.jpg'),
 	(83058, 'Brittany Grant', 'https://randomuser.me/api/portraits/thumb/women/21.jpg'),
 	(79821, 'Jorge Ramos', 'https://randomuser.me/api/portraits/thumb/men/14.jpg'),
-	(18706, 'Axel Arnaud', 'https://randomuser.me/api/portraits/thumb/men/7.jpg')
+	(18706, 'Axel Arnaud', 'https://randomuser.me/api/portraits/thumb/men/7.jpg'),
+  (200001, 'Alice', 'https://upload.wikimedia.org/wikipedia/commons/4/4d/Cat_November_2010-1a.jpg'),
+  (200002, 'Bob', 'https://upload.wikimedia.org/wikipedia/commons/6/6b/Dog_%28Canis_lupus_familiaris%29_%283%29.jpg'),
+  (200003, 'John', 'https://frontofficesports.com/wp-content/uploads/2020/03/USATSI_14041913-scaled.jpg'),
+  (200004, 'Ted Johnson', 'https://cms.nhl.bamgrid.com/images/photos/316233360/1024x576/cut.jpg'),
+  (200005, 'Alexander', 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Alex_Ovechkin_2018-05-21.jpg/230px-Alex_Ovechkin_2018-05-21.jpg'),
+  (200006, 'Victor', 'https://i.redd.it/5pf0gzyzmxf41.jpg'),
+  (200007, 'Sidney Crosby', 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Sidney_Crosby_2019-01-06_1.jpg/230px-Sidney_Crosby_2019-01-06_1.jpg'),
+  (200008, 'Joe', 'https://www.tsn.ca/polopoly_fs/1.1307467.1558127740!/fileimage/httpImage/image.jpg_gen/derivatives/landscape_620/latvia-fans-world-hockey-championship.jpg'),
+  (200009, 'Adam', 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/AdamSchefter.jpeg/220px-AdamSchefter.jpeg'),
+  (200010, 'Don Stewart Cherry', 'https://etcanada.com/wp-content/uploads/2019/02/gettyimages-617296766-1.jpg?quality=80&strip=all');
