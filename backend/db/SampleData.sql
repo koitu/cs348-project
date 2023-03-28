@@ -73,22 +73,20 @@ INSERT INTO PT VALUES
 -- SPLIT --
 
 INSERT INTO Game VALUES
-    (2015020731, 114, 115, NULL, NULL, 2015, "2016-01-26", NULL),
-    (2015021066, 120, 128, NULL, NULL, 2015, "2016-03-18", NULL),
-    (2015020738, 101, 114, NULL, NULL, 2015, "2016-01-28", NULL),
-    (2015022888, 114, 120, NULL, NULL, 2015, "2016-03-13", NULL),
-    (2015022891, 101, 115, NULL, NULL, 2015, "2016-01-22", NULL),
-    (2015022883, 113, 115, NULL, NULL, 2015, "2016-03-12", NULL);
+    (2015020731, 114, 115, NULL, NULL, 2015, '2016-01-26', NULL),
+    (2015021066, 120, 128, NULL, NULL, 2015, '2016-03-18', NULL),
+    (2015020738, 101, 114, NULL, NULL, 2015, '2016-01-28', NULL),
+    (2015022888, 114, 120, NULL, NULL, 2015, '2016-03-13', NULL),
+    (2015022891, 101, 115, NULL, NULL, 2015, '2016-01-22', NULL),
+    (2015022883, 113, 115, NULL, NULL, 2015, '2016-03-12', NULL);
 
 -- SPLIT --
 
 INSERT INTO PG VALUES
-	(2015021066, 8479447, 4),
-    (2015021066, 8473712, 3),
-	(2015021066, 8469534, 3),
-	(2015020731, 8469534, 7);
-
-    (2015021066, 8473712, 3);
+	(2015021066, 8479447),
+    (2015021066, 8473712),
+	(2015021066, 8469534),
+	(2015020731, 8469534);
 
 -- SPLIT --
 
@@ -116,7 +114,7 @@ INSERT INTO Account VALUES
 	(90795, 'bluegorilla896', 'mary.edwards@example.com', 'wtvooi7RH7UeRm'),
 	(83058, 'purplefish418', 'brittany.grant@example.com', 'UCl2OTqu7Gz29X8Rtj9'),
 	(79821, 'orangegorilla323', 'jorge.ramos@example.com', 'KxtolVomfGsTdDh3eFQH'),
-	(18706, 'bluepanda703', 'axel.arnaud@example.com', 'yFwFs823jGsaj9mP')
+	(18706, 'bluepanda703', 'axel.arnaud@example.com', 'yFwFs823jGsaj9mP');
 
 -- SPLIT --
 
@@ -144,4 +142,4 @@ INSERT INTO User VALUES
 	(90795, 'Mary Edwards', 'https://randomuser.me/api/portraits/thumb/women/16.jpg'),
 	(83058, 'Brittany Grant', 'https://randomuser.me/api/portraits/thumb/women/21.jpg'),
 	(79821, 'Jorge Ramos', 'https://randomuser.me/api/portraits/thumb/men/14.jpg'),
-	(18706, 'Axel Arnaud', 'https://randomuser.me/api/portraits/thumb/men/7.jpg')
+	(18706, 'Axel Arnaud', 'https://randomuser.me/api/portraits/thumb/men/7.jpg');
