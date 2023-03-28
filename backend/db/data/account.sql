@@ -37,5 +37,5 @@ INSERT INTO Account VALUES
   (200006, 'VictorUser', 'randomemail@hotmail.com', '123456' ),
   (200007, 'SidtheKid', 'crosby@yahoo.com', 'penguinsrule!' ),
   (200008, 'hockeyfan', 'newhockeyfan@yahoo.com', 'hockey_is_great'),
-  (200009, 'Adam Schefter', 'schefter@yahoo.com', 'a_sports_reporter')
+  (200009, 'Adam Schefter', 'schefter@yahoo.com', 'a_sports_reporter'),
   (200010, 'TheDonCherry', 'thedoncherry@aol.com', 'I_got_fired_from_hockey_night_in_canada_:(');
