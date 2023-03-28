@@ -224,7 +224,10 @@ def search_matches(
         cursor.execute(query, args)
         result = cursor.fetchall()
 
-    return [Match(*r) for r in result]
+        matches = [Match(match_id=r[0]) for r in result]
+        for m in matches:
+            m.get()
+        return matches
 
 
 # TODO

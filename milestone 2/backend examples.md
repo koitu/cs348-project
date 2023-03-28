@@ -16,13 +16,15 @@ $ curl -s 127.0.0.1:5000/api/users?username=redpuppy
 We see that there does not exist any users with username `redpuppy` so we register
 ```
 $ curl -s 127.0.0.1:5000/api/users/ -X POST \
+```
+```
    -H 'Content-Type: application/json' \
    -d '{ "username": "redpuppy", "email": "someone@something.com", "password": "123", "fullname": "Full Name"}'
 {"status":"OK"}
 ```
 Now the user has been created
 ```
-$ curl -s 127.0.0.1:5000/api/users?username=redpuppy
+$ curl -s 127.0.0.1:5000/api/users?username=redpuppy | json_pp
 ```
 ```
 {
@@ -40,11 +42,18 @@ $ curl -s 127.0.0.1:5000/api/users?username=redpuppy
 ```
 
 ### Attempt to login
+Logging in with the incorrect password
 ```
 $ curl -s "127.0.0.1:5000/api/users/login?username=yellowswan194&password=wrong"
+```
+```
 {"status":"BAD"}
-
+```
+Logging in with the correct password
+```
 $ curl -s "127.0.0.1:5000/api/users/login?username=yellowswan194&password=iVFEhBJHCMGP0GI"
+```
+```
 {"id":81262,"status":"OK"}
 ```
 
@@ -101,7 +110,8 @@ $ curl -s 127.0.0.1:5000/api/players?name=Jason | json_pp
 ```
 
 ## Team
-Get players in a team:
+
+### Get players in a team
 ```
 $ curl -s 127.0.0.1:5000/api/players?team_id=200 | json_pp
 ```
