@@ -18,16 +18,17 @@ class User:
     profile_pic = None
 
     def set(self, values: tuple = ()):
-        assert(len(values) == 5)
+        assert(len(values) == 6)
         self.account_id, \
             self.username, \
             self.email, \
+            self.password, \
             self.fullname, \
             self.profile_pic = values
 
     def __init__(
         self,
-        account_id: int = None,
+        account_id: str = None,
         username: str = None,
         email: str = None,
         fullname: str = None,
@@ -37,9 +38,10 @@ class User:
         is_admin: bool = None,
     ):
         self.set((
-            account_id,
+            str(account_id),
             username,
             email,
+            password,
             fullname,
             profile_pic
             ))
@@ -47,7 +49,6 @@ class User:
         if profile_pic is None:
             self.profile_pic = "/static/default_profile_pic.png"
 
-        self.password = password
         self._is_admin = is_admin
 
     def to_tuple(self) -> tuple:
@@ -108,7 +109,8 @@ class User:
         with mysql_connection() as con, con.cursor() as cursor:
             # requires left join since an admin may not have entry in the User
             query = (
-                "SELECT account_id, username, email, fullname, pic_url "
+                "SELECT account_id, username, email, "
+                "acc_pass, full_name, pic_url "
                 "FROM Account LEFT JOIN User using(account_id) "
                 "where account_id = %s"
             )
@@ -146,16 +148,6 @@ class User:
                 if account_id is None:
                     account_id = cursor.lastrowid
 
-                if self._is_admin:
-                    query = (
-                        "INSERT INTO Admin "
-                        "(account_id) "
-                        "VALUES (%s)"
-                    )
-                    cursor.execute(query, (
-                        account_id,
-                    ))
-
                 if self.fullname is not None:
                     query = (
                         "INSERT INTO User "
@@ -167,6 +159,17 @@ class User:
                         self.fullname,
                         self.profile_pic,
                     ))
+
+                if self._is_admin:
+                    query = (
+                        "INSERT INTO Admin "
+                        "(account_id) "
+                        "VALUES (%s)"
+                    )
+                    cursor.execute(query, (
+                        account_id,
+                    ))
+
             except IntegrityError as err:
                 con.rollback()
 
@@ -189,6 +192,11 @@ class User:
                 else:
                     # else rethrow error
                     raise err
+
+            except Exception as err:
+                con.rollback()
+                raise err
+
             else:
                 con.commit()
                 self.account_id = account_id
@@ -198,50 +206,143 @@ class User:
         new = self.to_tuple()
 
         # get old values into tuple
-        self.check_account_id()
         self.get()
         merge = self.to_tuple()
-
-        # TODO self.get() does not return password
 
         # overwrite old values with new values
         for i, x in enumerate(new):
             if x is not None:
                 merge[i] = x
         self.set(merge)
-        with mysql_connection() as con, con.cursor() as cursor:
-            query = (
-                "UPDATE Account SET "
-                "username = %s, "
-                "email = %s, "
-                "acc_pass = %s "
-                "WHERE account_id = %s"
-            )
-            cursor.execute(query, (
-                self.username,
-                self.email,
-                self.password, # TODO only update pass at certain times (now is not the time)
-                self.account_id,
-            ))
 
-        # TODO
-        # perform SQL query to update user
-        # if the user does not exist then raise UserNotFoundError
-        # permission checking will be handled by caller
-        pass
+        with mysql_connection() as con, con.cursor() as cursor:
+            con.start_transaction()
+            try:
+                query = (
+                    "UPDATE Account SET "
+                    "username = %s, "
+                    "email = %s, "
+                    "acc_pass = %s "
+                    "WHERE account_id = %s"
+                )
+                cursor.execute(query, (
+                    self.username,
+                    self.email,
+                    self.password,
+                    self.account_id,
+                ))
+
+                if self.fullname is not None:
+                    query = (
+                        "UPDATE User SET "
+                        "full_name = %s "
+                        "pic_url = %s "
+                        "WHERE account_id = %s"
+                    )
+                    cursor.execute(query, (
+                        self.fullname,
+                        self.profile_pic,
+                        self.account_id,
+                    ))
+
+            except Exception as err:
+                con.rollback()
+                raise err
+
+            else:
+                con.commit()
 
     def delete(self) -> None:
-        self.check_account_id()
+        # check that player exists before attempting to delete
+        self.get()
 
-        # TODO
-        # perform SQL query to delete user
-        # if the user does not exist then raise UserNotFoundError
-        # permission checking will be handled by caller
-        pass
+        with mysql_connection() as con, con.cursor() as cursor:
+            con.start_transaction()
+            try:
+                query = (
+                    "DELETE FROM Account "
+                    "WHERE account_id = %s"
+                )
+                cursor.execute(query, (self.account_id,))
+
+                if self.fullname is not None:
+                    query = (
+                        "DELETE FROM User "
+                        "WHERE account_id = %s"
+                    )
+                    cursor.execute(query, (self.account_id,))
+
+                if self._is_admin:
+                    query = (
+                        "DELETE FROM Admin "
+                        "WHERE account_id = %s "
+                    )
+                    cursor.execute(query, (self.account_id,))
+
+            except Exception as err:
+                con.rollback()
+                raise err
+
+            else:
+                con.commit()
 
 
-def search_users(username: str, fuzzy=True) -> list[User]:
-    # perform a SQL fuzzy search for a certain username
-    # TODO
-    pass
+def search_users(
+        username: str = None,
+        fullname: str = None,
+        ) -> list[User]:
+    query = (
+        "SELECT account_id "
+        "FROM Account "
+    )
+    filter = []
+    args = []
 
+    if username is not None:
+        filter.append(
+            "username LIKE %s"
+        )
+        args.append(username + "%")
+
+    if fullname is not None:
+        filter.append(
+            "full_name LIKE %s"
+        )
+        args.append(fullname + "%")
+
+    if len(filter) > 0:
+        query += " WHERE "
+        query += " AND ".join(filter)
+    query += " LIMIT 10 "
+
+    with mysql_connection() as con, con.cursor() as cursor:
+        print("query:", query)
+        print("args:", args)
+        cursor.execute(query, args)
+        result = cursor.fetchall()
+
+        users = [User(account_id=r[0]) for r in result]
+        for u in users:
+            u.get()
+        return users
+
+
+# no security, just checks if (username,password) pair exists in db
+def login(
+        username: str = None,
+        password: str = None,
+        ):
+    if username is None or password is None:
+        return None
+
+    with mysql_connection() as con, con.cursor() as cursor:
+        query = (
+            "SELECT account_id "
+            "FROM Account "
+            "WHERE username = %s AND acc_pass = %s"
+        )
+        cursor.execute(query, (username, password))
+        result = cursor.fetchall()
+        if len(result) == 0:
+            return None
+        return result[0][0]

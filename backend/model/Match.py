@@ -82,7 +82,7 @@ class Match:
     def get(self) -> None:
         if self.match_id is None:
             raise BadRequest("Please specify the match to retrieve")
-        if type(self.match_id) is not int:
+        if not self.match_id.isdigit():
             raise BadRequest("match_id is required to be an integer")
 
         with mysql_connection() as con, con.cursor() as cursor:
@@ -126,6 +126,11 @@ class Match:
                 else:
                     # else rethrow error
                     raise err
+
+            except Exception as err:
+                con.rollback()
+                raise err
+
             else:
                 con.commit()
                 self.match_id = match_id
@@ -176,43 +181,51 @@ def search_matches(
         # TODO: pagementation
         # page_num: int,
         # res_per_page: int,
-):
+) -> list[Match]:
     tn = len(teams)
     pn = len(players)
     query = (
-        "SELECT * "
+        "SELECT game_id "
         "FROM Game"
     )
-
     filter = []
+    args = []
+
     if tn > 0:
         if tn == 1:
             filter.append(
                 "(team_home_id = %s OR team_away_id = %s)"
             )
+            args += teams + teams
+
         elif tn == 2:
             filter.append(
                 "(team_home_id = %s AND team_away_id = %s)"
             )
+            args += teams
+
         else:
             raise BadRequest("There cannot be more than 2 teams in a game")
 
     if pn > 0:
         filter.append(
             "(" + ",".join(["%s" for _ in range(pn)]) + ") "
-            "IN (SELECT team_id from PG where PG.game_id = Game.game_id)"
+            "IN (SELECT team_id FROM PG WHERE PG.game_id = Game.game_id)"
         )
+        args += players
 
     if len(filter) > 0:
         query += " WHERE "
         query += " AND ".join(filter)
+    query += " ORDER BY game_date DESC"
+    query += " LIMIT 10"
 
-    result = None
     with mysql_connection() as con, con.cursor() as cursor:
-        print(query)
-        cursor.execute(query, teams + players)
+        print("query:", query)
+        print("args:", args)
+        cursor.execute(query, args)
         result = cursor.fetchall()
-
+        
     return [Match(*r) for r in result]
 
 def search_player_matches(player_id: int = None):
@@ -229,3 +242,4 @@ def search_player_matches(player_id: int = None):
         cursor.execute(find_matches)
         result = cursor.fetchall()
         return [Match(*r) for r in result]
+

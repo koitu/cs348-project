@@ -5,21 +5,20 @@ from errors import basic_exception_handler
 
 bp = Blueprint('match', __name__)
 
-# TODO update with modified SQL relations
 
+# http://127.0.0.1:5000/api/matches?team_ids=<team1>
+# http://127.0.0.1:5000/api/matches?team_ids=<team1>,<team2>&player_ids=<player1>,<player2>,<player3>
 @bp.route('/', methods=['GET'], strict_slashes=False)
 @basic_exception_handler
 def get_matches():
-    body = request.get_json()
-
     teams = []
     players = []
 
-    if body:
-        if 'teams' in body:
-            teams = body['teams']
-        if 'players' in body:
-            players = body['players']
+    args = request.args
+    if 'team_ids' in args:
+        teams = args.get('team_ids').split(",")
+    if 'player_ids' in args:
+        players = args.get('player_ids').split(",")
 
     matches = search_matches(
         teams=teams,
@@ -32,33 +31,20 @@ def get_matches():
 @basic_exception_handler
 def create_match():
     body = request.get_json()
-
-    team_home_id = None
-    team_away_id = None
-    team_home_score = None
-    team_away_score = None
-    date = None
-    location = None
-
-    if body:
-        if 'team_home_id' in body:
-            team_home_id = body['team_home_id']
-        if 'team_away_id' in body:
-            team_away_id = body['team_away_id']
-        if 'team_home_score' in body:
-            team_home_score = body['team_home_score']
-        if 'team_away_score' in body:
-            team_away_score = body['team_away_score']
-        if 'date' in body:
-            date = body['date']
-        if 'location' in body:
-            location = body['location']
+    team_home_id = body.get('team_home_id')
+    team_away_id = body.get('team_away_id')
+    team_home_score = body.get('team_home_score')
+    team_away_score = body.get('team_away_score')
+    season = body.get('season')
+    date = body.get('date')
+    location = body.get('location')
 
     match = Match(
         team_home_id=team_home_id,
         team_away_id=team_away_id,
         team_home_score=team_home_score,
         team_away_score=team_away_score,
+        season=season,
         date=date,
         location=location,
     )
@@ -81,19 +67,13 @@ def modify_match(match_id: int):
     match.get()
 
     body = request.get_json()
-    if body:
-        if 'team_home_id' in body:
-            match.team_home_id = body['team_home_id']
-        if 'team_away_id' in body:
-            match.team_away_id = body['team_away_id']
-        if 'team_home_score' in body:
-            match.team_home_score = body['team_home_score']
-        if 'team_away_score' in body:
-            match.team_away_score = body['team_away_score']
-        if 'date' in body:
-            match.date = body['date']
-        if 'location' in body:
-            match.location = body['location']
+    match.team_home_id = body.get('team_home_id')
+    match.team_away_id = body.get('team_away_id')
+    match.team_home_score = body.get('team_home_score')
+    match.team_away_score = body.get('team_away_score')
+    match.season = body.get('season')
+    match.date = body.get('date')
+    match.location = body.get('location')
 
     match.update()
     return {'status': 'OK'}
