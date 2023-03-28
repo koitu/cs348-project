@@ -170,6 +170,7 @@ class User:
             except IntegrityError as err:
                 con.rollback()
 
+                # TODO
                 if err.errno == errorcode.ER_DUP_ENTRY:
                     # if the error is a primary key violation
                     raise UserExistsError(self.account_id)
