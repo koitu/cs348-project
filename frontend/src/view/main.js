@@ -1,13 +1,14 @@
 import './App.css';
 import './general.css';
 import './main.css';
+import './detailed.css';
 import React, { useState } from "react"
 import {Link} from "react-router-dom"
 import { ListButton } from "./clickable"
 import 'react-tabs/style/react-tabs.css';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { SideBar } from "./sideBar"
-const proxyPrefix = "http://127.0.0.1:5000/"
+import { proxyPrefix } from "./values"
 
 
 

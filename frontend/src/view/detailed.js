@@ -1,29 +1,8 @@
+import './App.css';
+import './detailed.css';
 import React, { useState, useEffect } from "react"
 import { useParams, Link } from "react-router-dom"
-import './App.css';
-var proxyPrefix = "http://127.0.0.1:5000/"
-
-function MatchPerformanceView(props) {
-    return (
-        <div className="hbox primaryColor last5Match">
-            <div className="vbox matchResultLeft">
-                <p className="matchLabels secondaryColor"> first team name</p>
-                <img src="https://cdn.logojoy.com/wp-content/uploads/2018/05/30161636/1234-768x591.png" className="teamLogo"></img>
-                <p className="matchLabels secondaryColor"> VS </p>
-                <img src="https://cdn.dribbble.com/users/713893/screenshots/14307855/media/29fa5f962e03f9b4ae6f29d0bcbe5eb4.jpg?compress=1&resize=400x300" className="teamLogo"></img>
-                <p className="matchLabels secondaryColor"> second team name</p>
-            </div>
-            
-            <div className="vbox">
-                <p className="matchLabels secondaryColor"> number of goals scored</p>
-                <p className="matchLabels secondaryColor"> random stat 1 </p>
-                <p className="matchLabels secondaryColor"> random stat 2 </p>
-            </div>
-
-        </div>
-    )
-}
-
+import { proxyPrefix } from "./values"
 
 export function PlayerDetailedPage() {
     let { id } = useParams()
@@ -66,13 +45,13 @@ export function PlayerDetailedPage() {
                 console.error(err);
             }
         };
-    
         fetchData();
     }, []);
     console.log(matches)
     let redirectUrl = "/team/"
     return (
         <div className="fullWidth vbox">
+            <button><img src="../pngwing.com.png" className="favButton"/></button>
             <div className="secondaryColor" id="detailedPage">
                 <img src={player.picture } id="detailedImage"/>
                 <p id="playerFullName" className="primaryColor gridText">
