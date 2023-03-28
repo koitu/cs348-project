@@ -62,7 +62,7 @@ export function SingUpPage() {
                 <input placeholder="Email" className="signInItem signUpItem13" onChange={handleEmailChange}/>
                 <input type='password' placeholder="Password" className="signInItem signUpItem4" onChange={handlePassChange}/>
                 <input type='password' placeholder="repeat Password" className="signInItem signUpItem5" onChange={handlePassRepeatChange}/>
-                <button type="submit" className="signInItem signUpItem6"> Sign in</button>
+                <button type="submit" className="signInItem signUpItem6"> Sign Up</button>
             </form>
         </div>
     )

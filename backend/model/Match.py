@@ -214,3 +214,18 @@ def search_matches(
         result = cursor.fetchall()
 
     return [Match(*r) for r in result]
+
+def search_player_matches(player_id: int = None):
+    with mysql_connection() as con, con.cursor() as cursor:
+        find_matches = f"""
+        SELECT *
+        FROM (SELECT game_id
+                FROM PG
+                WHERE player_id = {player_id}) as gop
+        JOIN Game USING (game_id)
+        ORDER BY game_date DESC
+        LIMIT 5;
+        """
+        cursor.execute(find_matches)
+        result = cursor.fetchall()
+        return [Match(*r) for r in result]

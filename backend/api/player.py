@@ -1,5 +1,6 @@
 from flask import Blueprint, request
 from model.Player import Player, search_players
+from model.Match import Match, search_matches, search_player_matches
 from errors import basic_exception_handler
 
 
@@ -10,15 +11,7 @@ bp = Blueprint('player', __name__)
 @bp.route('/', methods=['GET'], strict_slashes=False)
 @basic_exception_handler
 def get_players():
-    # body = request.get_json()
     player_name = request.args.get("name", default=None, type=str)
-
-    # if body:
-    #     if 'player_name' in body:
-    #         player_name = body['player_name']
-
-  
-
     players = search_players(
         player_name=player_name,
         fuzzy=True
@@ -117,6 +110,12 @@ def remove_player_from_follows(player_id: int):
 def get_player_history(player_id: int):
     # TODO
     pass
+
+@bp.route('/<player_id>/recent/matches', methods=['GET'])
+@basic_exception_handler
+def get_player_matches(player_id: int):
+    results = search_player_matches(player_id)
+    return {'matches': [match.to_dict() for match in results]}
 
 
 @bp.route('/<player_id>/timeline', methods=['PATCH'])

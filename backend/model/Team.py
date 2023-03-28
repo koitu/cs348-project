@@ -162,25 +162,21 @@ class Team:
 
 def search_teams_played(player_id: str, fuzzy=True) -> list[Team]:
     with mysql_connection() as con, con.cursor() as cursor:
-        find_teams = f"""select team_id, abbrv, team_name, logo_url 
-                         from Team join PT using(team_id)
-                         where player_id like '%{player_id}%'
-                         order by sesone desc """
+        find_teams = f"""
+        select team_id, abbrv, team_name, logo_url, location
+        from Team join PT using(team_id)
+        where player_id = {player_id}
+        order by season desc;"""
         cursor.execute(find_teams)
         result = cursor.fetchall()
         retVal = []
         for i in result:
-            print(i)
-            retVal.append(Team( team_id= i[0],
-                                team_name= i[2],
-                                abbrv= i[1],
-                                logo= i[3]))
+            retVal.append(Team(*i))
         return retVal 
 
 def search_teams(team_name: str, fuzzy=True) -> list[Team]:
-    
     with mysql_connection() as con, con.cursor() as cursor:
-        find_teams = f"""select team_id, abbrv, team_name, logo_url 
+        find_teams = f"""select *
                          from Team 
                          where team_name like '%{team_name}%'
                          order by team_name asc
@@ -189,8 +185,5 @@ def search_teams(team_name: str, fuzzy=True) -> list[Team]:
         result = cursor.fetchall()
         retVal = []
         for i in result:
-            retVal.append(Team( team_id= i[0],
-                                team_name= i[2],
-                                abbrv= i[1],
-                                logo= i[3]))
+            retVal.append(Team(*i))
         return retVal 
