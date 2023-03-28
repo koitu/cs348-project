@@ -22,7 +22,7 @@ INSERT into Team VALUES
 	(217, "OTT", "Ottawa Senators", "https://upload.wikimedia.org/wikipedia/en/thumb/b/b2/Ottawa_Senators_2020-2021_logo.svg/330px-Ottawa_Senators_2020-2021_logo.svg.png", "1992", "Canadian Tire Centre"),
 	(218, "PHI", "Philadelphia Flyers", "https://upload.wikimedia.org/wikipedia/en/thumb/d/dc/Philadelphia_Flyers.svg/330px-Philadelphia_Flyers.svg.png", "1967", "Wells Fargo Center"),
 	(219, "PIT", "Pittsburgh Penguins", "https://upload.wikimedia.org/wikipedia/en/thumb/c/c0/Pittsburgh_Penguins_logo_%282016%29.svg/330px-Pittsburgh_Penguins_logo_%282016%29.svg.png", "1967", "PPG Paints Arena"),
-	(200, "SEA", "Seattle Kraken", "https://upload.wikimedia.org/wikipedia/en/thumb/4/48/Seattle_Kraken_official_logo.svg/330px-Seattle_Kraken_official_logo.svg.png", "2021", "Climate Pledge Arena"),
+	(220, "SEA", "Seattle Kraken", "https://upload.wikimedia.org/wikipedia/en/thumb/4/48/Seattle_Kraken_official_logo.svg/330px-Seattle_Kraken_official_logo.svg.png", "2021", "Climate Pledge Arena"),
 	(221, "SJS", "San Jose Sharks", "https://upload.wikimedia.org/wikipedia/en/thumb/3/37/SanJoseSharksLogo.svg/330px-SanJoseSharksLogo.svg.png", "1991", "SAP Center"),
 	(222, "STL", "St. Louis Blues", "https://upload.wikimedia.org/wikipedia/en/thumb/e/ed/St._Louis_Blues_logo.svg/330px-St._Louis_Blues_logo.svg.png", "1967", "Enterprise Center"),
 	(223, "TBL", "Tampa Bay Lightning", "https://upload.wikimedia.org/wikipedia/en/thumb/2/2f/Tampa_Bay_Lightning_Logo_2011.svg/330px-Tampa_Bay_Lightning_Logo_2011.svg.png", "1992", "Amalie Arena"),

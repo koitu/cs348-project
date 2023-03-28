@@ -131,22 +131,19 @@ class User:
         if self.fullname is None and not self._is_admin:
             raise BadRequest("Full name is a required field")
 
-        account_id = self.account_id
         with mysql_connection() as con, con.cursor() as cursor:
             con.start_transaction()
             try:
                 query = (
                     "INSERT INTO Account "
-                    "VALUES (%s, %s, %s, %s)"
+                    "VALUES (NULL, %s, %s, %s)"
                 )
                 cursor.execute(query, (
-                    account_id,
                     self.username,
                     self.email,
                     self.password,
                 ))
-                if account_id is None:
-                    account_id = cursor.lastrowid
+                account_id = cursor.lastrowid
 
                 if self.fullname is not None:
                     query = (

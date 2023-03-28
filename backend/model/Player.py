@@ -44,7 +44,7 @@ class Player:
         position: str = None,
     ):
         self.set((
-            player_id,
+            str(player_id),
             player_name,
             birthday,
             weight,
@@ -114,18 +114,16 @@ class Player:
         if self.player_name is None:
             raise BadRequest("Player name is a required field")
 
-        player_id = self.player_id
         with mysql_connection() as con, con.cursor() as cursor:
             con.start_transaction()
 
             try:
                 query = (
                     "INSERT INTO Player "
-                    "VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                    "VALUES(NULL, %s, %s, %s, %s, %s, %s, %s, %s)"
                 )
-                cursor.execute(query, self.to_tuple())
-                if player_id is None:
-                    player_id = cursor.lastrowid
+                cursor.execute(query, self.to_tuple()[:1])
+                player_id = cursor.lastrowid
 
             except IntegrityError as err:
                 con.rollback()
@@ -192,7 +190,7 @@ def search_players(
 ) -> list[Player]:
     query = (
         "SELECT player_id "
-        "FROM Player LEFT JOIN PT"
+        "FROM Player LEFT JOIN PT using(player_id)"
     )
     filter = []
     args = []

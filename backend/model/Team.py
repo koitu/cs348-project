@@ -32,7 +32,7 @@ class Team:
     ):
 
         self.set((
-            team_id,
+            str(team_id),
             abbrv,
             team_name,
             logo_url,
@@ -94,19 +94,16 @@ class Team:
             self.set(result[0])
 
     def create(self) -> None:
-        team_id = self.team_id
-
         with mysql_connection() as con, con.cursor() as cursor:
             con.start_transaction()
 
             try:
                 query = (
                     "INSERT INTO Team "
-                    "VALUES(%s, %s, %s, %s, %s, %s)"
+                    "VALUES(NULL, %s, %s, %s, %s, %s)"
                 )
-                cursor.execute(query, self.to_tuple())
-                if team_id is None:
-                    team_id = cursor.lastrowid
+                cursor.execute(query, self.to_tuple()[1:])
+                team_id = cursor.lastrowid
 
             except IntegrityError as err:
                 con.rollback()

@@ -92,30 +92,56 @@ def delete_user(account_id: int):
     return {'status': 'OK'}
 
 
-@bp.route('/<account_id>/feed', methods=['GET'])
-@basic_exception_handler
-def get_user_feed(account_id: int):
-    # get a user's feed (like a twitter timeline)
-    # TODO
-    pass
+# @bp.route('/<account_id>/feed', methods=['GET'])
+# @basic_exception_handler
+# def get_user_feed(account_id: int):
+#     # get a user's feed (like a twitter timeline)
+#     # TODO
+#     pass
 
 
+# http://127.0.0.1:5000/api/users/<account_id>/teams
 @bp.route('/<account_id>/teams', methods=['GET'])
 @basic_exception_handler
-def get_user_teams(account_id: int):
+def get_teams_followed(account_id: int):
     # TODO
     pass
 
 
-@bp.route('/<account_id>/follows', methods=['GET'])
+@bp.route('/<account_id>/teams', methods=['POST'])
 @basic_exception_handler
-def get_user_follows(account_id: int):
+def add_team_to_follows(account_id: int):
     # TODO
     pass
 
 
-@bp.route('/<account_id>/password', methods=['PATCH'])
+@bp.route('/<account_id>/teams', methods=['DELETE'])
 @basic_exception_handler
-def password_reset(account_id: int):
+def remove_team_from_follows(account_id: int):
     # TODO
     pass
+
+
+# http://127.0.0.1:5000/api/users/<account_id>/players
+@bp.route('/<account_id>/players', methods=['GET'])
+@basic_exception_handler
+def get_players_followed(account_id: int):
+    # TODO
+    pass
+
+
+@bp.route('/<account_id>/players', methods=['POST'])
+@basic_exception_handler
+def add_player_to_follows(account_id: int):
+    # add a player to a user's follows list
+    # TODO
+    pass
+
+
+@bp.route('/<account_id>/players', methods=['DELETE'])
+@basic_exception_handler
+def remove_player_from_follows(account_id: int):
+    # remove a player from user's follows list
+    # TODO
+    pass
+

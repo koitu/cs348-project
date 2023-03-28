@@ -15,7 +15,7 @@ def get_teams():
     team_name = args.get("name")
     players = []
 
-    if 'player_ids' in args:
+    if 'team_ids' in args:
         players = args.get('team_ids').split(",")
 
     teams = search_teams(
@@ -80,29 +80,15 @@ def delete_team(team_id: int):
     return {'status': 'OK'}
 
 
-@bp.route('/<team_id>/follow', methods=['POST'])
-@basic_exception_handler
-def add_team_to_follows(team_id: int):
-    # TODO
-    pass
+# @bp.route('/<team_id>/timeline', methods=['GET'])
+# @basic_exception_handler
+# def get_team_history(team_id: int):
+#     # TODO
+#     pass
 
 
-@bp.route('/<team_id>/follow', methods=['DELETE'])
-@basic_exception_handler
-def remove_team_from_follows(team_id: int):
-    # TODO
-    pass
-
-
-@bp.route('/<team_id>/timeline', methods=['GET'])
-@basic_exception_handler
-def get_team_history(team_id: int):
-    # TODO
-    pass
-
-
-@bp.route('/<team_id>/timeline', methods=['DELETE'])
-@basic_exception_handler
-def modify_team_history(team_id: int):
-    # TODO
-    pass
+# @bp.route('/<team_id>/timeline', methods=['DELETE'])
+# @basic_exception_handler
+# def modify_team_history(team_id: int):
+#     # TODO
+#     pass

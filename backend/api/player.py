@@ -74,31 +74,15 @@ def delete_player(player_id: int):
     return {'status': 'OK'}
 
 
-@bp.route('/<player_id>/follow', methods=['POST'])
-@basic_exception_handler
-def add_player_to_follows(player_id: int):
-    # add a player to a user's follows list
-    # TODO
-    pass
+# @bp.route('/<player_id>/timeline', methods=['GET'])
+# @basic_exception_handler
+# def get_player_history(player_id: int):
+#     # TODO
+#     pass
 
 
-@bp.route('/<player_id>/follow', methods=['DELETE'])
-@basic_exception_handler
-def remove_player_from_follows(player_id: int):
-    # remove a player from user's follows list
-    # TODO
-    pass
-
-
-@bp.route('/<player_id>/timeline', methods=['GET'])
-@basic_exception_handler
-def get_player_history(player_id: int):
-    # TODO
-    pass
-
-
-@bp.route('/<player_id>/timeline', methods=['PATCH'])
-@basic_exception_handler
-def modify_player_history(player_id: int):
-    # TODO
-    pass
+# @bp.route('/<player_id>/timeline', methods=['PATCH'])
+# @basic_exception_handler
+# def modify_player_history(player_id: int):
+#     # TODO
+#     pass
