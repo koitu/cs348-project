@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from model.Team import Team, search_teams
+from model.Team import Team, search_teams, search_teams_played
 from errors import basic_exception_handler
 
 
@@ -52,6 +52,18 @@ def get_team(team_id: int):
     team = Team(team_id=team_id)
     team.get()
     return team.to_dict()
+
+
+# TODO merge with GET /
+@bp.route('/played', methods=['GET'])
+@basic_exception_handler
+def get_played_teams():
+    player_id = request.args.get("player_id", default=None, type=str)
+    teams = search_teams_played(
+        player_id=player_id,
+        fuzzy=True
+    )
+    return {'teams': [team.to_dict() for team in teams]}
 
 
 @bp.route('/<team_id>', methods=['PATCH'])

@@ -3,7 +3,6 @@ import "./App.css";
 import "./sideBar.css";
 
 export function SideBar() {
-
     return (
         <div className="primaryColor" id="sideBar">
             <input type="checkbox" id="pastGameCheck"/>

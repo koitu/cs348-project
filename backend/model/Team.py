@@ -162,6 +162,21 @@ class Team:
             cursor.execute(query, (self.team_id,))
 
 
+def search_teams_played(player_id: str, fuzzy=True) -> list[Team]:
+    with mysql_connection() as con, con.cursor() as cursor:
+        find_teams = f"""
+        select team_id, abbrv, team_name, logo_url, location
+        from Team join PT using(team_id)
+        where player_id = {player_id}
+        order by season desc;"""
+        cursor.execute(find_teams)
+        result = cursor.fetchall()
+        retVal = []
+        for i in result:
+            retVal.append(Team(*i))
+        return retVal 
+
+
 def search_teams(
         team_name: str,
         players: list[str] = [],
