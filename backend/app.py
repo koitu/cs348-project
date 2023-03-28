@@ -24,10 +24,12 @@ relationships = [
 
 data = [
     "player",
+    "player_table2",
     "team",
     "game",
     "account",
     "user",
+    "PT",
 ]
 
 

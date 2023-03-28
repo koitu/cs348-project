@@ -37,7 +37,7 @@ class Match:
         location: str = None,
     ):
         self.set((
-            match_id,
+            str(match_id),
             team_home_id,
             team_away_id,
             team_home_score,
@@ -104,18 +104,16 @@ class Match:
         if self.team_away_id is None:
             raise BadRequest("Away team ID is a required field")
 
-        match_id = self.match_id
         with mysql_connection() as con, con.cursor() as cursor:
             con.start_transaction()
 
             try:
                 query = (
                     "INSERT INTO Game "
-                    "VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+                    "VALUES (NULL, %s, %s, %s, %s, %s, %s, %s)"
                 )
-                cursor.execute(query, self.to_tuple())
-                if match_id is None:
-                    match_id = cursor.lastrowid
+                cursor.execute(query, self.to_tuple()[1:])
+                match_id = cursor.lastrowid
 
             except IntegrityError as err:
                 con.rollback()
@@ -225,9 +223,11 @@ def search_matches(
         print("args:", args)
         cursor.execute(query, args)
         result = cursor.fetchall()
-        
+
     return [Match(*r) for r in result]
 
+
+# TODO
 def search_player_matches(player_id: int = None):
     with mysql_connection() as con, con.cursor() as cursor:
         find_matches = f"""
