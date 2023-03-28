@@ -16,10 +16,10 @@ $ curl -s 127.0.0.1:5000/api/users?username=redpuppy
 We see that there does not exist any users with username `redpuppy` so we register
 ```
 $ curl -s 127.0.0.1:5000/api/users/ -X POST \
-```
-```
    -H 'Content-Type: application/json' \
    -d '{ "username": "redpuppy", "email": "someone@something.com", "password": "123", "fullname": "Full Name"}'
+```
+```
 {"status":"OK"}
 ```
 Now the user has been created
@@ -110,6 +110,21 @@ $ curl -s 127.0.0.1:5000/api/players?name=Jason | json_pp
 ```
 
 ## Team
+
+### Get information about a specific team
+```
+$ curl -s 127.0.0.1:5000/api/teams/200 | json_pp
+```
+```
+{
+   "abbrv" : "BUF",
+   "location" : "KeyBank Center",
+   "logo_url" : "https://upload.wikimedia.org/wikipedia/en/thumb/9/9e/Buffalo_Sabres_Logo.svg/330px-Buffalo_Sabres_Logo.svg.png",
+   "since" : "1970",
+   "team_id" : 200,
+   "team_name" : "Buffalo Sabres"
+}
+```
 
 ### Get players in a team
 ```

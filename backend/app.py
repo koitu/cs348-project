@@ -30,6 +30,8 @@ data = [
     "account",
     "user",
     "PT",
+    "PG_part1",
+    "PG_part2",
 ]
 
 
