@@ -1,8 +1,7 @@
-import "./App.css"
 import React from "react"
 import { useState } from "react"
 import { useNavigate, Link } from "react-router-dom"
-import { proxyPrefix } from "./values"
+import { proxyPrefix } from "./constant"
 
 export function SignInPageView() {
     const navigate = useNavigate()

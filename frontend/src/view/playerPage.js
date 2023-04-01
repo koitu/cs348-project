@@ -1,8 +1,7 @@
-import './App.css';
-import './detailed.css';
+import './playerPage.css';
 import React, { useState, useEffect } from "react"
 import { useParams, Link } from "react-router-dom"
-import { proxyPrefix } from "./values"
+import { proxyPrefix } from "./constant"
 
 export function PlayerDetailedPage() {
     let { id } = useParams()
@@ -46,7 +45,7 @@ export function PlayerDetailedPage() {
             }
         };
         fetchData();
-    }, []);
+    });
     console.log(matches)
     let redirectUrl = "/team/"
     return (
@@ -94,11 +93,3 @@ export function PlayerDetailedPage() {
     )
 }
 
-export function TeamDetailedPage() {
-    let { id } = useParams()
-    return (
-        <p>
-            this is detailed webpage for team with {id}
-        </p>
-    )
-}

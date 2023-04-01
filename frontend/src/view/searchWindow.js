@@ -1,14 +1,13 @@
-import './App.css';
 import './general.css';
-import './main.css';
-import './detailed.css';
+import './searchWindow.css';
+import './playerPage.css';
 import React, { useState } from "react"
 import {Link} from "react-router-dom"
-import { ListButton } from "./clickable"
+import { ListButton } from "./ListItemButton"
 import 'react-tabs/style/react-tabs.css';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { SideBar } from "./sideBar"
-import { proxyPrefix } from "./values"
+import { proxyPrefix } from "./constant"
 
 
 
@@ -24,7 +23,7 @@ const TopCorner = () => {
 
 
 
-export const MainPage = () => {
+export const SearchView = () => {
     const [playervalues, setPValue] = useState([]);
     const [teamValues, setTValue] = useState([]);
     var [textState, setText] = useState("")

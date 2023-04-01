@@ -1,11 +1,10 @@
-import "./App.css"
-import "./signup.css"
-import "./sign.css"
+import "./signUp.css"
+import "./signIn.css"
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { proxyPrefix } from "./values"
+import { proxyPrefix } from "./constant"
 
-export function SingUpPage() {
+export function SignUpPageView() {
     let navigate  = useNavigate()
     let [usernameTextState, setUserame] = useState("")
     let [passTextState, setPassword] = useState("")
