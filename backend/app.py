@@ -32,6 +32,8 @@ data = [
     "PT",
     "PG_part1",
     "PG_part2",
+    "fav_players",
+    "fav_teams",
 ]
 
 
@@ -105,8 +107,4 @@ def app(init_db, init_db_sample):
 
 
 if __name__ == "__main__":
-    # to init the databases run:
-    # python app.py --init-db
     app()
-    # add versbose (backend command result)
-    # add double verbose (the exact command the backend is running)

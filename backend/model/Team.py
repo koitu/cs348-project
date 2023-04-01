@@ -71,14 +71,11 @@ class Team:
                 self.team_name,
             ])
 
-    def check_team_id(self) -> None:
+    def get(self) -> None:
         if self.team_id is None:
             raise BadRequest("Please specify the team to retrieve")
         if not self.team_id.isdigit():
             raise BadRequest("team_id is required to be an integer")
-
-    def get(self) -> None:
-        self.check_team_id()
 
         with mysql_connection() as con, con.cursor() as cursor:
             query = (
@@ -161,20 +158,58 @@ class Team:
             )
             cursor.execute(query, (self.team_id,))
 
+    def get_followers(self) -> None:
+        self.get()
 
-def search_teams_played(player_id: str, fuzzy=True) -> list[Team]:
-    with mysql_connection() as con, con.cursor() as cursor:
-        find_teams = f"""
-        select team_id, abbrv, team_name, logo_url, location
-        from Team join PT using(team_id)
-        where player_id = {player_id}
-        order by season desc;"""
-        cursor.execute(find_teams)
-        result = cursor.fetchall()
-        retVal = []
-        for i in result:
-            retVal.append(Team(*i))
-        return retVal 
+        with mysql_connection() as con, con.cursor() as cursor:
+            query = (
+                "SELECT account_id "
+                "FROM Fav_Teams "
+                "WHERE team_id = %s "
+                "LIMIT 10"
+            )
+            cursor.execute(query, (self.team_id,))
+            result = cursor.fetchall()
+
+            return result
+
+    def add_to_followers(self, account_id) -> None:
+        # check the team exists before adding to follows
+        self.get()
+
+        with mysql_connection() as con, con.cursor() as cursor:
+            query = (
+                "INSERT INTO Fav_Teams "
+                "VALUES(%s, %s)"
+            )
+            cursor.execute(query, (account_id, self.team_id))
+
+    def remove_from_followers(self, account_id) -> None:
+        # check the team exists before removing from follows
+        self.get()
+
+        with mysql_connection() as con, con.cursor() as cursor:
+            query = (
+                "DELETE FROM Fav_Teams "
+                "WHERE account_id = %s AND team_id = %s"
+            )
+            cursor.execute(query, (account_id, self.team_id))
+
+
+# TODO: delete after migrating
+# def search_teams_played(player_id: str, fuzzy=True) -> list[Team]:
+#     with mysql_connection() as con, con.cursor() as cursor:
+#         find_teams = f"""
+#         select team_id, abbrv, team_name, logo_url, location
+#         from Team join PT using(team_id)
+#         where player_id = {player_id}
+#         order by season desc;"""
+#         cursor.execute(find_teams)
+#         result = cursor.fetchall()
+#         retVal = []
+#         for i in result:
+#             retVal.append(Team(*i))
+#         return retVal
 
 
 def search_teams(
@@ -185,8 +220,7 @@ def search_teams(
 
     query = (
         "SELECT team_id "
-        "FROM Team "
-        "WHERE team_name LIKE %s"
+        "FROM Team"
     )
     filter = []
     args = []
@@ -207,7 +241,8 @@ def search_teams(
     if len(filter) > 0:
         query += " WHERE "
         query += " AND ".join(filter)
-    query += " LIMIT 10 "
+    # query += " ORDER BY season desc"
+    query += " LIMIT 10"
 
     with mysql_connection() as con, con.cursor() as cursor:
         print("query:", query)
