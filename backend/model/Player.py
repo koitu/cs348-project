@@ -183,6 +183,43 @@ class Player:
             )
             cursor.execute(query, (self.player_id,))
 
+    def get_followers(self) -> None:
+        self.get()
+
+        with mysql_connection() as con, con.cursor() as cursor:
+            query = (
+                "SELECT account_id "
+                "FROM Fav_Players "
+                "WHERE player_id = %s "
+                "LIMIT 10"
+            )
+            cursor.execute(query, (self.player_id,))
+            result = cursor.fetchall()
+
+            return result
+
+    def add_to_followers(self, account_id) -> None:
+        # check the player exists before adding to follows
+        self.get()
+
+        with mysql_connection() as con, con.cursor() as cursor:
+            query = (
+                "INSERT INTO Fav_Players "
+                "VALUES(%s, %s)"
+            )
+            cursor.execute(query, (account_id, self.player_id))
+
+    def remove_from_followers(self, account_id) -> None:
+        # check the player exists before removing from follows
+        self.get()
+
+        with mysql_connection() as con, con.cursor() as cursor:
+            query = (
+                "DELETE FROM Fav_Players "
+                "WHERE account_id = %s AND player_id = %s"
+            )
+            cursor.execute(query, (account_id, self.player_id))
+
 
 def search_players(
         player_name: str = None,

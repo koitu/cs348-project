@@ -1,5 +1,7 @@
 from flask import Blueprint, request
 from model.User import User, search_users, login
+from model.Player import Player
+from model.Team import Team
 from errors import basic_exception_handler
 
 
@@ -92,56 +94,37 @@ def delete_user(account_id: int):
     return {'status': 'OK'}
 
 
-# @bp.route('/<account_id>/feed', methods=['GET'])
-# @basic_exception_handler
-# def get_user_feed(account_id: int):
-#     # get a user's feed (like a twitter timeline)
-#     # TODO
-#     pass
+# http://127.0.0.1:5000/api/users/<account_id>/players
+@bp.route('/<account_id>/players', methods=['GET'])
+@basic_exception_handler
+def get_players_followed(account_id: int):
+    user = User(account_id=account_id)
+    result = user.get_players_followed()
+
+    players = [Player(player_id=r[0]) for r in result]
+    for p in players:
+        p.get()
+
+    return {'players': [p.to_dict() for p in players]}
 
 
 # http://127.0.0.1:5000/api/users/<account_id>/teams
 @bp.route('/<account_id>/teams', methods=['GET'])
 @basic_exception_handler
 def get_teams_followed(account_id: int):
-    # TODO
-    pass
+    user = User(account_id=account_id)
+    result = user.get_teams_followed()
+
+    teams = [Team(team_id=r[0]) for r in result]
+    for t in teams:
+        t.get()
+
+    return {'teams': [t.to_dict() for t in teams]}
 
 
-@bp.route('/<account_id>/teams', methods=['POST'])
-@basic_exception_handler
-def add_team_to_follows(account_id: int):
-    # TODO
-    pass
-
-
-@bp.route('/<account_id>/teams', methods=['DELETE'])
-@basic_exception_handler
-def remove_team_from_follows(account_id: int):
-    # TODO
-    pass
-
-
-# http://127.0.0.1:5000/api/users/<account_id>/players
-@bp.route('/<account_id>/players', methods=['GET'])
-@basic_exception_handler
-def get_players_followed(account_id: int):
-    # TODO
-    pass
-
-
-@bp.route('/<account_id>/players', methods=['POST'])
-@basic_exception_handler
-def add_player_to_follows(account_id: int):
-    # add a player to a user's follows list
-    # TODO
-    pass
-
-
-@bp.route('/<account_id>/players', methods=['DELETE'])
-@basic_exception_handler
-def remove_player_from_follows(account_id: int):
-    # remove a player from user's follows list
-    # TODO
-    pass
-
+# @bp.route('/<account_id>/feed', methods=['GET'])
+# @basic_exception_handler
+# def get_user_feed(account_id: int):
+#     # get a user's feed (like a twitter timeline)
+#     # TODO
+#     pass

@@ -251,7 +251,7 @@ class User:
                 con.commit()
 
     def delete(self) -> None:
-        # check that player exists before attempting to delete
+        # check that user exists before attempting to delete
         self.get()
 
         with mysql_connection() as con, con.cursor() as cursor:
@@ -283,6 +283,38 @@ class User:
 
             else:
                 con.commit()
+
+    def get_players_followed(self) -> None:
+        # check that the user exists before finding their followed players
+        self.get()
+
+        with mysql_connection() as con, con.cursor() as cursor:
+            query = (
+                "SELECT player_id "
+                "FROM Fav_Players "
+                "WHERE account_id = %s "
+                "LIMIT 10"
+            )
+            cursor.execute(query, (self.account_id,))
+            result = cursor.fetchall()
+
+            return result
+
+    def get_teams_followed(self) -> None:
+        # check that the user exists before finding their followed teams
+        self.get()
+
+        with mysql_connection() as con, con.cursor() as cursor:
+            query = (
+                "SELECT team_id "
+                "FROM Fav_Teams "
+                "WHERE account_id = %s "
+                "LIMIT 10"
+            )
+            cursor.execute(query, (self.account_id,))
+            result = cursor.fetchall()
+
+            return result
 
 
 def search_users(

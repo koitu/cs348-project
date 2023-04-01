@@ -1,5 +1,6 @@
 from flask import Blueprint, request
-from model.Team import Team, search_teams, search_teams_played
+from model.Team import Team, search_teams  # search_teams_played
+from model.User import User
 from errors import basic_exception_handler
 
 
@@ -54,14 +55,18 @@ def get_team(team_id: int):
     return team.to_dict()
 
 
-# TODO merge with GET /
+# TODO: delete this because overlaps with GET
 @bp.route('/played', methods=['GET'])
 @basic_exception_handler
 def get_played_teams():
-    player_id = request.args.get("player_id", default=None, type=str)
-    teams = search_teams_played(
-        player_id=player_id,
-        fuzzy=True
+    args = request.args
+    players = []
+
+    if 'player_id' in args:
+        players = [args.get('player_id')]
+
+    teams = search_teams(
+        players=players,
     )
     return {'teams': [team.to_dict() for team in teams]}
 
@@ -88,6 +93,58 @@ def modify_team(team_id: int):
 def delete_team(team_id: int):
     team = Team(team_id=team_id)
     team.delete()
+
+    return {'status': 'OK'}
+
+
+# GET http://127.0.0.1:5000/api/teams/<team_id>/followers
+@bp.route('/<team_id>/followers', methods=['GET'])
+@basic_exception_handler
+def get_followers(team_id: int):
+    team = Team(team_id=team_id)
+    result = team.get_followers()
+
+    users = [User(account_id=r[0]) for r in result]
+    for u in users:
+        u.get()
+
+    return {'users': [u.to_dict() for u in users]}
+
+
+# TODO: may need to change method of user auth later
+# http://127.0.0.1:5000/api/teams/<team_id>/followers?account_id=<account_id>
+@bp.route('/<team_id>/followers', methods=['POST'])
+@basic_exception_handler
+def add_team_to_follows(team_id: int):
+    args = request.args
+    account_id = args.get("account_id")
+
+    # check that the account exists
+    user = User(account_id=account_id)
+    user.get()
+
+    team = Team(team_id=team_id)
+    # TODO: check if account is a user
+    # TODO: check if accound is already following
+    team.add_to_followers(account_id=account_id)
+
+    return {'status': 'OK'}
+
+
+# http://127.0.0.1:5000/api/teams/<team_id>/followers?account_id=<account_id>
+@bp.route('/<team_id>/followers', methods=['DELETE'])
+@basic_exception_handler
+def remove_team_from_follows(team_id: int):
+    args = request.args
+    account_id = args.get("account_id")
+
+    # check that the account exists
+    user = User(account_id=account_id)
+    user.get()
+
+    team = Team(team_id=team_id)
+    # TODO: check if accound is already following
+    team.remove_from_followers(account_id=account_id)
 
     return {'status': 'OK'}
 

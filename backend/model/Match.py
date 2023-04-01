@@ -179,6 +179,7 @@ def search_matches(
         # TODO: pagementation
         # page_num: int,
         # res_per_page: int,
+        # check how many pages there are
 ) -> list[Match]:
     tn = len(teams)
     pn = len(players)
@@ -208,7 +209,7 @@ def search_matches(
     if pn > 0:
         filter.append(
             "(" + ",".join(["%s" for _ in range(pn)]) + ") "
-            "IN (SELECT team_id FROM PG WHERE PG.game_id = Game.game_id)"
+            "IN (SELECT player_id FROM PG WHERE PG.game_id = Game.game_id)"
         )
         args += players
 
@@ -230,19 +231,18 @@ def search_matches(
         return matches
 
 
-# TODO
-def search_player_matches(player_id: int = None):
-    with mysql_connection() as con, con.cursor() as cursor:
-        find_matches = f"""
-        SELECT *
-        FROM (SELECT game_id
-                FROM PG
-                WHERE player_id = {player_id}) as gop
-        JOIN Game USING (game_id)
-        ORDER BY game_date DESC
-        LIMIT 5;
-        """
-        cursor.execute(find_matches)
-        result = cursor.fetchall()
-        return [Match(*r) for r in result]
-
+# TODO: delete after migrating
+# def search_player_matches(player_id: int = None):
+#     with mysql_connection() as con, con.cursor() as cursor:
+#         find_matches = f"""
+#         SELECT *
+#         FROM (SELECT game_id
+#                 FROM PG
+#                 WHERE player_id = {player_id}) as gop
+#         JOIN Game USING (game_id)
+#         ORDER BY game_date DESC
+#         LIMIT 5;
+#         """
+#         cursor.execute(find_matches)
+#         result = cursor.fetchall()
+#         return [Match(*r) for r in result]
