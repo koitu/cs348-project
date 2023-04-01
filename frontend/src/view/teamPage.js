@@ -1,5 +1,6 @@
 
-import React, { useEffect, useParams, useState } from "react"
+import React, { useEffect , useState } from "react"
+import { useParams } from "react-router-dom"
 
 export function TeamDetailedPage() {
     let { id } = useParams()

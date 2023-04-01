@@ -21,7 +21,7 @@ function App() {
                     {/* this is the sign up page*/}
                     <Route exact path="/signup" element={<SignUpPageView/>} />
                     {/* main page that you are confronted with when starting the project */}
-                    <Route exact path="/main/:id" element={<SearchView/>} />
+                    <Route exact path="/search-menu/" element={<SearchView/>} />
                     {/* Profile page for showing bookmarked players, teams and details about user */}
                     <Route path="/profile" element={<ProfilePage/>} />
                     {/* <Route path="/profile/:id" element={<ProfilePage/>}/>*/}
