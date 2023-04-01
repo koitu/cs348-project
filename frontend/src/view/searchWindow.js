@@ -42,7 +42,10 @@ export const SearchView = () => {
         })
         fetch(`${proxyPrefix}api/teams?name=${textState}`)
         .then(response => response.json())
-        .then(data => setTValue(data["teams"]))
+        .then(data => {
+            setTValue(data["teams"])
+            console.log(data)
+        })
         .catch (error => {
             console.error(error)
         })
@@ -51,7 +54,7 @@ export const SearchView = () => {
     return (
         <header id="mainPage">
             <TopCorner/>    
-            <SideBar></SideBar>
+            <SideBar/>
             <div className="vbox scrollable" id="searchBar">
                 <div>
                     <form onSubmit={handleSubmit}>
@@ -69,7 +72,7 @@ export const SearchView = () => {
                             { playervalues.map((obj, _) => (<ListButton key={obj.player_id} name={obj.player_name} img={obj.picture} id={obj.player_id} isTeam="false"/>)) } 
                         </TabPanel>
                         <TabPanel>
-                            { teamValues.map((obj, _) => (<ListButton key={obj.team_id} name={obj.team_name} img={obj.logo} id={obj.team_id} isTeam="true"/>)) }
+                            { teamValues.map((obj, _) => (<ListButton key={obj.team_id} name={obj.team_name} img={obj.logo_url} id={obj.team_id} isTeam="true"/>)) }
                         </TabPanel>
                     </Tabs>
                 </div>

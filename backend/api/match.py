@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from model.Match import Match, search_matches
+from model.Match import Match, search_matches, search_player_matches
 from errors import basic_exception_handler
 
 
@@ -23,6 +23,17 @@ def get_matches():
     matches = search_matches(
         teams=teams,
         players=players,
+    )
+    return {'matches': [match.to_dict() for match in matches]}
+
+
+@bp.route('/recent/player', methods=['GET'], strict_slashes=False)
+@basic_exception_handler
+def get_player_recent_matches():
+    player_id = request.args.get("player_id", default=None, type=str)
+
+    matches = search_player_matches(
+        player_id=player_id
     )
     return {'matches': [match.to_dict() for match in matches]}
 

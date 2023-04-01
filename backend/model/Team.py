@@ -189,13 +189,13 @@ def search_teams(
         "WHERE team_name LIKE %s"
     )
     filter = []
-    args = []
+    args = ["%" + team_name + "%"]
 
-    if team_name is not None:
-        filter.append(
-            "team_name LIKE %s"
-        )
-        args.append("%" + team_name + "%")
+    # if team_name is not None:
+    #     filter.append(
+    #         "team_name LIKE %s"
+    #     )
+    #     args.append("%" + team_name + "%")
 
     if pn > 0:
         filter.append(

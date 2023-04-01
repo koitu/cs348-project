@@ -190,8 +190,9 @@ def search_players(
 ) -> list[Player]:
     query = (
         "SELECT player_id "
-        "FROM Player LEFT JOIN PT using(player_id)"
+        "FROM Player"
     )
+    # "FROM Player LEFT JOIN PT using(player_id)"
     filter = []
     args = []
 

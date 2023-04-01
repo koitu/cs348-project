@@ -1,7 +1,7 @@
 import React from "react"
 import { useState } from "react"
 import { useNavigate, Link } from "react-router-dom"
-import { proxyPrefix } from "./constant"
+import { proxyPrefix, userCookieName } from "./constant"
 
 export function SignInPageView() {
     const navigate = useNavigate()
@@ -9,13 +9,15 @@ export function SignInPageView() {
     var [passTextState, setPassword] = useState("")
     const handleSubmit = event => {
         event.preventDefault();
-        fetch(`${proxyPrefix}api/users/signIn?username=${usernameTextState}&password=${passTextState}`)
+        fetch(`${proxyPrefix}api/users/login?username=${usernameTextState}&password=${passTextState}`)
         .then(response => response.json())
         .then(data => {
             if (data['status'] === "OK") {
-                navigate(`/main/${data['id']}`)
+                navigate("/search-menu")
+                sessionStorage.setItem(userCookieName, data['id'])
             } else {
                 alert("Wrong Username or Password")
+                console.log(data)
             }
         })
         .catch(err => {
