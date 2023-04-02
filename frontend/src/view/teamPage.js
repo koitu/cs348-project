@@ -1,5 +1,6 @@
 import "./general.css";
 import "./teamPage.css";
+import "./profilePage.css";
 import React, { useEffect , useState } from "react"
 import { useParams, Link } from "react-router-dom"
 import { proxyPrefix, userCookieName } from "./constant";
@@ -78,6 +79,7 @@ export function TeamDetailedPage() {
     
     return (
         <div className="team-card-container">
+            <Link to="/search-menu" className="home-button">Home</Link>
             <div className="team-card primaryColor">
                 <img src={team["logo_url"]} alt={`${id} logo`} className="team-logo" />
                 <div className="team-details">

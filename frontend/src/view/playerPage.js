@@ -1,4 +1,5 @@
 import './playerPage.css';
+import "./profilePage.css";
 import React, { useState, useEffect } from "react"
 import { useParams, Link } from "react-router-dom"
 import { proxyPrefix, userCookieName } from "./constant"
@@ -86,6 +87,7 @@ export function PlayerDetailedPage() {
     
     return (
         <div className="vbox playerPage">
+            <Link to="/search-menu" className="home-button">Home</Link>
             <div className="secondaryColor" id="detailedPage">
                 <form onSubmit={handleFavButton}>
                     <button className='fav-button'>

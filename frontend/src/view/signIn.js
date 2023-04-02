@@ -13,8 +13,16 @@ export function SignInPageView() {
         .then(response => response.json())
         .then(data => {
             if (data['status'] === "OK") {
-                navigate("/search-menu")
-                sessionStorage.setItem(userCookieName, data['id'])
+                fetch(`${proxyPrefix}api/users/${data['id']}`)
+                .then(response => response.json())
+                .then(userData => {
+                    if (userData["is_admin"]) {
+                        // go to admin page
+                    } else {
+                        navigate("/search-menu")
+                        sessionStorage.setItem(userCookieName, data['id'])
+                    }
+                })
             } else {
                 alert("Wrong Username or Password")
                 console.log(data)
