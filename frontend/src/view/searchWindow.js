@@ -1,19 +1,24 @@
 import './general.css';
 import './searchWindow.css';
 import './playerPage.css';
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import {Link} from "react-router-dom"
 import { ListButton } from "./ListItemButton"
 import 'react-tabs/style/react-tabs.css';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { SideBar } from "./sideBar"
-import { proxyPrefix } from "./constant"
+import { proxyPrefix, userCookieName } from "./constant"
 
 
 
 const TopCorner = () => {
+    let [ userId, setUser] = useState("")
+    useEffect(() => {
+        const currentUser = sessionStorage.getItem(userCookieName)
+        setUser(currentUser)
+    }, [])
     return (
-        <Link to="/profile">
+        <Link to={`/profile/${userId}`}>
             <button className='topCorner paddedButton primaryColor' id='profileButton'>
                 <img src='defaultProfile.jpg' className='normalImage' alt="defaultProfile.jpg"/>
             </button>

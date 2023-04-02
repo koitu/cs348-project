@@ -14,7 +14,7 @@ const PlayerCard = ({ playerName, position, logoUrl, playerId }) => {
         </div>
       </div>
     );
-  };
+};
 
 
 export function TeamDetailedPage() {
@@ -92,7 +92,7 @@ export function TeamDetailedPage() {
                 </form>
             </div>
             <div className="player-list secondaryColor">
-                <h1>Players List:</h1> <br></br>
+                <h1 style={{background: "white"}}>Players List:</h1> <br></br>
                 {players.map((player, index) => (
                     <PlayerCard key={index} playerName={player["player_name"]} position={player["position"]} logoUrl={player["picture"]} playerId={player["player_id"]}/>
                 ))}

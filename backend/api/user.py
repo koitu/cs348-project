@@ -107,6 +107,15 @@ def get_players_followed(account_id: int):
 
     return {'players': [p.to_dict() for p in players]}
 
+@bp.route('/<account_id>/players', methods=['DELETE'])
+@basic_exception_handler
+def delete_players_followed(account_id: int):
+    user = User(account_id=account_id)
+    body = request.get_json()
+    player_id = body.get('player_id')
+    user.remove_players_followed(player_id=player_id)
+    return {"status" : "OK"}
+
 
 # http://127.0.0.1:5000/api/users/<account_id>/teams
 @bp.route('/<account_id>/teams', methods=['GET'])
@@ -120,6 +129,16 @@ def get_teams_followed(account_id: int):
         t.get()
 
     return {'teams': [t.to_dict() for t in teams]}
+
+
+@bp.route('/<account_id>/teams', methods=['DELETE'])
+@basic_exception_handler
+def delete_teams_followed(account_id: int):
+    user = User(account_id=account_id)
+    body = request.get_json()
+    team_id = body.get('team_id')
+    user.remove_team_followed(team_id=team_id)
+    return {"status" : "OK"}
 
 
 # @bp.route('/<account_id>/feed', methods=['GET'])

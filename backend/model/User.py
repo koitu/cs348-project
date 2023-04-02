@@ -47,7 +47,8 @@ class User:
             ))
 
         if profile_pic is None:
-            self.profile_pic = "/static/default_profile_pic.png"
+            # self.profile_pic = "/static/default_profile_pic.png"  ??
+            self.profile_pic = "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png"
 
         self._is_admin = is_admin
 
@@ -299,6 +300,18 @@ class User:
             result = cursor.fetchall()
 
             return result
+        
+    def remove_players_followed(self, player_id) -> None:
+        with mysql_connection() as con, con.cursor() as cursor:
+            query = (
+                "DELETE FROM Fav_players "
+                "WHERE account_id = %s "
+                "AND player_id = %s"
+            )
+            cursor.execute(query, (self.account_id, player_id))
+            result = cursor.fetchall()
+
+            return result
 
     def get_teams_followed(self) -> None:
         # check that the user exists before finding their followed teams
@@ -313,7 +326,17 @@ class User:
             )
             cursor.execute(query, (self.account_id,))
             result = cursor.fetchall()
-
+            return result
+        
+    def remove_team_followed(self, team_id) -> None:
+        with mysql_connection() as con, con.cursor() as cursor:
+            query = (
+                "DELETE FROM Fav_teams "
+                "WHERE account_id = %s "
+                "AND team_id = %s"
+            )
+            cursor.execute(query, (self.account_id, team_id))
+            result = cursor.fetchall()
             return result
 
 

@@ -4,7 +4,7 @@ import './view/general.css'
 import React from "react"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import { SearchView } from './view/searchWindow';
-import { ProfilePage } from './view/profileView';
+import { ProfilePage } from './view/profilePage';
 import { PlayerDetailedPage } from './view/playerPage';
 import { TeamDetailedPage } from './view/teamPage';
 import { SignInPageView } from './view/signIn';
@@ -23,7 +23,7 @@ function App() {
                     {/* main page that you are confronted with when starting the project */}
                     <Route exact path="/search-menu/" element={<SearchView/>} />
                     {/* Profile page for showing bookmarked players, teams and details about user */}
-                    <Route path="/profile" element={<ProfilePage/>} />
+                    <Route path="/profile/:id" element={<ProfilePage/>} />
                     {/* <Route path="/profile/:id" element={<ProfilePage/>}/>*/}
                     <Route path="/playerPage/:id" element={<PlayerDetailedPage/>} />
                     <Route path="/teamPage/:id" element={<TeamDetailedPage/>} />
