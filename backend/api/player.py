@@ -74,7 +74,7 @@ def delete_player(player_id: int):
 
     return {'status': 'OK'}
 
-
+# what is this used for ? in case of large data we should not pass this to our frontend
 # GET http://127.0.0.1:5000/api/players/<player_id>/followers
 @bp.route('/<player_id>/followers', methods=['GET'])
 @basic_exception_handler
@@ -88,6 +88,21 @@ def get_followers(player_id: int):
 
     return {'users': [u.to_dict() for u in users]}
 
+# GET http://127.0.0.1:5000/api/players/<player_id>/followers
+@bp.route('/<player_id>/check-follower', methods=['GET'])
+@basic_exception_handler
+def check_if_follower_player(player_id: int):
+    player = Player(player_id=player_id)
+    user_id = request.args.get("account_id")
+    result = player.get_followers(user_id)
+
+    if len(result) != 0:
+        return {"status": "OK"}
+    else:
+        return {"status": "BAD"}
+    
+
+
 
 # TODO: may need to change method of user auth later
 # http://127.0.0.1:5000/api/players/<player_id>/followers?account_id=<account_id>
@@ -98,7 +113,7 @@ def add_player_to_follows(player_id: int):
     account_id = args.get("account_id")
 
     # check that the account exists
-    user = User(account_id=account_id)
+    user = User(account_id=int(account_id))
     user.get()
 
     player = Player(player_id=player_id)

@@ -197,6 +197,20 @@ class Player:
             result = cursor.fetchall()
 
             return result
+        
+    def get_followers(self, user_id: str) -> None:
+        self.get()
+
+        with mysql_connection() as con, con.cursor() as cursor:
+            query = (
+                "SELECT account_id "
+                "FROM Fav_Players "
+                "WHERE player_id = %s AND account_id = %s"
+            )
+            cursor.execute(query, (self.player_id, user_id))
+            result = cursor.fetchall()
+
+            return result
 
     def add_to_followers(self, account_id) -> None:
         # check the player exists before adding to follows

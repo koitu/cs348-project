@@ -6,14 +6,13 @@
 }
 .vbox {
     display: 'flex';
-    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 .topCorner{
     position:fixed;
     top:0;
-    right:0;
+    left:0;
     border-radius: 50%; 
 }
 .hbox {

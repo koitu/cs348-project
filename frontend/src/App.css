@@ -4,6 +4,8 @@
     background-repeat: no-repeat;
     background-position: center center;
     min-height: 100vh;
+    text-align: center;
+    padding: 40px;
 }
 .paddedText {
     border: 3px solid black;
@@ -42,15 +44,6 @@
     object-fit: cover;
     object-position: center center;
 }
-.primaryColor {
-    background-color: #66B2FF;
-}
-.secondaryColor {
-    background-color: #004C99;
-}
-.primaryColor:active {
-    background-color: #3399FF;
-}
 .sideBarText {
     font-size: 10px;
 }
@@ -61,14 +54,6 @@
     grid-row: 2/4;
     grid-column: 0/1;
     margin: 2%;
-}
-#detailedPage {
-    display: grid;
-    grid-template-columns: auto auto;
-    padding: 4px;
-    width: 90%;
-    margin: 3%;
-    border-radius: 10px;
 }
 #playerFullName {
     font-size: x-large;

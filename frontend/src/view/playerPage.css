@@ -1,6 +1,14 @@
+.fav-button {
 
-.favButton {
-    width: 1cm
+}
+
+#detailedPage {
+    display: grid;
+    grid-template-columns: auto auto;
+    padding: 4px;
+    width: 90%;
+    margin: 3%;
+    border-radius: 10px;
 }
 
 .teamLogo {
@@ -10,4 +18,24 @@
 .last5Match {
     margin: 1%;
     width: 95%;
+}
+.matchLink {
+    color: white;
+}
+
+.matchLink:hover {
+    color: purple;
+}
+
+#last5Match {
+    align-items: center;
+    width: 80%;
+    padding: 5px;
+    border-radius: 1%;
+    position:relative;
+    left: 10%;
+}
+
+.playerPage > p {
+    color: white;
 }

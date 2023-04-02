@@ -58,7 +58,7 @@ export const SearchView = () => {
             <div className="vbox scrollable" id="searchBar">
                 <div>
                     <form onSubmit={handleSubmit}>
-                        <input className='primaryColor' id="textSearchInput" type="text" value={textState} onChange={handleChange} />
+                        <input className='primaryColor' id="textSearchInput" autoComplete="off" type="text" value={textState} onChange={handleChange} />
                         <button className='primaryColor' id="textSearchButton" type="submit"> Submit </button>
                     </form>
                 </div>
