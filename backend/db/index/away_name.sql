@@ -1,0 +1,1 @@
+CREATE INDEX away_team USING BTREE ON Game(team_away_id);

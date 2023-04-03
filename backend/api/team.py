@@ -1,6 +1,7 @@
 from flask import Blueprint, request
-from model.Team import Team, search_teams  # search_teams_played
+from model.Team import Team, search_teams, search_teams_played, return_all_teams
 from model.User import User
+from model.Player import Player
 from errors import basic_exception_handler
 
 
@@ -24,6 +25,19 @@ def get_teams():
         players=players,
     )
     return {'teams': [team.to_dict() for team in teams]}
+
+
+#only user with admin id can use this
+@bp.route('/all', methods=['GET'])
+@basic_exception_handler
+def get_all_teams():
+    admin_id = request.args.get("id")
+    user = User(account_id=admin_id)
+    if (user.is_admin()):
+        teams = return_all_teams()
+        return {'teams': [team.to_dict() for team in teams]}
+    else:
+        return {"status" : "BAD"}
 
 
 @bp.route('/', methods=['POST'], strict_slashes=False)
@@ -54,20 +68,25 @@ def get_team(team_id: int):
     team.get()
     return team.to_dict()
 
+@bp.route('/<team_id>/players', methods=['GET'])
+@basic_exception_handler
+def get_team_players(team_id: int):
+    team = Team(team_id=team_id)
+    team.get()
+    result = team.get_players()
+    players = [Player(player_id=r[0]) for r in result]
+    for p in players:
+        p.get()
+
+    return {'players': [p.to_dict() for p in players]}
 
 # TODO: delete this because overlaps with GET
 @bp.route('/played', methods=['GET'])
 @basic_exception_handler
 def get_played_teams():
     args = request.args
-    players = []
-
-    if 'player_id' in args:
-        players = [args.get('player_id')]
-
-    teams = search_teams(
-        players=players,
-    )
+    player = args.get('player_id')
+    teams = search_teams_played(player)
     return {'teams': [team.to_dict() for team in teams]}
 
 
@@ -109,6 +128,20 @@ def get_followers(team_id: int):
         u.get()
 
     return {'users': [u.to_dict() for u in users]}
+
+# GET http://127.0.0.1:5000/api/players/<player_id>/followers
+@bp.route('/<team_id>/check-follower', methods=['GET'])
+@basic_exception_handler
+def check_if_follower_player(team_id: int):
+    team = Team(team_id=team_id)
+    user_id = request.args.get("account_id")
+    result = team.get_followers(user_id)
+
+    if len(result) != 0:
+        return {"status": "OK"}
+    else:
+        return {"status": "BAD"}
+    
 
 
 # TODO: may need to change method of user auth later

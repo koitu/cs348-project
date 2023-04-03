@@ -158,6 +158,21 @@ class Team:
             )
             cursor.execute(query, (self.team_id,))
 
+
+    def get_players(self) -> None:
+        with mysql_connection() as con, con.cursor() as cursor:
+            query = (
+                "SELECT player_id "
+                "FROM PT "
+                "WHERE team_id = %s "
+                "LIMIT 16"
+            )
+            cursor.execute(query, (self.team_id,))
+            result = cursor.fetchall()
+
+            return result
+
+
     def get_followers(self) -> None:
         self.get()
 
@@ -169,6 +184,21 @@ class Team:
                 "LIMIT 10"
             )
             cursor.execute(query, (self.team_id,))
+            result = cursor.fetchall()
+
+            return result
+    
+    def get_followers(self, account_id: str) -> None:
+        self.get()
+
+        with mysql_connection() as con, con.cursor() as cursor:
+            query = (
+                "SELECT account_id "
+                "FROM Fav_Teams "
+                "WHERE team_id = %s AND account_id = %s"
+                "LIMIT 10"
+            )
+            cursor.execute(query, (self.team_id, account_id))
             result = cursor.fetchall()
 
             return result
@@ -196,20 +226,20 @@ class Team:
             cursor.execute(query, (account_id, self.team_id))
 
 
-# TODO: delete after migrating
-# def search_teams_played(player_id: str, fuzzy=True) -> list[Team]:
-#     with mysql_connection() as con, con.cursor() as cursor:
-#         find_teams = f"""
-#         select team_id, abbrv, team_name, logo_url, location
-#         from Team join PT using(team_id)
-#         where player_id = {player_id}
-#         order by season desc;"""
-#         cursor.execute(find_teams)
-#         result = cursor.fetchall()
-#         retVal = []
-#         for i in result:
-#             retVal.append(Team(*i))
-#         return retVal
+def search_teams_played(player_id: str, fuzzy=True) -> list[Team]:
+    with mysql_connection() as con, con.cursor() as cursor:
+        find_teams = f"""
+        select team_id, abbrv, team_name, logo_url, location
+        from Team join PT using(team_id)
+        where player_id = {player_id}
+        order by season desc;"""
+        cursor.execute(find_teams)
+        result = cursor.fetchall()
+        retVal = []
+        for i in result:
+            retVal.append(Team(*i))
+        return retVal
+
 
 
 def search_teams(
@@ -253,4 +283,18 @@ def search_teams(
         teams = [Team(team_id=r[0]) for r in result]
         for t in teams:
             t.get()
+        return teams
+
+
+def return_all_teams():
+    with mysql_connection() as con, con.cursor() as cursor:
+        query = (
+            "SELECT team_id "
+            "FROM Team "
+        )
+        cursor.execute(query)
+        result = cursor.fetchall()
+        teams = [Team(team_id=r[0]) for r in result]
+        for u in teams:
+            u.get()
         return teams

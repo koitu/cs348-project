@@ -47,7 +47,8 @@ class User:
             ))
 
         if profile_pic is None:
-            self.profile_pic = "/static/default_profile_pic.png"
+            # self.profile_pic = "/static/default_profile_pic.png"  ??
+            self.profile_pic = "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png"
 
         self._is_admin = is_admin
 
@@ -99,7 +100,6 @@ class User:
                 )
                 cursor.execute(query, (self.account_id,))
                 result = cursor.fetchall()
-
                 self._is_admin = len(result) != 0
         return self._is_admin
 
@@ -118,7 +118,6 @@ class User:
             result = cursor.fetchall()
             if len(result) == 0:
                 raise UserNotFoundError(self.account_id)
-
             self.set(result[0])
 
     def create(self) -> None:
@@ -299,6 +298,18 @@ class User:
             result = cursor.fetchall()
 
             return result
+        
+    def remove_players_followed(self, player_id) -> None:
+        with mysql_connection() as con, con.cursor() as cursor:
+            query = (
+                "DELETE FROM Fav_players "
+                "WHERE account_id = %s "
+                "AND player_id = %s"
+            )
+            cursor.execute(query, (self.account_id, player_id))
+            result = cursor.fetchall()
+
+            return result
 
     def get_teams_followed(self) -> None:
         # check that the user exists before finding their followed teams
@@ -313,8 +324,42 @@ class User:
             )
             cursor.execute(query, (self.account_id,))
             result = cursor.fetchall()
-
             return result
+        
+    def remove_team_followed(self, team_id) -> None:
+        with mysql_connection() as con, con.cursor() as cursor:
+            query = (
+                "DELETE FROM Fav_teams "
+                "WHERE account_id = %s "
+                "AND team_id = %s"
+            )
+            cursor.execute(query, (self.account_id, team_id))
+            result = cursor.fetchall()
+            return result
+        
+    def promote_to_admin(self):
+        if (self._is_admin):
+            return
+        
+        with mysql_connection() as con, con.cursor() as cursor:
+            query = (
+                "DELETE FROM User "
+                "WHERE account_id = %s"
+            )
+            cursor.execute(query, (self.account_id,))
+            result = cursor.fetchall()
+
+        with mysql_connection() as con, con.cursor() as cursor:
+            query = (
+                "INSERT INTO Admin VALUES "
+                "(%s, %s)"
+            )
+            cursor.execute(query, (self.account_id, "10"))
+            result = cursor.fetchall()
+            print(result)
+
+
+
 
 
 def search_users(
@@ -376,3 +421,16 @@ def login(
         if len(result) == 0:
             return None
         return result[0][0]
+
+def return_all_users():
+    with mysql_connection() as con, con.cursor() as cursor:
+        query = (
+            "SELECT account_id "
+            "FROM account "
+        )
+        cursor.execute(query)
+        result = cursor.fetchall()
+        users = [User(account_id=r[0]) for r in result]
+        for u in users:
+            u.get()
+        return users

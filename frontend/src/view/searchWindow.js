@@ -1,20 +1,24 @@
-import './App.css';
 import './general.css';
-import './main.css';
-import './detailed.css';
-import React, { useState } from "react"
+import './searchWindow.css';
+import './playerPage.css';
+import React, { useState, useEffect } from "react"
 import {Link} from "react-router-dom"
-import { ListButton } from "./clickable"
+import { ListButton } from "./ListItemButton"
 import 'react-tabs/style/react-tabs.css';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { SideBar } from "./sideBar"
-import { proxyPrefix } from "./values"
+import { proxyPrefix, userCookieName, adminCookieName } from "./constant"
 
 
 
 const TopCorner = () => {
+    let [ userId, setUser] = useState("")
+    useEffect(() => {
+        const currentUser = sessionStorage.getItem(userCookieName)
+        setUser(currentUser)
+    }, [])
     return (
-        <Link to="/profile">
+        <Link to={ sessionStorage.getItem(userCookieName) != "null" ? `/profile/${userId}` : "/admin-main/"}>
             <button className='topCorner paddedButton primaryColor' id='profileButton'>
                 <img src='defaultProfile.jpg' className='normalImage' alt="defaultProfile.jpg"/>
             </button>
@@ -24,11 +28,11 @@ const TopCorner = () => {
 
 
 
-export const MainPage = () => {
+export const SearchView = () => {
     const [playervalues, setPValue] = useState([]);
     const [teamValues, setTValue] = useState([]);
     var [textState, setText] = useState("")
-
+    const userId = sessionStorage.getItem(userCookieName)
     const handleChange = (event) => {
         setText(event.target.value)
     };
@@ -43,7 +47,10 @@ export const MainPage = () => {
         })
         fetch(`${proxyPrefix}api/teams?name=${textState}`)
         .then(response => response.json())
-        .then(data => setTValue(data["teams"]))
+        .then(data => {
+            setTValue(data["teams"])
+            console.log(data)
+        })
         .catch (error => {
             console.error(error)
         })
@@ -51,12 +58,11 @@ export const MainPage = () => {
 
     return (
         <header id="mainPage">
-            <TopCorner/>    
-            <SideBar></SideBar>
+            <TopCorner/>
             <div className="vbox scrollable" id="searchBar">
                 <div>
                     <form onSubmit={handleSubmit}>
-                        <input className='primaryColor' id="textSearchInput" type="text" value={textState} onChange={handleChange} />
+                        <input className='primaryColor' id="textSearchInput" autoComplete="off" type="text" value={textState} onChange={handleChange} />
                         <button className='primaryColor' id="textSearchButton" type="submit"> Submit </button>
                     </form>
                 </div>
@@ -70,7 +76,7 @@ export const MainPage = () => {
                             { playervalues.map((obj, _) => (<ListButton key={obj.player_id} name={obj.player_name} img={obj.picture} id={obj.player_id} isTeam="false"/>)) } 
                         </TabPanel>
                         <TabPanel>
-                            { teamValues.map((obj, _) => (<ListButton key={obj.team_id} name={obj.team_name} img={obj.logo} id={obj.team_id} isTeam="true"/>)) }
+                            { teamValues.map((obj, _) => (<ListButton key={obj.team_id} name={obj.team_name} img={obj.logo_url} id={obj.team_id} isTeam="true"/>)) }
                         </TabPanel>
                     </Tabs>
                 </div>

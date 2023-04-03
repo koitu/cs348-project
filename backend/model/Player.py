@@ -197,6 +197,20 @@ class Player:
             result = cursor.fetchall()
 
             return result
+        
+    def get_followers(self, user_id: str) -> None:
+        self.get()
+
+        with mysql_connection() as con, con.cursor() as cursor:
+            query = (
+                "SELECT account_id "
+                "FROM Fav_Players "
+                "WHERE player_id = %s AND account_id = %s"
+            )
+            cursor.execute(query, (self.player_id, user_id))
+            result = cursor.fetchall()
+
+            return result
 
     def add_to_followers(self, account_id) -> None:
         # check the player exists before adding to follows
@@ -227,8 +241,9 @@ def search_players(
 ) -> list[Player]:
     query = (
         "SELECT player_id "
-        "FROM Player LEFT JOIN PT using(player_id)"
+        "FROM Player"
     )
+    # "FROM Player LEFT JOIN PT using(player_id)"
     filter = []
     args = []
 
@@ -259,4 +274,14 @@ def search_players(
         players = [Player(player_id=r[0]) for r in result]
         for p in players:
             p.get()
+        return players
+
+def return_all_players():
+    with mysql_connection() as con, con.cursor() as cursor:
+        query = (
+            "SELECT * FROM Player"
+        )
+        cursor.execute(query)
+        result = cursor.fetchall()
+        players = [Player(*r) for r in result]
         return players
