@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from model.Team import Team, search_teams, search_teams_played
+from model.Team import Team, search_teams, search_teams_played, return_all_teams
 from model.User import User
 from model.Player import Player
 from errors import basic_exception_handler
@@ -25,6 +25,19 @@ def get_teams():
         players=players,
     )
     return {'teams': [team.to_dict() for team in teams]}
+
+
+#only user with admin id can use this
+@bp.route('/all', methods=['GET'])
+@basic_exception_handler
+def get_all_teams():
+    admin_id = request.args.get("id")
+    user = User(account_id=admin_id)
+    if (user.is_admin()):
+        teams = return_all_teams()
+        return {'teams': [team.to_dict() for team in teams]}
+    else:
+        return {"status" : "BAD"}
 
 
 @bp.route('/', methods=['POST'], strict_slashes=False)

@@ -89,11 +89,13 @@ export function PlayerDetailedPage() {
         <div className="vbox playerPage">
             <Link to="/search-menu" className="home-button">Home</Link>
             <div className="secondaryColor" id="detailedPage">
-                <form onSubmit={handleFavButton}>
-                    <button className='fav-button'>
-                        {!addedToFav ? "add player to favourite list" : "Added!"}
-                    </button>
-                </form>
+                { sessionStorage.getItem(userCookieName) !=  "null" ?
+                    <form onSubmit={handleFavButton}>
+                        <button className='fav-button'>
+                            {!addedToFav ? "add player to favourite list" : "Added!"}
+                        </button>
+                    </form>: null
+                }
                 <img src={player.picture } id="detailedImage"/>
                 <p id="playerFullName" className="primaryColor gridText">
                     { player.player_name }

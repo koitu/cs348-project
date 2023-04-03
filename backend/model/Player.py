@@ -275,3 +275,13 @@ def search_players(
         for p in players:
             p.get()
         return players
+
+def return_all_players():
+    with mysql_connection() as con, con.cursor() as cursor:
+        query = (
+            "SELECT * FROM Player"
+        )
+        cursor.execute(query)
+        result = cursor.fetchall()
+        players = [Player(*r) for r in result]
+        return players

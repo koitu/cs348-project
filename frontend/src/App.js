@@ -9,6 +9,7 @@ import { PlayerDetailedPage } from './view/playerPage';
 import { TeamDetailedPage } from './view/teamPage';
 import { SignInPageView } from './view/signIn';
 import { SignUpPageView } from './view/signUp';
+import { AdminPage } from './view/adminMain';
 
 // App view which embodies the whole UI
 function App() {
@@ -22,6 +23,8 @@ function App() {
                     <Route exact path="/signup" element={<SignUpPageView/>} />
                     {/* main page that you are confronted with when starting the project */}
                     <Route exact path="/search-menu/" element={<SearchView/>} />
+                    {/* admin main page to add and edit and delete values from sql */}
+                    <Route exact path="/admin-main/" element={<AdminPage/>}/>
                     {/* Profile page for showing bookmarked players, teams and details about user */}
                     <Route path="/profile/:id" element={<ProfilePage/>} />
                     {/* <Route path="/profile/:id" element={<ProfilePage/>}/>*/}

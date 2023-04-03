@@ -1,5 +1,6 @@
 from flask import Blueprint, request
 from model.Match import Match, search_matches, search_player_matches
+from model.User import User
 from errors import basic_exception_handler
 
 
@@ -26,6 +27,16 @@ def get_matches():
     )
     return {'matches': [match.to_dict() for match in matches]}
 
+#only user with admin id can use this
+@bp.route('/all', methods=['GET'])
+@basic_exception_handler
+def get_all_players():
+    admin_id = request.args.get("id")
+    user = User(account_id=admin_id)
+    if (user.is_admin()):
+        return {'matches': []}
+    else:
+        return {"status" : "BAD"}
 
 @bp.route('/recent/player', methods=['GET'], strict_slashes=False)
 @basic_exception_handler

@@ -4,4 +4,6 @@ CREATE INDEX player_name USING HASH ON Player(player_name);
 
 CREATE INDEX team_name USING HASH ON Team(team_name);
 
+CREATE INDEX 
+
 

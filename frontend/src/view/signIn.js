@@ -1,7 +1,7 @@
 import React from "react"
 import { useState } from "react"
 import { useNavigate, Link } from "react-router-dom"
-import { proxyPrefix, userCookieName } from "./constant"
+import { proxyPrefix, userCookieName, adminCookieName } from "./constant"
 
 export function SignInPageView() {
     const navigate = useNavigate()
@@ -16,11 +16,15 @@ export function SignInPageView() {
                 fetch(`${proxyPrefix}api/users/${data['id']}`)
                 .then(response => response.json())
                 .then(userData => {
+                    
                     if (userData["is_admin"]) {
-                        // go to admin page
+                        sessionStorage.setItem(userCookieName, null)
+                        sessionStorage.setItem(adminCookieName, data['id'])
+                        navigate("/admin-main")
                     } else {
-                        navigate("/search-menu")
                         sessionStorage.setItem(userCookieName, data['id'])
+                        sessionStorage.setItem(adminCookieName, null)
+                        navigate("/search-menu")
                     }
                 })
             } else {

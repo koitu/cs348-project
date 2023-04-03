@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from model.User import User, search_users, login
+from model.User import User, search_users, login, return_all_users
 from model.Player import Player
 from model.Team import Team
 from errors import basic_exception_handler
@@ -59,6 +59,17 @@ def create_user():
     user.create()
     return {'status': 'OK'}
 
+#only user with admin id can use this
+@bp.route('/all', methods=['GET'])
+@basic_exception_handler
+def get_all_user():
+    admin_id = request.args.get("id")
+    user = User(account_id=admin_id)
+    if (user.is_admin()):
+        users =  return_all_users()
+        return {'users': [user.to_dict() for user in users]}
+    else:
+        return {"status" : "NOT-ADMIN"}
 
 @bp.route('/<account_id>', methods=['GET'])
 @basic_exception_handler
@@ -66,6 +77,14 @@ def get_user(account_id: int):
     user = User(account_id=account_id)
 
     user.get()
+    return user.to_dict()
+
+@bp.route('/<account_id>/promote', methods=['GET'])
+@basic_exception_handler
+def promote_user(account_id: int):
+    user = User(account_id=account_id)
+    user.get()
+    user.promote_to_admin()
     return user.to_dict()
 
 
@@ -139,6 +158,7 @@ def delete_teams_followed(account_id: int):
     team_id = body.get('team_id')
     user.remove_team_followed(team_id=team_id)
     return {"status" : "OK"}
+
 
 
 # @bp.route('/<account_id>/feed', methods=['GET'])

@@ -7,7 +7,7 @@ import { ListButton } from "./ListItemButton"
 import 'react-tabs/style/react-tabs.css';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { SideBar } from "./sideBar"
-import { proxyPrefix, userCookieName } from "./constant"
+import { proxyPrefix, userCookieName, adminCookieName } from "./constant"
 
 
 
@@ -18,7 +18,7 @@ const TopCorner = () => {
         setUser(currentUser)
     }, [])
     return (
-        <Link to={`/profile/${userId}`}>
+        <Link to={ sessionStorage.getItem(userCookieName) != "null" ? `/profile/${userId}` : "/admin-main/"}>
             <button className='topCorner paddedButton primaryColor' id='profileButton'>
                 <img src='defaultProfile.jpg' className='normalImage' alt="defaultProfile.jpg"/>
             </button>
@@ -32,7 +32,7 @@ export const SearchView = () => {
     const [playervalues, setPValue] = useState([]);
     const [teamValues, setTValue] = useState([]);
     var [textState, setText] = useState("")
-
+    const userId = sessionStorage.getItem(userCookieName)
     const handleChange = (event) => {
         setText(event.target.value)
     };
@@ -58,8 +58,7 @@ export const SearchView = () => {
 
     return (
         <header id="mainPage">
-            <TopCorner/>    
-            <SideBar/>
+            <TopCorner/>
             <div className="vbox scrollable" id="searchBar">
                 <div>
                     <form onSubmit={handleSubmit}>

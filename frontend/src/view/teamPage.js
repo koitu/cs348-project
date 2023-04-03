@@ -27,6 +27,7 @@ export function TeamDetailedPage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
+
                 const teamResponse = await fetch(`${proxyPrefix}api/teams/${id}`)
                 const teamData = await teamResponse.json()
                 setTeam(teamData)
@@ -76,7 +77,7 @@ export function TeamDetailedPage() {
             console.error(data)
         }
     }
-    
+
     return (
         <div className="team-card-container">
             <Link to="/search-menu" className="home-button">Home</Link>
@@ -87,11 +88,13 @@ export function TeamDetailedPage() {
                     <p><b>Time Created:</b> {team["since"]}  </p>
                     <p><b>Location:</b> {team["location"]}</p>
                 </div>
-                <form onSubmit={handleFavButton}>
-                    <button className='fav-button'>
-                        {!addedToFav ? "add team to favourite list" : "Added!"}
-                    </button>
-                </form>
+                { sessionStorage.getItem(userCookieName) !=  "null" ?
+                    <form onSubmit={handleFavButton}>
+                        <button className='fav-button'>
+                            {!addedToFav ? "add team to favourite list" : "Added!"}
+                        </button>
+                    </form> : null
+                }
             </div>
             <div className="player-list secondaryColor">
                 <h1 style={{background: "white"}}>Players List:</h1> <br></br>

@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from model.Player import Player, search_players
+from model.Player import Player, search_players, return_all_players
 from model.User import User
 from errors import basic_exception_handler
 
@@ -22,6 +22,18 @@ def get_players():
     )
     return {'players': [player.to_dict() for player in players]}
 
+
+#only user with admin id can use this
+@bp.route('/all', methods=['GET'])
+@basic_exception_handler
+def get_all_players():
+    admin_id = request.args.get("id")
+    user = User(account_id=admin_id)
+    if (user.is_admin()):
+        players = return_all_players()
+        return {'players': [player.to_dict() for player in players]}
+    else:
+        return {"status" : "BAD"}
 
 @bp.route('/', methods=['POST'], strict_slashes=False)
 @basic_exception_handler

@@ -284,3 +284,17 @@ def search_teams(
         for t in teams:
             t.get()
         return teams
+
+
+def return_all_teams():
+    with mysql_connection() as con, con.cursor() as cursor:
+        query = (
+            "SELECT team_id "
+            "FROM Team "
+        )
+        cursor.execute(query)
+        result = cursor.fetchall()
+        teams = [Team(team_id=r[0]) for r in result]
+        for u in teams:
+            u.get()
+        return teams
