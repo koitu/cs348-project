@@ -1,0 +1,1 @@
+CREATE INDEX team_name USING HASH ON Team(team_name);

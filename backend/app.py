@@ -36,6 +36,14 @@ data = [
     "fav_teams",
 ]
 
+index = [
+    "team_name",
+    "home_name",
+    "away_name",
+    "player_name",
+    "game_date_idx"
+]
+
 
 @click.command()
 @click.option("--init-db",
@@ -64,6 +72,13 @@ def app(init_db, init_db_sample):
                 for r in relationships:
                     print(f"Creating table {r}: ", end="")
                     with open(f"db/relationships/{r}.sql") as f:
+                        cursor.execute(f.read())
+                    print("OK")
+
+                print("\nIndex creation:")
+                for r in index:
+                    print(f"Creating index {r}: ", end="")
+                    with open(f"db/index/{r}.sql") as f:
                         cursor.execute(f.read())
                     print("OK")
 

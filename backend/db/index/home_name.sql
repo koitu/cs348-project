@@ -1,0 +1,1 @@
+CREATE INDEX home_team USING BTREE ON Game(team_home_id);

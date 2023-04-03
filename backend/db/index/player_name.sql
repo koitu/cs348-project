@@ -1,0 +1,1 @@
+CREATE INDEX player_name USING HASH ON Player(player_name);
