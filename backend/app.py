@@ -29,6 +29,7 @@ data = [
     "game",
     "account",
     "user",
+    "admin",
     "PT",
     "PG_part1",
     "PG_part2",
