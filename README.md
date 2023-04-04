@@ -52,3 +52,11 @@ For MacOS and Linux:
 ./run.sh
 ```
 
+You can make new user accounts using the sign up feature. The default admin account is:
+```
+username: Admin001
+password: cs348
+```
+
+New admins can only be promoted by the existing admins.
+
