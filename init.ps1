@@ -1,1 +1,2 @@
-Start-Process powershell -ArgumentList '-NoExit','-Command "Write-Host `"Terminal 1`";; cd .\backend; python app.py --init-db"'
+Start-Process powershell -ArgumentList '-NoExit','-Command "Write-Host `"Backend Terminal`";; python3 -m pip install -r requirements.txt; cd .\backend; python3 app.py --init-db"'
+Start-Process powershell -ArgumentList '-NoExit','-Command "Write-Host `"Frontend Terminal`";; cd .\frontend; npm install -f"'
