@@ -1,9 +1,10 @@
 # cs348-project
 
 ## Milestone Reports
-Reports are under their respective milestone folders
-- For SQL commands see `milestone 2/feature_queries`
-- For backend api usage examples see `milestone 2/backend examples.md`
+The main code source for the project is in the `backend/` and `frontend/` directories, but you can find a copy of required files for each milestone in the corresponding `milestoneX/` directory. 
+
+Reports are also available in each milestone's directory.
+
 
 ## Dependencies
 You will need to have node.js and Python installed:
@@ -11,17 +12,26 @@ You will need to have node.js and Python installed:
 - https://www.python.org/downloads/
 - https://nodejs.org/en/download/
 
-Then to install the Python libraries run:
+Then run the `init` script in the root directory, which does the following:
+- Installs the python dependencies
+- Installs the node dependencies
+
+For Windows:
 ```
-python3 -m pip install -r requirements.txt
+./init.ps1
+```
+For MacOS and Linux:
+```
+./init.sh
 ```
 
 ## Usage
 
 ### Database Initialization
-Install MySQL on your computer then go into the `backend/` folder.
-
-Configure `config.ini` with your MySQL password and username and run:
+- Install MySQL on your computer 
+- Go into the `backend/` directory
+- Configure `config.ini` with your MySQL username and password 
+- Initialize and populate the database by running the following commands:
 ```
 python3 app.py --init-db
 ```
@@ -31,8 +41,14 @@ python3 app.py --init-db-sample
 ```
 
 ### Running the Project
-You can either run the run command written in powershell (windows) or the bashscript file (MacOS and linux)
-found in the project main directory, or
+You can use the provided `run` script in the root directory to run the project:
 
-1. open a terminal and go to the `backend/` and run `python app.py` (python3 in MacOS)
-2. open a second terminal and go to `frontend/` and run `npm start`.
+For Windows:
+```
+./run.ps1
+```
+For MacOS and Linux:
+```
+./run.sh
+```
+
