@@ -1,7 +1,7 @@
 # cs348-project
 
 ## Milestone Reports
-The main code source for the project is in the `backend/` and `frontend/` directories, but you can find a copy of required files for each milestone in the corresponding `milestoneX/` directory. 
+The main code source for the project is in the `backend/` and `frontend/` directories, but you can find a copy of required files for each milestone in the corresponding `milestone_X/` directory. 
 
 Reports are also available in each milestone's directory.
 
